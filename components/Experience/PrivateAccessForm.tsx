@@ -9,7 +9,7 @@ interface Props {
 
 const COPY = {
   es: {
-    label: "ACCESO PRIVADO",
+    label: "VISITA PRIVADA",
     headline: "Esta propiedad no se anuncia públicamente.",
     sub: "Para conocer condiciones y concertar una visita privada, identifíquese como comprador cualificado.",
     disclaimer: "Nuestro servicio de representación exclusiva tiene honorarios. Trabajamos únicamente con compradores serios.",
@@ -25,7 +25,7 @@ const COPY = {
     sending: "Enviando...",
   },
   en: {
-    label: "PRIVATE ACCESS",
+    label: "PRIVATE VIEWING",
     headline: "This property is not publicly listed.",
     sub: "To learn about terms and arrange a private viewing, please identify yourself as a qualified buyer.",
     disclaimer: "Our exclusive representation service carries a fee. We work only with serious buyers.",
@@ -41,7 +41,7 @@ const COPY = {
     sending: "Sending...",
   },
   fr: {
-    label: "ACCÈS PRIVÉ",
+    label: "VISITE PRIVÉE",
     headline: "Cette propriété n'est pas annoncée publiquement.",
     sub: "Pour connaître les conditions et organiser une visite privée, identifiez-vous en tant qu'acheteur qualifié.",
     disclaimer: "Notre service de représentation exclusive est payant. Nous travaillons uniquement avec des acheteurs sérieux.",
@@ -57,7 +57,7 @@ const COPY = {
     sending: "Envoi en cours...",
   },
   ru: {
-    label: "ЧАСТНЫЙ ДОСТУП",
+    label: "ЧАСТНЫЙ ПРОСМОТР",
     headline: "Этот объект не размещён в открытом доступе.",
     sub: "Для получения условий и организации частного просмотра идентифицируйте себя как квалифицированного покупателя.",
     disclaimer: "Наша служба эксклюзивного представительства является платной. Мы работаем только с серьёзными покупателями.",

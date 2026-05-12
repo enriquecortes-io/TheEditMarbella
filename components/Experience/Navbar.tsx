@@ -78,18 +78,27 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
           <button
             onClick={onPrivateAccess}
             style={{
-              background:"none", border:"none",
-              color:"rgba(201,169,110,0.6)",
+              background:"none",
+              border:"1px solid rgba(201,169,110,0.35)",
+              color:"rgba(201,169,110,0.7)",
               fontFamily:"'Helvetica Neue',sans-serif",
-              fontSize:"0.42rem", letterSpacing:"0.4em",
+              fontSize:"0.6rem", letterSpacing:"0.3em",
               textTransform:"uppercase", cursor:"pointer",
               transition:"all 0.3s ease",
-              padding:"0.4rem 0",
+              padding:"0.5rem 1.2rem",
             }}
-            onMouseEnter={e=>{e.currentTarget.style.color="#c9a96e";}}
-            onMouseLeave={e=>{e.currentTarget.style.color="rgba(201,169,110,0.6)";}}
+            onMouseEnter={e=>{
+              e.currentTarget.style.color="#c9a96e";
+              e.currentTarget.style.borderColor="rgba(201,169,110,0.7)";
+              e.currentTarget.style.background="rgba(201,169,110,0.08)";
+            }}
+            onMouseLeave={e=>{
+              e.currentTarget.style.color="rgba(201,169,110,0.7)";
+              e.currentTarget.style.borderColor="rgba(201,169,110,0.35)";
+              e.currentTarget.style.background="none";
+            }}
           >
-            ✦ Private Access
+            ✦ Private Viewing
           </button>
         )}
 
