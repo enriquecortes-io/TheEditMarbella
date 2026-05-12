@@ -1,7 +1,5 @@
 {
-  "buildCommand": null,
-  "outputDirectory": "public",
-  "framework": null,
+  "framework": "nextjs",
   "headers": [
     {
       "source": "/(.*).mp4",
