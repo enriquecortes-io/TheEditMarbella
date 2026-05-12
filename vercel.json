@@ -1,5 +1,7 @@
 {
+  "buildCommand": null,
   "outputDirectory": "public",
+  "framework": null,
   "headers": [
     {
       "source": "/(.*).mp4",
