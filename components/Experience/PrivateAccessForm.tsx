@@ -115,12 +115,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
   } as React.CSSProperties);
 
   return (
-    <div style={{
-      position:"absolute", top:"150vh", left:0, right:0,
-      minHeight:"100vh",
-      display:"flex", alignItems:"center", justifyContent:"center",
-      padding:"8rem 2rem",
-    }}>
+<div style={{ width:"100%" }}>
       <div style={{ maxWidth:"680px", width:"100%" }}>
 
         {/* Label */}
@@ -222,14 +217,13 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
                   <button key={opt}
                     onClick={() => setForm(p=>({...p,horizon:opt}))}
                     style={{
-                      background:"none",
+                      background: form.horizon===opt ? "rgba(201,169,110,0.08)" : "none",
                       border:`1px solid rgba(255,255,255,${form.horizon===opt?0.4:0.1})`,
                       color: form.horizon===opt ? "#c9a96e" : "rgba(255,255,255,0.35)",
                       fontFamily:"'Helvetica Neue',sans-serif",
                       fontSize:"0.5rem", letterSpacing:"0.2em",
                       padding:"0.7rem 1.5rem", cursor:"pointer",
                       transition:"all 0.3s ease",
-                      background: form.horizon===opt ? "rgba(201,169,110,0.08)" : "transparent",
                     } as React.CSSProperties}
                   >{opt}</button>
                 ))}

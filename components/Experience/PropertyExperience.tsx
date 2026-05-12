@@ -19,6 +19,7 @@ export default function PropertyExperience({ property, locale }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
   const images = property.galeria_urls || [];
   const galleryTrackRef = useRef<HTMLDivElement>(null);
   const infographic1Ref = useRef<HTMLDivElement>(null);
@@ -64,11 +65,6 @@ export default function PropertyExperience({ property, locale }: Props) {
           ubicacion={property.ubicacion}
         />
       </div>
-        <PrivateAccessForm
-          locale={urlLocale}
-          propertyTitle={property.titulo[lang]}
-          propertySlug={property.slug}
-        />
       {/* LIGHTBOX — fuera del stageRef */}
       {lightbox && (
         <div
@@ -125,6 +121,65 @@ export default function PropertyExperience({ property, locale }: Props) {
             <div style={{ position:"absolute", bottom:"-2rem", left:"50%", transform:"translateX(-50%)", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.4em" }}>
               {String(images.indexOf(lightbox)+1).padStart(2,"0")} / {String(images.length).padStart(2,"0")}
             </div>
+          </div>
+        </div>
+      )}
+      {/* Botón Private Access — fijo abajo centro */}
+      <button
+        onClick={() => setShowForm(true)}
+        style={{
+          position:"fixed", bottom:"2rem", left:"50%", transform:"translateX(-50%)",
+          zIndex:50, background:"none",
+          border:"1px solid rgba(201,169,110,0.4)",
+          color:"#c9a96e",
+          fontFamily:"'Helvetica Neue',sans-serif",
+          fontSize:"0.5rem", letterSpacing:"0.5em",
+          textTransform:"uppercase", padding:"1rem 2.5rem",
+          cursor:"pointer", transition:"all 0.3s ease",
+          backdropFilter:"blur(10px)",
+        }}
+        onMouseEnter={e=>{e.currentTarget.style.background="rgba(201,169,110,0.1)";}}
+        onMouseLeave={e=>{e.currentTarget.style.background="none";}}
+      >
+        ✦ Private Access
+      </button>
+
+      {/* Modal formulario */}
+      {showForm && (
+        <div style={{
+          position:"fixed", inset:0, zIndex:200,
+          background:"rgba(0,0,0,0.85)",
+          backdropFilter:"blur(20px)",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          padding:"2rem",
+          overflowY:"auto",
+        }}
+          onClick={e => { if(e.target===e.currentTarget) setShowForm(false); }}
+        >
+          <div style={{
+            width:"100%", maxWidth:"680px",
+            background:"rgba(8,6,4,0.95)",
+            border:"1px solid rgba(201,169,110,0.2)",
+            padding:"clamp(2rem,5vw,4rem)",
+            position:"relative",
+            maxHeight:"90vh", overflowY:"auto",
+          }}>
+            <button
+              onClick={() => setShowForm(false)}
+              style={{
+                position:"absolute", top:"1.5rem", right:"1.5rem",
+                background:"none", border:"none",
+                color:"rgba(255,255,255,0.3)",
+                fontFamily:"'Helvetica Neue',sans-serif",
+                fontSize:"0.45rem", letterSpacing:"0.4em",
+                cursor:"pointer", textTransform:"uppercase",
+              }}
+            >CLOSE ✕</button>
+            <PrivateAccessForm
+              locale={urlLocale}
+              propertyTitle={property.titulo[lang]}
+              propertySlug={property.slug}
+            />
           </div>
         </div>
       )}
