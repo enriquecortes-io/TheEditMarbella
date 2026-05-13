@@ -9,25 +9,25 @@ const SCENES = [
   {
     video: "/videos/12084811-hd_1920_1080_60fps.mp4",
     word: "LIVE",
-    phrase: "beyond the horizon",
+    phrase: "where the sea is your garden",
     align: "left",
   },
   {
     video: "/videos/14209280_1920_1080_24fps.mp4",
-    word: "SPEED",
-    phrase: "is a state of mind",
+    word: "DRIVE",
+    phrase: "from your garage to the coast",
     align: "right",
   },
   {
     video: "/videos/6474953-hd_1080_2048_25fps.mp4",
-    word: "TASTE",
-    phrase: "the extraordinary",
+    word: "DINE",
+    phrase: "like every night is worth remembering",
     align: "center",
   },
   {
     video: "/videos/19892911-hd_1920_1080_60fps.mp4",
-    word: "MASTER",
-    phrase: "every detail",
+    word: "PLAY",
+    phrase: "on courses that define privilege",
     align: "left",
   },
 ];
