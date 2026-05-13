@@ -74,7 +74,7 @@ export default function SkyHeader({ locale }: Props) {
         @keyframes fadeOutScene { 0%{opacity:1;} 100%{opacity:0;} }
         @keyframes wordIn {
           0%   { opacity:0; transform:translateY(40px) scaleY(0.8); filter:blur(10px); }
-          100% { opacity:1; transform:translateY(0) scaleY(1);    filter:blur(0); }
+          100% { opacity:1; transform:translateY(0) scaleY(1.5);  filter:blur(0); }
         }
         @keyframes phraseIn {
           0%   { opacity:0; transform:translateX(-30px); filter:blur(6px); }
