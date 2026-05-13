@@ -153,12 +153,12 @@ export default function SkyHeader({ locale }: Props) {
           {/* Palabra impacto — Bebas Neue */}
           <div className="word-anim" style={{
             fontFamily:"'Fraunces', serif",
-            fontSize:"clamp(6rem,18vw,18rem)",
+            fontSize:"clamp(8rem,24vw,26rem)",
             fontWeight:900,
             fontStyle:"normal",
             color:"#ffffff",
             letterSpacing:"-0.02em",
-            lineHeight:0.82,
+            lineHeight:0.78,
             userSelect:"none",
             fontVariationSettings:"'opsz' 144, 'SOFT' 0, 'WONK' 0",
             textShadow:"0 4px 60px rgba(0,0,0,0.7)",
