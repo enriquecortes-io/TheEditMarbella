@@ -161,7 +161,7 @@ export default function SkyHeader({ locale }: Props) {
             lineHeight:0.75,
             userSelect:"none",
             fontVariationSettings:"'opsz' 144, 'SOFT' 0, 'WONK' 0",
-            transform:"scaleY(1.5)",
+            transform:"scaleY(2.0)",
             display:"inline-block",
             textShadow:"0 4px 60px rgba(0,0,0,0.7)",
           }}>
