@@ -3,6 +3,13 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
+const PRIVATE_VIEWING = {
+  es: "Visita Privada",
+  en: "Private Viewing",
+  fr: "Visite Privée",
+  ru: "Частный Просмотр",
+} as const;
+
 const LANGS = [
   { code: "es", label: "ES", name: "Español" },
   { code: "en", label: "EN", name: "English" },
@@ -98,7 +105,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               e.currentTarget.style.background="none";
             }}
           >
-            ✦ Private Viewing
+            ✦ {PRIVATE_VIEWING[locale as keyof typeof PRIVATE_VIEWING] || "Private Viewing"}
           </button>
         )}
 
