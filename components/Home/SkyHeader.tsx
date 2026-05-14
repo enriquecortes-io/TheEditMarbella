@@ -154,7 +154,7 @@ export default function SkyHeader({ locale }: Props) {
         width:"100%", height:"100%",
         display:"flex", flexDirection:"column",
         justifyContent:"center",
-        padding:"0 15vw",
+        padding:"0 12vw",
         alignItems: alignMap[scene.align as keyof typeof alignMap] as any,
       }}>
         <div key={animKey} style={{
@@ -165,7 +165,7 @@ export default function SkyHeader({ locale }: Props) {
           {/* Palabra impacto — Bebas Neue */}
           <div className="word-anim" style={{
             fontFamily:"'Fraunces', serif",
-            fontSize:"clamp(4rem,11vw,11rem)",
+            fontSize:"clamp(6rem,16vw,16rem)",
             fontWeight:900,
             fontStyle:"normal",
             color:"#ffffff",
@@ -194,7 +194,7 @@ export default function SkyHeader({ locale }: Props) {
             textTransform:"uppercase",
             userSelect:"none",
             textShadow:"0 2px 20px rgba(0,0,0,0.6)",
-            marginTop:"3rem",
+            marginTop:"2rem",
           }}>
             {scene.phrase}
           </div>
