@@ -18,7 +18,7 @@ export default function SkyHeader({ locale }: Props) {
   const pathname = usePathname();
   const urlLocale = pathname.split("/")[1] || locale;
   const t = getT(urlLocale);
-  const scenes = t.header.scenes as Array<{word:string;phrase:string}>;
+  const scenes = (t.header as any).scenes as Array<{word:string;phrase:string}> || [];
   const SCENES = SCENE_CONFIG.map((s,i) => ({...s, word:scenes[i]?.word||"", phrase:scenes[i]?.phrase||""}));
   const videoRef = useRef<HTMLVideoElement>(null);
   const [sceneIdx, setSceneIdx] = useState(0);
