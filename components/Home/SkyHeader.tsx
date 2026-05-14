@@ -145,7 +145,7 @@ export default function SkyHeader({ locale }: Props) {
       {/* Overlay oscuro para legibilidad */}
       <div style={{
         position:"absolute", inset:0, zIndex:1,
-        background:"linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.85) 100%)",
+        background:"linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.88) 100%)",
       }}/>
 
       {/* Contenido tipográfico */}
@@ -156,8 +156,8 @@ export default function SkyHeader({ locale }: Props) {
         justifyContent:"center",
         padding:"0 0",
         alignItems: alignMap[scene.align as keyof typeof alignMap] as any,
-        paddingLeft: scene.align === "left" ? "12vw" : scene.align === "right" ? "0" : "0",
-        paddingRight: scene.align === "right" ? "12vw" : scene.align === "left" ? "0" : "0",
+        paddingLeft: scene.align === "left" ? "12vw" : scene.align === "center" ? "12vw" : "0",
+        paddingRight: scene.align === "right" ? "12vw" : scene.align === "center" ? "12vw" : "0",
       }}>
         <div key={animKey} style={{
           display:"flex", flexDirection:"column",
