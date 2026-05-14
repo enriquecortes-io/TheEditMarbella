@@ -155,11 +155,8 @@ export default function SkyHeader({ locale }: Props) {
         fontSize:"clamp(0.4rem,0.6vw,0.55rem)",
         fontWeight:300, letterSpacing:"0.35em",
         textTransform:"uppercase",
-        borderTop:"1px solid rgba(255,255,255,0.06)",
-        borderBottom:"1px solid rgba(255,255,255,0.06)",
-        padding:"0.6rem 0",
-        background:"rgba(0,0,0,0.15)",
-        backdropFilter:"blur(4px)",
+        padding:"0.4rem 0",
+        background:"transparent",
       }}>
         {t.header.locations.map((loc: string, i: number, arr: string[]) => (
           <span key={loc} style={{display:"flex",alignItems:"center",gap:"2rem"}}>
