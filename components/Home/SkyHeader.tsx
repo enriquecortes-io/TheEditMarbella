@@ -194,7 +194,7 @@ export default function SkyHeader({ locale }: Props) {
             textTransform:"uppercase",
             userSelect:"none",
             textShadow:"0 2px 20px rgba(0,0,0,0.6)",
-            marginTop:"2rem",
+            marginTop:"3.5rem",
           }}>
             {scene.phrase}
           </div>
