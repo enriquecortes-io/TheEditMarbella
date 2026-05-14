@@ -160,6 +160,7 @@ export default function SkyHeader({ locale }: Props) {
         <div key={animKey} style={{
           display:"flex", flexDirection:"column",
           alignItems: scene.align === "right" ? "flex-end" : scene.align === "center" ? "center" : "flex-start",
+          maxWidth:"70vw",
         }}>
 
           {/* Palabra impacto — Bebas Neue */}
