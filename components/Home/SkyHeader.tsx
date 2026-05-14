@@ -132,7 +132,6 @@ export default function SkyHeader({ locale }: Props) {
                 : 0,
             transition: i === sceneIdx ? "opacity 0.8s ease 0s" : "opacity 0.8s ease 0s",
             zIndex: i === sceneIdx ? 2 : transitioning && i === (sceneIdx - 1 + SCENES.length) % SCENES.length ? 1 : 0,
-            zIndex:0,
           }}
         />
       ))}
