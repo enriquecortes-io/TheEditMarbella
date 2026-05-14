@@ -154,7 +154,7 @@ export default function SkyHeader({ locale }: Props) {
         width:"100%", height:"100%",
         display:"flex", flexDirection:"column",
         justifyContent:"center",
-        padding:"0 8vw",
+        padding:"0 12vw",
         alignItems: alignMap[scene.align as keyof typeof alignMap] as any,
       }}>
         <div key={animKey} style={{
@@ -180,12 +180,7 @@ export default function SkyHeader({ locale }: Props) {
             {scene.word}
           </div>
 
-          {/* Línea dorada */}
-          <div className="line-anim" style={{
-            height:"1px",
-            background:"linear-gradient(90deg,#c9a96e,transparent)",
-            marginTop:"1rem", marginBottom:"1rem",
-          }}/>
+
 
           {/* Frase — Cormorant Garamond italic */}
           <div className="phrase-anim" style={{
@@ -199,6 +194,7 @@ export default function SkyHeader({ locale }: Props) {
             textTransform:"uppercase",
             userSelect:"none",
             textShadow:"0 2px 20px rgba(0,0,0,0.6)",
+            marginTop:"2rem",
           }}>
             {scene.phrase}
           </div>
