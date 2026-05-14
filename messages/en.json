@@ -5,29 +5,98 @@
   },
   "header": {
     "scroll": "DISCOVER",
-    "locations": ["Golden Mile", "Puerto Banús", "Nueva Andalucía", "Sierra Blanca"],
+    "locations": [
+      "Golden Mile",
+      "Puerto Banús",
+      "Nueva Andalucía",
+      "Sierra Blanca"
+    ],
     "phrases": [
-      { "top": "THE APEX OF", "mainLeft": "MEDITERRANEAN", "mainRight": "LIVING", "bottom": "ULTRA LUXURY ESTATES" },
-      { "top": "CURATED FOR", "mainLeft": "UNCOMPROMISING", "mainRight": "VISION", "bottom": "ARCHITECTURAL POETRY" },
-      { "top": "WHERE ETERNITY", "mainLeft": "MEETS", "mainRight": "THE SEA", "bottom": "COASTAL MASTERPIECES" },
-      { "top": "REDEFINING", "mainLeft": "MODERN", "mainRight": "OPULENCE", "bottom": "EXCLUSIVE SANCTUARIES" }
+      {
+        "top": "THE APEX OF",
+        "mainLeft": "MEDITERRANEAN",
+        "mainRight": "LIVING",
+        "bottom": "ULTRA LUXURY ESTATES"
+      },
+      {
+        "top": "CURATED FOR",
+        "mainLeft": "UNCOMPROMISING",
+        "mainRight": "VISION",
+        "bottom": "ARCHITECTURAL POETRY"
+      },
+      {
+        "top": "WHERE ETERNITY",
+        "mainLeft": "MEETS",
+        "mainRight": "THE SEA",
+        "bottom": "COASTAL MASTERPIECES"
+      },
+      {
+        "top": "REDEFINING",
+        "mainLeft": "MODERN",
+        "mainRight": "OPULENCE",
+        "bottom": "EXCLUSIVE SANCTUARIES"
+      }
+    ],
+    "scenes": [
+      {
+        "word": "LIVE",
+        "phrase": "where the sea is your garden"
+      },
+      {
+        "word": "DRIVE",
+        "phrase": "from your garage to the coast"
+      },
+      {
+        "word": "DINE",
+        "phrase": "like every night is worth remembering"
+      },
+      {
+        "word": "PLAY",
+        "phrase": "on courses that define privilege"
+      },
+      {
+        "word": "OWN",
+        "phrase": "a place that defines you"
+      }
     ]
   },
   "filters": {
-    "zona": { "label": "AREA", "question": "Where do you want to live?" },
-    "tipo": { "label": "TYPE", "question": "What defines your vision?" },
-    "precio": { "label": "INVESTMENT", "question": "Define the scale of your ambition." },
+    "zona": {
+      "label": "AREA",
+      "question": "Where do you want to live?"
+    },
+    "tipo": {
+      "label": "TYPE",
+      "question": "What defines your vision?"
+    },
+    "precio": {
+      "label": "INVESTMENT",
+      "question": "Define the scale of your ambition."
+    },
     "options": {
-      "marbella": "Marbella", "estepona": "Estepona", "mijas": "Mijas",
-      "benahavis": "Benahavís", "sotogrande": "Sotogrande",
-      "villa": "Villa", "apartment": "Apartment", "townhouse": "Townhouse", "plot": "Plot",
-      "500k-1m": "500K – 1M", "1m-2m": "1M – 2M", "2m-5m": "2M – 5M", "5m+": "5M +"
+      "marbella": "Marbella",
+      "estepona": "Estepona",
+      "mijas": "Mijas",
+      "benahavis": "Benahavís",
+      "sotogrande": "Sotogrande",
+      "villa": "Villa",
+      "apartment": "Apartment",
+      "townhouse": "Townhouse",
+      "plot": "Plot",
+      "500k-1m": "500K – 1M",
+      "1m-2m": "1M – 2M",
+      "2m-5m": "2M – 5M",
+      "5m+": "5M +"
     },
     "subs": {
-      "villa": "Private Estate", "apartment": "Sky Residence",
-      "townhouse": "Urban Address", "plot": "Raw Land",
-      "500k-1m": "Entry Luxury", "1m-2m": "Prime Collection",
-      "2m-5m": "Ultra Premium", "5m+": "No Limits"
+      "villa": "Private Estate",
+      "apartment": "Sky Residence",
+      "townhouse": "Urban Address",
+      "plot": "Raw Land",
+      "500k-1m": "Entry Luxury",
+      "1m-2m": "Prime Collection",
+      "2m-5m": "Ultra Premium",
+      "5m+": "No Limits"
     },
     "back": "← back",
     "discover": "Discover Properties →"

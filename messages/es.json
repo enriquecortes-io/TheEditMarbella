@@ -5,29 +5,98 @@
   },
   "header": {
     "scroll": "DESCUBRIR",
-    "locations": ["Golden Mile", "Puerto Banús", "Nueva Andalucía", "Sierra Blanca"],
+    "locations": [
+      "Golden Mile",
+      "Puerto Banús",
+      "Nueva Andalucía",
+      "Sierra Blanca"
+    ],
     "phrases": [
-      { "top": "LO MEJOR DEL", "mainLeft": "MEDITERRÁNEO", "mainRight": "VIVIR", "bottom": "INMUEBLES ULTRA LUJO" },
-      { "top": "PARA LOS QUE NO", "mainLeft": "COMPROMETEN", "mainRight": "VISIÓN", "bottom": "ARQUITECTURA POÉTICA" },
-      { "top": "DONDE LA ETERNIDAD", "mainLeft": "SE ENCUENTRA", "mainRight": "EL MAR", "bottom": "OBRAS MAESTRAS COSTERAS" },
-      { "top": "REDEFINIENDO", "mainLeft": "OPULENCIA", "mainRight": "MODERNA", "bottom": "SANTUARIOS EXCLUSIVOS" }
+      {
+        "top": "LO MEJOR DEL",
+        "mainLeft": "MEDITERRÁNEO",
+        "mainRight": "VIVIR",
+        "bottom": "INMUEBLES ULTRA LUJO"
+      },
+      {
+        "top": "PARA LOS QUE NO",
+        "mainLeft": "COMPROMETEN",
+        "mainRight": "VISIÓN",
+        "bottom": "ARQUITECTURA POÉTICA"
+      },
+      {
+        "top": "DONDE LA ETERNIDAD",
+        "mainLeft": "SE ENCUENTRA",
+        "mainRight": "EL MAR",
+        "bottom": "OBRAS MAESTRAS COSTERAS"
+      },
+      {
+        "top": "REDEFINIENDO",
+        "mainLeft": "OPULENCIA",
+        "mainRight": "MODERNA",
+        "bottom": "SANTUARIOS EXCLUSIVOS"
+      }
+    ],
+    "scenes": [
+      {
+        "word": "VIVE",
+        "phrase": "donde el mar es tu jardín"
+      },
+      {
+        "word": "CONDUCE",
+        "phrase": "de tu garaje a la costa"
+      },
+      {
+        "word": "CENA",
+        "phrase": "como si cada noche mereciera recordarse"
+      },
+      {
+        "word": "JUEGA",
+        "phrase": "en campos que definen el privilegio"
+      },
+      {
+        "word": "POSEE",
+        "phrase": "un lugar que te define"
+      }
     ]
   },
   "filters": {
-    "zona": { "label": "ZONA", "question": "¿Dónde quieres vivir?" },
-    "tipo": { "label": "TIPO", "question": "¿Qué define tu visión?" },
-    "precio": { "label": "INVERSIÓN", "question": "Define la escala de tu ambición." },
+    "zona": {
+      "label": "ZONA",
+      "question": "¿Dónde quieres vivir?"
+    },
+    "tipo": {
+      "label": "TIPO",
+      "question": "¿Qué define tu visión?"
+    },
+    "precio": {
+      "label": "INVERSIÓN",
+      "question": "Define la escala de tu ambición."
+    },
     "options": {
-      "marbella": "Marbella", "estepona": "Estepona", "mijas": "Mijas",
-      "benahavis": "Benahavís", "sotogrande": "Sotogrande",
-      "villa": "Villa", "apartment": "Apartamento", "townhouse": "Adosado", "plot": "Parcela",
-      "500k-1m": "500K – 1M", "1m-2m": "1M – 2M", "2m-5m": "2M – 5M", "5m+": "5M +"
+      "marbella": "Marbella",
+      "estepona": "Estepona",
+      "mijas": "Mijas",
+      "benahavis": "Benahavís",
+      "sotogrande": "Sotogrande",
+      "villa": "Villa",
+      "apartment": "Apartamento",
+      "townhouse": "Adosado",
+      "plot": "Parcela",
+      "500k-1m": "500K – 1M",
+      "1m-2m": "1M – 2M",
+      "2m-5m": "2M – 5M",
+      "5m+": "5M +"
     },
     "subs": {
-      "villa": "Finca Privada", "apartment": "Residencia en las Alturas",
-      "townhouse": "Dirección Urbana", "plot": "Terreno Virgen",
-      "500k-1m": "Entrada al Lujo", "1m-2m": "Colección Prime",
-      "2m-5m": "Ultra Premium", "5m+": "Sin Límites"
+      "villa": "Finca Privada",
+      "apartment": "Residencia en las Alturas",
+      "townhouse": "Dirección Urbana",
+      "plot": "Terreno Virgen",
+      "500k-1m": "Entrada al Lujo",
+      "1m-2m": "Colección Prime",
+      "2m-5m": "Ultra Premium",
+      "5m+": "Sin Límites"
     },
     "back": "← volver",
     "discover": "Descubrir Propiedades →"
