@@ -143,21 +143,27 @@ export default function SkyHeader({ locale }: Props) {
         </div>
       </div>
 
-      {/* Localidades */}
-      <div className="ui-anim" style={{
-        position:"absolute", bottom:"5rem", left:"50%",
-        transform:"translateX(-50%)", zIndex:20,
-        display:"flex", alignItems:"center", gap:"1.5rem",
-        flexWrap:"wrap", justifyContent:"center",
+      {/* Localidades — arriba pegadas al navbar */}
+      <div style={{
+        position:"absolute", top:"4.5rem", left:0, right:0,
+        zIndex:20,
+        display:"flex", alignItems:"center", justifyContent:"center",
+        gap:"2rem",
+        flexWrap:"wrap",
         color:"rgba(255,255,255,0.35)",
         fontFamily:"'Helvetica Neue',sans-serif",
-        fontSize:"clamp(0.45rem,0.65vw,0.6rem)",
-        fontWeight:400, letterSpacing:"0.35em",
+        fontSize:"clamp(0.4rem,0.6vw,0.55rem)",
+        fontWeight:300, letterSpacing:"0.35em",
         textTransform:"uppercase",
+        borderTop:"1px solid rgba(255,255,255,0.06)",
+        borderBottom:"1px solid rgba(255,255,255,0.06)",
+        padding:"0.6rem 0",
+        background:"rgba(0,0,0,0.15)",
+        backdropFilter:"blur(4px)",
       }}>
         {t.header.locations.map((loc: string, i: number, arr: string[]) => (
-          <span key={loc} style={{display:"flex",alignItems:"center",gap:"1.5rem"}}>
-            {loc}{i<arr.length-1&&<span style={{color:"rgba(201,169,110,0.5)"}}>✦</span>}
+          <span key={loc} style={{display:"flex",alignItems:"center",gap:"2rem"}}>
+            {loc}{i<arr.length-1&&<span style={{color:"rgba(201,169,110,0.4)"}}>·</span>}
           </span>
         ))}
       </div>
