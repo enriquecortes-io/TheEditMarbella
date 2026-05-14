@@ -6,7 +6,7 @@ import { getT } from "@/lib/i18n";
 interface Props { locale: string; }
 
 const SCENES = [
-  { start:0,  end:5,  word:"LIVE",  phrase:"where the sea is your garden",         align:"left",   pos:"80% top" },
+  { start:0,  end:5,  word:"LIVE",  phrase:"where the sea is your garden",         align:"left",   pos:"65% top" },
   { start:5,  end:10, word:"DRIVE", phrase:"from your garage to the coast",         align:"right",  pos:"center top" },
   { start:10, end:15, word:"DINE",  phrase:"like every night is worth remembering", align:"center", pos:"center top" },
   { start:15, end:20, word:"PLAY",  phrase:"on courses that define privilege",      align:"left",   pos:"center top" },
