@@ -154,8 +154,10 @@ export default function SkyHeader({ locale }: Props) {
         width:"100%", height:"100%",
         display:"flex", flexDirection:"column",
         justifyContent:"center",
-        padding:"0 12vw",
+        padding:"0 0",
         alignItems: alignMap[scene.align as keyof typeof alignMap] as any,
+        paddingLeft: scene.align === "left" ? "12vw" : scene.align === "right" ? "0" : "0",
+        paddingRight: scene.align === "right" ? "12vw" : scene.align === "left" ? "0" : "0",
       }}>
         <div key={animKey} style={{
           display:"flex", flexDirection:"column",
