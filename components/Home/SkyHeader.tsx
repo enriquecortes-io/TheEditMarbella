@@ -77,7 +77,7 @@ export default function SkyHeader({ locale }: Props) {
       {/* Video único */}
       <video
         ref={videoRef}
-        src="/videos/copy_66A3B9CF-4714-4165-B0B1-2620FD20F8F6.mp4"
+        src="/videos/HeroHeader.mp4"
         muted playsInline loop
         style={{
           position:"absolute", inset:0,
