@@ -139,7 +139,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
 
   if (properties.length === 0) {
     return (
-      <div style={{ position:"fixed", inset:0, background:"#080604", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+      <div style={{ position:"fixed", inset:0, background:"rgba(4,3,2,0.7)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
         <Navbar locale={locale} />
         <div style={{ textAlign:"center", padding:"2rem" }}>
           <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", letterSpacing:"0.5em", color:"rgba(201,169,110,0.7)", textTransform:"uppercase", marginBottom:"2rem" }}>
@@ -160,7 +160,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
   }
 
   return (
-    <div style={{ position:"fixed", inset:0, background:"#080604", overflow:"hidden" }}>
+    <div style={{ position:"fixed", inset:0, background:"rgba(4,3,2,0.7)", overflow:"hidden" }}>
       <Navbar locale={locale} />
 
       {/* Filtros activos — barra editorial superior */}
@@ -333,7 +333,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
           bottom:"2rem",
           left:"3rem",
           zIndex:500,
-          background:"#080604",
+          background:"rgba(4,3,2,0.7)",
           border:"1px solid rgba(201,169,110,0.35)",
           color:"rgba(201,169,110,0.8)",
           fontFamily:"'Helvetica Neue',sans-serif",
@@ -376,7 +376,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
           right:"3rem",
           left:"auto",
           zIndex:500,
-          background:"#080604",
+          background:"rgba(4,3,2,0.7)",
           border:"1px solid rgba(201,169,110,0.35)",
           color:"rgba(201,169,110,0.8)",
           fontFamily:"'Helvetica Neue',sans-serif",
