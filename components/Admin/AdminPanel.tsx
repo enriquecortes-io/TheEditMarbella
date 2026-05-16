@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const INPUT = {
   background:"transparent",
@@ -28,6 +28,11 @@ const LABEL = {
 export default function AdminPanel() {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("mdlm_admin");
+    if (saved === "mdlm2026secure") setAuth(true);
+  }, []);
   const [status, setStatus] = useState("");
   const [translating, setTranslating] = useState(false);
 
@@ -43,7 +48,10 @@ export default function AdminPanel() {
   const [translated, setTranslated] = useState<Record<string,Record<string,string>>>({});
 
   const handleAuth = () => {
-    if (password === "mdlm2026secure") setAuth(true);
+    if (password === "mdlm2026secure") {
+      setAuth(true);
+      localStorage.setItem("mdlm_admin", "mdlm2026secure");
+    }
     else setStatus("❌ Contraseña incorrecta");
   };
 
