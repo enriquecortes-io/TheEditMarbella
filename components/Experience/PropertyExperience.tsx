@@ -79,72 +79,6 @@ export default function PropertyExperience({ property, locale }: Props) {
           inf2={inf2}
           locale={urlLocale}
         />
-        {/* Sección descripción */}
-        <div style={{
-          position:"absolute",
-          top:"100vh",
-          left:0, right:0,
-          minHeight:"100vh",
-          display:"flex",
-          alignItems:"center",
-          justifyContent:"center",
-          padding:"8rem clamp(2rem,12vw,16rem)",
-          background:"transparent",
-        }}>
-          <div style={{ maxWidth:"900px", width:"100%" }}>
-
-            {/* Label */}
-            <p style={{
-              fontFamily:"'Helvetica Neue',sans-serif",
-              fontSize:"0.5rem",
-              color:"rgba(201,169,110,0.7)",
-              letterSpacing:"0.6em",
-              textTransform:"uppercase",
-              margin:"0 0 2rem",
-            }}>
-              {property.ubicacion}
-            </p>
-
-            {/* Título */}
-            <h1 style={{
-              fontFamily:"'Fraunces',serif",
-              fontSize:"clamp(3rem,8vw,8rem)",
-              fontWeight:900,
-              color:"white",
-              lineHeight:0.9,
-              margin:"0 0 3rem",
-              letterSpacing:"-0.02em",
-            }}>
-              {property.titulo[lang]}
-            </h1>
-
-            {/* Separador */}
-            <div style={{
-              width:"4rem",
-              height:"1px",
-              background:"rgba(201,169,110,0.5)",
-              margin:"0 0 3rem",
-            }}/>
-
-            {/* Descripción */}
-            <p style={{
-              fontFamily:"'Cormorant Garamond','Georgia',serif",
-              fontSize:"clamp(1.1rem,2vw,1.6rem)",
-              fontWeight:300,
-              fontStyle:"italic",
-              color:"rgba(255,255,255,0.75)",
-              lineHeight:1.8,
-              margin:0,
-              whiteSpace:"pre-line",
-            }}>
-              {typeof property.descripcion === "object"
-                ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
-                : property.descripcion || ""}
-            </p>
-
-          </div>
-        </div>
-
         <GallerySection
           galleryTrackRef={galleryTrackRef}
           images={images}
@@ -212,6 +146,36 @@ export default function PropertyExperience({ property, locale }: Props) {
           </div>
         </div>
       )}
+      {/* Sección descripción — aparece entre video y galería */}
+      <div style={{
+        position:"fixed",
+        inset:0,
+        zIndex:8,
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
+        padding:"4rem clamp(2rem,12vw,16rem)",
+        background:"rgba(0,0,0,0.92)",
+        opacity:0,
+        pointerEvents:"none",
+        transition:"opacity 0.5s ease",
+      }} id="desc-section">
+        <div style={{ maxWidth:"900px", width:"100%" }}>
+          <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
+            {property.ubicacion}
+          </p>
+          <h1 style={{ fontFamily:"'Fraunces',serif", fontSize:"clamp(3rem,8vw,8rem)", fontWeight:900, color:"white", lineHeight:0.9, margin:"0 0 3rem", letterSpacing:"-0.02em" }}>
+            {property.titulo[lang]}
+          </h1>
+          <div style={{ width:"4rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"0 0 3rem" }}/>
+          <p style={{ fontFamily:"'Cormorant Garamond','Georgia',serif", fontSize:"clamp(1.1rem,2vw,1.6rem)", fontWeight:300, fontStyle:"italic", color:"rgba(255,255,255,0.75)", lineHeight:1.8, margin:0, whiteSpace:"pre-line" }}>
+            {typeof property.descripcion === "object"
+              ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
+              : property.descripcion || ""}
+          </p>
+        </div>
+      </div>
+
       {/* Modal formulario */}
       {showForm && (
         <div style={{
