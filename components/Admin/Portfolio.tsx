@@ -108,11 +108,7 @@ export default function Portfolio({ password, onEdit }: Props) {
         body: JSON.stringify({ text, sourceLang: editSourceLang }),
       });
       const data = await res.json();
-      // Volcar traducciones directamente en editForm como objeto multiidioma
-      setEditForm((prev: any) => ({
-        ...prev,
-        [field]: data.translations,
-      }));
+      // Guardar en editTranslated — se fusiona al guardar
       setEditTranslated(prev => ({...prev, [field]: data.translations}));
     } catch {}
     setEditTranslating(false);
@@ -317,8 +313,20 @@ export default function Portfolio({ password, onEdit }: Props) {
             {/* Título */}
             <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>Título</label>
             <div style={{display:"flex",gap:"8px",marginBottom:"8px"}}>
-              <input value={typeof editForm.titulo==="object"?(editForm.titulo[editSourceLang]||""):editForm.titulo||""}
-                onChange={e=>setEditForm((p:any)=>({...p,titulo:{...(typeof p.titulo==="object"?p.titulo:{}), [editSourceLang]:e.target.value}}))}
+              <input value={
+                editTranslated.titulo
+                  ? (editTranslated.titulo[editSourceLang] || "")
+                  : typeof editForm.titulo==="object"
+                    ? (editForm.titulo[editSourceLang] || "")
+                    : editForm.titulo || ""
+              }
+                onChange={e=>{
+                  if (editTranslated.titulo) {
+                    setEditTranslated(prev => ({...prev, titulo: {...prev.titulo, [editSourceLang]: e.target.value}}));
+                  } else {
+                    setEditForm((p:any)=>({...p,titulo:{...(typeof p.titulo==="object"?p.titulo:{}), [editSourceLang]:e.target.value}}));
+                  }
+                }}
                 style={{flex:1,padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none"}}/>
               <button onClick={()=>handleEditTranslate("titulo")} disabled={editTranslating}
                 style={{padding:"10px 16px",background:"#7c3aed",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer"}}>
@@ -337,8 +345,20 @@ export default function Portfolio({ password, onEdit }: Props) {
             {/* Descripción */}
             <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>Descripción</label>
             <div style={{display:"flex",gap:"8px",marginBottom:"8px"}}>
-              <textarea value={typeof editForm.descripcion==="object"?(editForm.descripcion[editSourceLang]||""):editForm.descripcion||""}
-                onChange={e=>setEditForm((p:any)=>({...p,descripcion:{...(typeof p.descripcion==="object"?p.descripcion:{}), [editSourceLang]:e.target.value}}))}
+              <textarea value={
+                editTranslated.descripcion
+                  ? (editTranslated.descripcion[editSourceLang] || "")
+                  : typeof editForm.descripcion==="object"
+                    ? (editForm.descripcion[editSourceLang] || "")
+                    : editForm.descripcion || ""
+              }
+                onChange={e=>{
+                  if (editTranslated.descripcion) {
+                    setEditTranslated(prev => ({...prev, descripcion: {...prev.descripcion, [editSourceLang]: e.target.value}}));
+                  } else {
+                    setEditForm((p:any)=>({...p,descripcion:{...(typeof p.descripcion==="object"?p.descripcion:{}), [editSourceLang]:e.target.value}}));
+                  }
+                }}
                 rows={4} style={{flex:1,padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none",resize:"vertical"}}/>
               <button onClick={()=>handleEditTranslate("descripcion")} disabled={editTranslating}
                 style={{padding:"10px 16px",background:"#7c3aed",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer",alignSelf:"flex-start"}}>
