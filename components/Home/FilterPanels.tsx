@@ -7,11 +7,11 @@ const FILTERS = [
     id:"zona", index:"01", label:"ZONA", question:"WHERE",
     accent:"#c9a96e", accentRgb:"201,169,110",
     options:[
-      { v:"marbella",   l:"Marbella",   sub:"36°30'N · 4°53'W" },
-      { v:"estepona",   l:"Estepona",   sub:"36°25'N · 5°08'W" },
-      { v:"mijas",      l:"Mijas",      sub:"36°35'N · 4°38'W" },
-      { v:"benahavis",  l:"Benahavís",  sub:"36°31'N · 5°02'W" },
-      { v:"sotogrande", l:"Sotogrande", sub:"36°17'N · 5°23'W" },
+      { v:"marbella",   l:"Marbella",   sub:"36°30'N · 4°53'W", subKey:"" },
+      { v:"estepona",   l:"Estepona",   sub:"36°25'N · 5°08'W", subKey:"" },
+      { v:"mijas",      l:"Mijas",      sub:"36°35'N · 4°38'W", subKey:"" },
+      { v:"benahavis",  l:"Benahavís",  sub:"36°31'N · 5°02'W", subKey:"" },
+      { v:"sotogrande", l:"Sotogrande", sub:"36°17'N · 5°23'W", subKey:"" },
     ],
   },
   {
@@ -50,7 +50,8 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
   const tf = t.filters;
   const [activePanel, setActivePanel] = useState(0);
 
-  const getSub = (filterId: string, opt: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getSub = (filterId: string, opt: Record<string,any>) => {
     if (filterId === "tipo" && opt.subKey) return (tf as any).tipo_subs?.[opt.subKey] || opt.subKey;
     if (filterId === "precio" && opt.subKey) return (tf as any).precio_subs?.[opt.subKey] || opt.subKey;
     return opt.sub || "";
