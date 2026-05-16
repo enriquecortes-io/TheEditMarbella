@@ -52,7 +52,6 @@ export default function NewProperty({ password }: Props) {
       const property = {
         slug: form.slug,
         tipo: form.tipo,
-        localidad: form.localidad,
         zona: form.zona,
         titulo: translated.titulo || { [form.sourceLang]: form.titulo },
         descripcion: translated.descripcion || { [form.sourceLang]: form.descripcion },
@@ -108,17 +107,6 @@ export default function NewProperty({ password }: Props) {
               <option value="media-planta">Apartamento — Media Planta</option>
               <option value="bajo">Apartamento — Bajo</option>
               <option value="terreno">Terreno</option>
-            </select>
-          </div>
-          <div>
-            <label style={L}>Localidad</label>
-            <select value={form.localidad} onChange={e=>setForm(p=>({...p,localidad:e.target.value}))} style={F}>
-              <option value="">— Seleccionar —</option>
-              <option value="marbella">Marbella</option>
-              <option value="estepona">Estepona</option>
-              <option value="mijas">Mijas</option>
-              <option value="benahavis">Benahavís</option>
-              <option value="sotogrande">Sotogrande</option>
             </select>
           </div>
           <div>
