@@ -3,15 +3,22 @@ import { useState, useEffect } from "react";
 
 interface Property {
   id: string; slug: string; titulo: any; descripcion: any; precio: number;
-  habitaciones: number; banos: number; m2_construidos: number;
+  habitaciones: number; banos: number; m2_construidos: number; m2_parcela: number;
   ubicacion: string; tipo: string; zona: string;
-  activa: boolean; destacada: boolean;
+  activa: boolean; destacada: boolean; video_url: string; galeria_urls: string[];
 }
 
 interface Props { password: string; onEdit: (slug: string) => void; }
 
 const L: React.CSSProperties = { display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px" };
 const S: React.CSSProperties = { padding:"8px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"13px", fontFamily:"system-ui", outline:"none", background:"white", color:"#111" };
+const INP: React.CSSProperties = { width:"100%", padding:"10px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", outline:"none", boxSizing:"border-box", marginBottom:"16px" };
+
+const toLangObj = (val: any, fallbackLang = "en") => {
+  if (!val) return { es:"", en:"", fr:"", ru:"" };
+  if (typeof val === "string") return { es:"", en:"", fr:"", ru:"", [fallbackLang]: val };
+  return { es:"", en:"", fr:"", ru:"", ...val };
+};
 
 export default function Portfolio({ password, onEdit }: Props) {
   const [properties, setProperties] = useState<Property[]>([]);
@@ -20,19 +27,16 @@ export default function Portfolio({ password, onEdit }: Props) {
   const [filters, setFilters] = useState({ tipo:"", zona:"", activa:"", search:"" });
   const [sort, setSort] = useState<{field:"precio"|"zona"|null, dir:"asc"|"desc"}>({field:null, dir:"asc"});
   const [editing, setEditing] = useState<Property|null>(null);
-  const [editForm, setEditForm] = useState<any>({});
-  const [editTranslating, setEditTranslating] = useState(false);
-  const [editTranslated, setEditTranslated] = useState<Record<string,Record<string,string>>>({});
-  const [editSourceLang, setEditSourceLang] = useState("es");
+  const [lang, setLang] = useState("en");
+  const [titulo, setTitulo] = useState<Record<string,string>>({es:"",en:"",fr:"",ru:""});
+  const [descripcion, setDescripcion] = useState<Record<string,string>>({es:"",en:"",fr:"",ru:""});
+  const [editFields, setEditFields] = useState<any>({});
+  const [translating, setTranslating] = useState(false);
 
   const fetchProperties = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/properties", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ password }),
-      });
+      const res = await fetch("/api/admin/properties", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ password }) });
       const data = await res.json();
       setProperties(data.properties || []);
     } catch { setStatus("❌ Error al cargar"); }
@@ -41,116 +45,103 @@ export default function Portfolio({ password, onEdit }: Props) {
 
   useEffect(() => { fetchProperties(); }, []);
 
-  const handleToggle = async (slug: string, field: "activa" | "destacada", current: boolean) => {
-    try {
-      await fetch("/api/admin/save-property", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ password, property: { slug, [field]: !current } }),
-      });
-      setStatus(`✅ Actualizado`);
-      fetchProperties();
-    } catch { setStatus("❌ Error"); }
-  };
-
   const handleEdit = (p: Property) => {
     setEditing(p);
-    // Normalizar a objeto multiidioma
-    const normalizeLang = (val: any, defaultLang = "en") => {
-      if (!val) return { es:"", en:"", fr:"", ru:"" };
-      if (typeof val === "string") return { es:"", en:"", fr:"", ru:"", [defaultLang]: val };
-      return val;
-    };
-    const sourceLang = typeof p.titulo === "string" ? "en" : "es";
-    setEditSourceLang(sourceLang);
-    setEditForm({
-      ...p,
-      titulo: normalizeLang(p.titulo, sourceLang),
-      descripcion: normalizeLang(p.descripcion, sourceLang),
+    const t = toLangObj(p.titulo);
+    const d = toLangObj(p.descripcion);
+    // Detectar idioma con contenido
+    const detectedLang = t.en ? "en" : t.es ? "es" : t.fr ? "fr" : "ru";
+    setLang(detectedLang);
+    setTitulo(t);
+    setDescripcion(d);
+    setEditFields({
+      precio: p.precio, habitaciones: p.habitaciones, banos: p.banos,
+      m2_construidos: p.m2_construidos, m2_parcela: p.m2_parcela,
+      ubicacion: p.ubicacion, zona: p.zona, tipo: p.tipo,
+      video_url: p.video_url, galeria_urls: (p.galeria_urls||[]).join("\n"),
+      activa: p.activa, destacada: p.destacada,
     });
-    setEditTranslated({});
+    setStatus("");
+  };
+
+  const handleTranslate = async (field: "titulo"|"descripcion") => {
+    const obj = field === "titulo" ? titulo : descripcion;
+    const text = obj[lang];
+    if (!text) { setStatus("❌ Escribe el texto primero"); return; }
+    setTranslating(true);
+    setStatus("Traduciendo...");
+    try {
+      const res = await fetch("/api/admin/translate", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ text, sourceLang: lang }),
+      });
+      const data = await res.json();
+      if (field === "titulo") setTitulo(data.translations);
+      else setDescripcion(data.translations);
+      setStatus(`✅ ${field} traducido — cambia de idioma para verlo`);
+    } catch { setStatus("❌ Error al traducir"); }
+    setTranslating(false);
   };
 
   const handleSaveEdit = async () => {
     if (!editing) return;
     setStatus("Guardando...");
     try {
+      const property = {
+        slug: editing.slug,
+        titulo, descripcion,
+        ...editFields,
+        galeria_urls: editFields.galeria_urls.split("\n").map((s:string)=>s.trim()).filter(Boolean),
+      };
       const res = await fetch("/api/admin/save-property", {
         method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ password, property: {
-          ...editForm,
-          titulo: editTranslated.titulo
-            ? editTranslated.titulo
-            : typeof editForm.titulo === "object"
-              ? editForm.titulo
-              : { es:editForm.titulo, en:editForm.titulo, fr:editForm.titulo, ru:editForm.titulo },
-          descripcion: editTranslated.descripcion
-            ? editTranslated.descripcion
-            : typeof editForm.descripcion === "object"
-              ? editForm.descripcion
-              : { es:editForm.descripcion, en:editForm.descripcion, fr:editForm.descripcion, ru:editForm.descripcion },
-        }}),
+        body: JSON.stringify({ password, property }),
       });
       const data = await res.json();
-      if (data.ok) { setStatus("✅ Actualizado"); setEditing(null); fetchProperties(); }
+      if (data.ok) { setStatus("✅ Guardado correctamente"); fetchProperties(); }
       else setStatus(`❌ ${data.error}`);
-    } catch { setStatus("❌ Error"); }
+    } catch { setStatus("❌ Error al guardar"); }
   };
 
-  const handleEditTranslate = async (field: "titulo"|"descripcion") => {
-    const obj = editForm[field];
-    const text = typeof obj === "object" ? (obj[editSourceLang] || obj["es"] || obj["en"] || "") : obj || "";
-    if (!text) return;
-    setEditTranslating(true);
+  const handleToggle = async (slug: string, field: "activa"|"destacada", current: boolean) => {
     try {
-      const res = await fetch("/api/admin/translate", {
+      await fetch("/api/admin/save-property", {
         method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({ text, sourceLang: editSourceLang }),
+        body: JSON.stringify({ password, property: { slug, [field]: !current } }),
       });
-      const data = await res.json();
-      // Guardar en editTranslated — se fusiona al guardar
-      setEditTranslated(prev => ({...prev, [field]: data.translations}));
+      fetchProperties();
     } catch {}
-    setEditTranslating(false);
   };
 
   const handleDelete = async (slug: string) => {
     if (!confirm(`¿Eliminar ${slug}?`)) return;
     try {
       const res = await fetch("/api/admin/delete-property", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
+        method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({ password, slug }),
       });
       const data = await res.json();
       if (data.ok) { setStatus("✅ Eliminada"); fetchProperties(); }
       else setStatus(`❌ ${data.error}`);
-    } catch { setStatus("❌ Error"); }
+    } catch {}
   };
 
   const toggleSort = (field: "precio"|"zona") => {
-    setSort(prev => ({
-      field,
-      dir: prev.field === field && prev.dir === "asc" ? "desc" : "asc"
-    }));
+    setSort(prev => ({ field, dir: prev.field===field && prev.dir==="asc" ? "desc" : "asc" }));
   };
 
   const filtered = properties.filter(p => {
-    const title = typeof p.titulo === "object" ? (p.titulo.es || p.titulo.en || "") : p.titulo;
+    const title = typeof p.titulo==="object" ? (p.titulo.es||p.titulo.en||"") : p.titulo;
     if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search)) return false;
-    if (filters.tipo && p.tipo !== filters.tipo) return false;
-    if (filters.zona && (p as any).zona !== filters.zona) return false;
-    if (filters.activa === "activa" && !p.activa) return false;
-    if (filters.activa === "borrador" && p.activa) return false;
+    if (filters.tipo && p.tipo!==filters.tipo) return false;
+    if (filters.zona && p.zona!==filters.zona) return false;
+    if (filters.activa==="activa" && !p.activa) return false;
+    if (filters.activa==="borrador" && p.activa) return false;
     return true;
   }).sort((a,b) => {
     if (!sort.field) return 0;
-    if (sort.field === "precio") return sort.dir === "asc" ? a.precio - b.precio : b.precio - a.precio;
-    if (sort.field === "zona") {
-      const az = (a as any).zona || "";
-      const bz = (b as any).zona || "";
-      return sort.dir === "asc" ? az.localeCompare(bz) : bz.localeCompare(az);
-    }
+    if (sort.field==="precio") return sort.dir==="asc" ? a.precio-b.precio : b.precio-a.precio;
+    if (sort.field==="zona") { const az=a.zona||"", bz=b.zona||""; return sort.dir==="asc" ? az.localeCompare(bz) : bz.localeCompare(az); }
     return 0;
   });
 
@@ -161,17 +152,14 @@ export default function Portfolio({ password, onEdit }: Props) {
           <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
           <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Portfolio</h1>
         </div>
-        <span style={{ background:"#f3f4f6", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#6b7280" }}>
-          {filtered.length} propiedades
-        </span>
+        <span style={{ background:"#f3f4f6", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#6b7280" }}>{filtered.length} propiedades</span>
       </div>
 
       {/* Filtros */}
       <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1fr", gap:"12px", marginBottom:"24px", background:"white", padding:"16px", borderRadius:"8px", boxShadow:"0 1px 4px rgba(0,0,0,0.06)" }}>
         <div>
           <label style={L}>Buscar</label>
-          <input value={filters.search} onChange={e=>setFilters(p=>({...p,search:e.target.value}))}
-            placeholder="Nombre o slug..." style={{...S, width:"100%", boxSizing:"border-box"}}/>
+          <input value={filters.search} onChange={e=>setFilters(p=>({...p,search:e.target.value}))} placeholder="Nombre o slug..." style={{...S,width:"100%",boxSizing:"border-box"}}/>
         </div>
         <div>
           <label style={L}>Tipo</label>
@@ -186,7 +174,7 @@ export default function Portfolio({ password, onEdit }: Props) {
           </select>
         </div>
         <div>
-          <label style={L}>Localidad</label>
+          <label style={L}>Zona</label>
           <select value={filters.zona} onChange={e=>setFilters(p=>({...p,zona:e.target.value}))} style={S}>
             <option value="">Todas</option>
             <option value="marbella">Marbella</option>
@@ -206,9 +194,8 @@ export default function Portfolio({ password, onEdit }: Props) {
         </div>
       </div>
 
-      {/* Status */}
       {status && (
-        <div style={{ padding:"10px 16px", borderRadius:"6px", marginBottom:"16px", background: status.startsWith("✅") ? "#f0fdf4" : "#fef2f2", border:`1px solid ${status.startsWith("✅")?"#86efac":"#fca5a5"}`, color: status.startsWith("✅")?"#166534":"#991b1b", fontSize:"13px" }}>
+        <div style={{ padding:"10px 16px", borderRadius:"6px", marginBottom:"16px", background:status.startsWith("✅")?"#f0fdf4":"#fef2f2", border:`1px solid ${status.startsWith("✅")?"#86efac":"#fca5a5"}`, color:status.startsWith("✅")?"#166534":"#991b1b", fontSize:"13px" }}>
           {status}
         </div>
       )}
@@ -223,68 +210,53 @@ export default function Portfolio({ password, onEdit }: Props) {
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                {["Propiedad","Tipo"].map(h=>(
-                <th key={h} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em"}}>{h}</th>
-              ))}
-              <th onClick={()=>toggleSort("zona")} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",userSelect:"none"}}>
-                Zona {sort.field==="zona" ? (sort.dir==="asc"?"↑":"↓") : "↕"}
-              </th>
-              <th style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em"}}>
-                Ubicación
-              </th>
-              <th onClick={()=>toggleSort("precio")} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",userSelect:"none"}}>
-                Precio {sort.field==="precio" ? (sort.dir==="asc"?"↑":"↓") : "↕"}
-              </th>
-              {["Estado","Destacada","Acciones"].map(h=>(
-                <th key={h} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em"}}>{h}</th>
-              ))}
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Propiedad</th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Tipo</th>
+                <th onClick={()=>toggleSort("zona")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
+                  Zona {sort.field==="zona"?(sort.dir==="asc"?"↑":"↓"):"↕"}
+                </th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ubicación</th>
+                <th onClick={()=>toggleSort("precio")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
+                  Precio {sort.field==="precio"?(sort.dir==="asc"?"↑":"↓"):"↕"}
+                </th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Estado</th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Destacada</th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((p, i) => {
-                const title = typeof p.titulo === "object" ? (p.titulo.es || p.titulo.en || p.slug) : p.titulo;
+              {filtered.map((p,i) => {
+                const title = typeof p.titulo==="object" ? (p.titulo.es||p.titulo.en||p.slug) : p.titulo;
                 return (
-                  <tr key={p.slug} style={{ borderBottom:"1px solid #f3f4f6", background: i%2===0?"white":"#fafafa" }}>
+                  <tr key={p.slug} style={{ borderBottom:"1px solid #f3f4f6", background:i%2===0?"white":"#fafafa" }}>
                     <td style={{ padding:"14px 16px" }}>
                       <div style={{ fontWeight:600, fontSize:"14px", color:"#111" }}>{title}</div>
                       <div style={{ fontSize:"12px", color:"#9ca3af", marginTop:"2px" }}>{p.slug}</div>
                     </td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.tipo || "—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151", textTransform:"capitalize" }}>{(p as any).zona || "—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.ubicacion || "—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", fontWeight:600, color:"#111" }}>
-                      {p.precio ? `€${(p.precio/1000000).toFixed(1)}M` : "—"}
-                    </td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.tipo||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151", textTransform:"capitalize" }}>{p.zona||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.ubicacion||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", fontWeight:600, color:"#111" }}>{p.precio?`€${(p.precio/1000000).toFixed(1)}M`:"—"}</td>
                     <td style={{ padding:"14px 16px" }}>
                       <button onClick={()=>handleToggle(p.slug,"activa",p.activa)}
-                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer",
-                          background: p.activa ? "#dcfce7" : "#f3f4f6",
-                          color: p.activa ? "#166534" : "#6b7280" }}>
-                        {p.activa ? "Publicada" : "Borrador"}
+                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.activa?"#dcfce7":"#f3f4f6", color:p.activa?"#166534":"#6b7280" }}>
+                        {p.activa?"Publicada":"Borrador"}
                       </button>
                     </td>
                     <td style={{ padding:"14px 16px" }}>
                       <button onClick={()=>handleToggle(p.slug,"destacada",p.destacada)}
-                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer",
-                          background: p.destacada ? "#fef3c7" : "#f3f4f6",
-                          color: p.destacada ? "#92400e" : "#6b7280" }}>
-                        {p.destacada ? "⭐ Sí" : "No"}
+                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.destacada?"#fef3c7":"#f3f4f6", color:p.destacada?"#92400e":"#6b7280" }}>
+                        {p.destacada?"⭐ Sí":"No"}
                       </button>
                     </td>
                     <td style={{ padding:"14px 16px" }}>
                       <div style={{ display:"flex", gap:"6px" }}>
                         <a href={`/es/propiedades/${p.slug}`} target="_blank"
-                          style={{ padding:"6px 10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", textDecoration:"none" }}>
-                          Ver →
-                        </a>
+                          style={{ padding:"6px 10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", textDecoration:"none" }}>Ver →</a>
                         <button onClick={()=>handleEdit(p)}
-                          style={{ padding:"6px 10px", background:"#eff6ff", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1d4ed8" }}>
-                          Editar
-                        </button>
+                          style={{ padding:"6px 10px", background:"#eff6ff", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1d4ed8" }}>Editar</button>
                         <button onClick={()=>handleDelete(p.slug)}
-                          style={{ padding:"6px 10px", background:"#fef2f2", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#991b1b" }}>
-                          Eliminar
-                        </button>
+                          style={{ padding:"6px 10px", background:"#fef2f2", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#991b1b" }}>Eliminar</button>
                       </div>
                     </td>
                   </tr>
@@ -294,106 +266,109 @@ export default function Portfolio({ password, onEdit }: Props) {
           </table>
         </div>
       )}
+
       {/* Modal edición */}
       {editing && (
-        <div onClick={()=>setEditing(null)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}}>
-          <div onClick={e=>e.stopPropagation()} style={{background:"white",borderRadius:"12px",padding:"32px",width:"100%",maxWidth:"600px",maxHeight:"90vh",overflowY:"auto"}}>
-            <h2 style={{fontSize:"18px",fontWeight:700,marginBottom:"24px",color:"#111"}}>Editar Propiedad</h2>
+        <div onClick={()=>setEditing(null)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px" }}>
+          <div onClick={e=>e.stopPropagation()} style={{ background:"white", borderRadius:"12px", padding:"32px", width:"100%", maxWidth:"680px", maxHeight:"90vh", overflowY:"auto" }}>
+            <h2 style={{ fontSize:"18px", fontWeight:700, marginBottom:"24px", color:"#111" }}>Editar — {editing.slug}</h2>
 
-            {/* Idioma fuente */}
-            <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>Idioma del texto</label>
-            <select value={editSourceLang} onChange={e=>setEditSourceLang(e.target.value)}
-              style={{width:"100%",padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none",boxSizing:"border-box",marginBottom:"16px"}}>
-              <option value="es">Español</option>
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="ru">Русский</option>
+            {/* Selector idioma */}
+            <label style={L}>Idioma activo</label>
+            <select value={lang} onChange={e=>setLang(e.target.value)}
+              style={{ ...INP, cursor:"pointer" }}>
+              <option value="es">🇪🇸 Español</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="ru">🇷🇺 Русский</option>
             </select>
 
             {/* Título */}
-            <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>Título</label>
-            <div style={{display:"flex",gap:"8px",marginBottom:"8px"}}>
-              <input value={
-                editTranslated.titulo
-                  ? (editTranslated.titulo[editSourceLang] || "")
-                  : typeof editForm.titulo==="object"
-                    ? (editForm.titulo[editSourceLang] || "")
-                    : editForm.titulo || ""
-              }
-                onChange={e=>{
-                  if (editTranslated.titulo) {
-                    setEditTranslated(prev => ({...prev, titulo: {...prev.titulo, [editSourceLang]: e.target.value}}));
-                  } else {
-                    setEditForm((p:any)=>({...p,titulo:{...(typeof p.titulo==="object"?p.titulo:{}), [editSourceLang]:e.target.value}}));
-                  }
-                }}
-                style={{flex:1,padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none"}}/>
-              <button onClick={()=>handleEditTranslate("titulo")} disabled={editTranslating}
-                style={{padding:"10px 16px",background:"#7c3aed",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer"}}>
-                {editTranslating?"...":"Traducir"}
+            <label style={L}>Título ({lang.toUpperCase()})</label>
+            <div style={{ display:"flex", gap:"8px", marginBottom:"16px" }}>
+              <input value={titulo[lang]||""}
+                onChange={e=>setTitulo(p=>({...p,[lang]:e.target.value}))}
+                style={{ ...INP, marginBottom:0, flex:1 }}/>
+              <button onClick={()=>handleTranslate("titulo")} disabled={translating}
+                style={{ padding:"10px 16px", background:"#7c3aed", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer", whiteSpace:"nowrap" }}>
+                {translating?"...":"Traducir →4"}
               </button>
             </div>
-            {editTranslated.titulo && (
-              <div style={{background:"#f5f3ff",border:"1px solid #ddd6fe",borderRadius:"6px",padding:"12px",marginBottom:"16px",fontSize:"12px"}}>
-                <div style={{fontWeight:700,color:"#7c3aed",marginBottom:"6px",fontSize:"11px"}}>✅ Traducido en 4 idiomas</div>
-                {Object.entries(editTranslated.titulo).map(([lang,txt])=>(
-                  <div key={lang} style={{marginBottom:"2px"}}><strong style={{color:"#7c3aed"}}>{lang.toUpperCase()}:</strong> {txt as string}</div>
-                ))}
-              </div>
-            )}
 
             {/* Descripción */}
-            <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>Descripción</label>
-            <div style={{display:"flex",gap:"8px",marginBottom:"8px"}}>
-              <textarea value={
-                editTranslated.descripcion
-                  ? (editTranslated.descripcion[editSourceLang] || "")
-                  : typeof editForm.descripcion==="object"
-                    ? (editForm.descripcion[editSourceLang] || "")
-                    : editForm.descripcion || ""
-              }
-                onChange={e=>{
-                  if (editTranslated.descripcion) {
-                    setEditTranslated(prev => ({...prev, descripcion: {...prev.descripcion, [editSourceLang]: e.target.value}}));
-                  } else {
-                    setEditForm((p:any)=>({...p,descripcion:{...(typeof p.descripcion==="object"?p.descripcion:{}), [editSourceLang]:e.target.value}}));
-                  }
-                }}
-                rows={4} style={{flex:1,padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none",resize:"vertical"}}/>
-              <button onClick={()=>handleEditTranslate("descripcion")} disabled={editTranslating}
-                style={{padding:"10px 16px",background:"#7c3aed",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer",alignSelf:"flex-start"}}>
-                {editTranslating?"...":"Traducir"}
+            <label style={L}>Descripción ({lang.toUpperCase()})</label>
+            <div style={{ display:"flex", gap:"8px", marginBottom:"16px" }}>
+              <textarea value={descripcion[lang]||""}
+                onChange={e=>setDescripcion(p=>({...p,[lang]:e.target.value}))}
+                rows={6} style={{ ...INP, marginBottom:0, flex:1, resize:"vertical" }}/>
+              <button onClick={()=>handleTranslate("descripcion")} disabled={translating}
+                style={{ padding:"10px 16px", background:"#7c3aed", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer", alignSelf:"flex-start", whiteSpace:"nowrap" }}>
+                {translating?"...":"Traducir →4"}
               </button>
             </div>
-            {editTranslated.descripcion && (
-              <div style={{background:"#f5f3ff",border:"1px solid #ddd6fe",borderRadius:"6px",padding:"12px",marginBottom:"16px",fontSize:"12px"}}>
-                <div style={{fontWeight:700,color:"#7c3aed",marginBottom:"6px",fontSize:"11px"}}>✅ Traducido en 4 idiomas</div>
-                {Object.entries(editTranslated.descripcion).map(([lang,txt])=>(
-                  <div key={lang} style={{marginBottom:"4px"}}><strong style={{color:"#7c3aed"}}>{lang.toUpperCase()}:</strong> {txt as string}</div>
-                ))}
+
+            {/* Indicador de traducciones */}
+            <div style={{ display:"flex", gap:"8px", marginBottom:"24px" }}>
+              {["es","en","fr","ru"].map(l => (
+                <span key={l} onClick={()=>setLang(l)} style={{
+                  padding:"4px 10px", borderRadius:"20px", fontSize:"11px", cursor:"pointer",
+                  fontWeight: l===lang ? 700 : 400,
+                  background: titulo[l] ? "#dcfce7" : "#f3f4f6",
+                  color: titulo[l] ? "#166534" : "#9ca3af",
+                  border: l===lang ? "2px solid #7c3aed" : "2px solid transparent",
+                }}>{l.toUpperCase()} {titulo[l]?"✓":""}</span>
+              ))}
+            </div>
+
+            {/* Campos numéricos */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+              {[
+                {label:"Precio (€)", field:"precio", type:"number"},
+                {label:"Habitaciones", field:"habitaciones", type:"number"},
+                {label:"Baños", field:"banos", type:"number"},
+                {label:"M² Construidos", field:"m2_construidos", type:"number"},
+                {label:"M² Parcela", field:"m2_parcela", type:"number"},
+                {label:"Tipo", field:"tipo", type:"text"},
+                {label:"Zona (filtro)", field:"zona", type:"text"},
+                {label:"Ubicación", field:"ubicacion", type:"text"},
+              ].map(({label,field,type})=>(
+                <div key={field}>
+                  <label style={L}>{label}</label>
+                  <input type={type} value={editFields[field]||""}
+                    onChange={e=>setEditFields((p:any)=>({...p,[field]:type==="number"?parseFloat(e.target.value)||0:e.target.value}))}
+                    style={INP}/>
+                </div>
+              ))}
+            </div>
+
+            <label style={L}>URL Video</label>
+            <input value={editFields.video_url||""} onChange={e=>setEditFields((p:any)=>({...p,video_url:e.target.value}))} style={INP}/>
+
+            <label style={L}>URLs Galería (una por línea)</label>
+            <textarea value={editFields.galeria_urls||""} onChange={e=>setEditFields((p:any)=>({...p,galeria_urls:e.target.value}))}
+              rows={4} style={{...INP,resize:"vertical"}}/>
+
+            <div style={{ display:"flex", gap:"16px", marginBottom:"24px" }}>
+              <label style={{ display:"flex", alignItems:"center", gap:"8px", fontSize:"14px", cursor:"pointer" }}>
+                <input type="checkbox" checked={editFields.activa||false} onChange={e=>setEditFields((p:any)=>({...p,activa:e.target.checked}))}/>
+                Publicada
+              </label>
+              <label style={{ display:"flex", alignItems:"center", gap:"8px", fontSize:"14px", cursor:"pointer" }}>
+                <input type="checkbox" checked={editFields.destacada||false} onChange={e=>setEditFields((p:any)=>({...p,destacada:e.target.checked}))}/>
+                Destacada
+              </label>
+            </div>
+
+            {/* Status */}
+            {status && (
+              <div style={{ padding:"12px", borderRadius:"6px", marginBottom:"16px", background:status.startsWith("✅")?"#f0fdf4":"#fef2f2", border:`1px solid ${status.startsWith("✅")?"#86efac":"#fca5a5"}`, color:status.startsWith("✅")?"#166534":"#991b1b", fontSize:"13px" }}>
+                {status}
               </div>
             )}
 
-            {/* Campos numéricos */}
-            {[
-              {label:"Precio (€)", field:"precio", type:"number"},
-              {label:"Habitaciones", field:"habitaciones", type:"number"},
-              {label:"Baños", field:"banos", type:"number"},
-              {label:"M² Construidos", field:"m2_construidos", type:"number"},
-              {label:"M² Parcela", field:"m2_parcela", type:"number"},
-              {label:"Ubicación", field:"ubicacion", type:"text"},
-              {label:"Zona (filtro)", field:"zona", type:"text"},
-            ].map(({label,field,type})=>(
-              <div key={field}>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>{label}</label>
-                <input type={type} value={(editForm as any)[field]||""}
-                  onChange={e=>setEditForm((p:any)=>({...p,[field]:type==="number"?parseFloat(e.target.value)||0:e.target.value}))}
-                  style={{width:"100%",padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none",boxSizing:"border-box",marginBottom:"16px"}}/>
-              </div>
-            ))}
-            <div style={{display:"flex",gap:"12px",marginTop:"8px"}}>
-              <button onClick={()=>setEditing(null)} style={{flex:1,padding:"10px",background:"#f3f4f6",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer",color:"#374151"}}>Cancelar</button>
-              <button onClick={handleSaveEdit} style={{flex:2,padding:"10px",background:"#16a34a",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",fontWeight:600,cursor:"pointer"}}>✦ Guardar Cambios</button>
+            <div style={{ display:"flex", gap:"12px" }}>
+              <button onClick={()=>setEditing(null)} style={{ flex:1, padding:"12px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer", color:"#374151" }}>Cancelar</button>
+              <button onClick={handleSaveEdit} style={{ flex:2, padding:"12px", background:"#16a34a", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>✦ Guardar Cambios</button>
             </div>
           </div>
         </div>
