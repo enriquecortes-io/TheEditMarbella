@@ -87,6 +87,7 @@ export default function PropertyExperience({ property, locale }: Props) {
           onImageClick={setLightbox}
           titulo={property.titulo[lang]}
           ubicacion={property.ubicacion}
+          locale={urlLocale}
         />
       </div>
       {/* LIGHTBOX — fuera del stageRef */}

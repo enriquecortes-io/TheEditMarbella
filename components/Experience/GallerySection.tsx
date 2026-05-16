@@ -7,9 +7,10 @@ interface GallerySectionProps {
   titulo?: string;
   ubicacion?: string;
   onImageClick?: (url: string) => void;
+  locale?: string;
 }
 
-export default function GallerySection({ galleryTrackRef, images, titulo, ubicacion, onImageClick }: GallerySectionProps) {
+export default function GallerySection({ galleryTrackRef, images, titulo, ubicacion, onImageClick, locale = "es" }: GallerySectionProps) {
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   const openLightbox = (url: string) => {
@@ -33,7 +34,9 @@ export default function GallerySection({ galleryTrackRef, images, titulo, ubicac
       <div style={{ position:"absolute", top:"100vh", left:0, width:"100%", height:"50vh", overflow:"hidden", background:"linear-gradient(to bottom, #050505, #0a0a0a)", borderTop:"1px solid rgba(201,169,110,0.15)" }}>
         <div ref={galleryTrackRef} style={{ display:"flex", alignItems:"center", height:"100%", width:"max-content", gap:"1.5rem", paddingLeft:"4rem", paddingRight:"4rem", willChange:"transform" }}>
           <div style={{ flexShrink:0, width:"16vw", color:"#c9a96e", fontFamily:"Georgia, serif" }}>
-            <p style={{ fontSize:"0.5rem", letterSpacing:"0.45em", opacity:0.4, textTransform:"uppercase", margin:"0 0 0.8rem" }}>Seleccion</p>
+            <p style={{ fontSize:"0.5rem", letterSpacing:"0.45em", opacity:0.4, textTransform:"uppercase", margin:"0 0 0.8rem" }}>
+              {({"es":"Selección","en":"Selection","fr":"Sélection","ru":"Подборка"} as Record<string,string>)[locale]}
+            </p>
             <h2 style={{ fontSize:"clamp(1rem, 1.8vw, 1.5rem)", fontWeight:300, lineHeight:1.3, margin:"0 0 1rem" }}>{titulo || "Propiedades Exclusivas"}</h2>
             <div style={{ width:"2rem", height:"1px", background:"#c9a96e", opacity:0.25, marginBottom:"1rem" }}/>
             <p style={{ fontSize:"0.45rem", letterSpacing:"0.2em", opacity:0.3, lineHeight:1.8, margin:0 }}>{ubicacion || "MARBELLA"}<br/>COSTA DEL SOL</p>
