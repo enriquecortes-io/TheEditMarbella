@@ -18,6 +18,9 @@ export default function Portfolio({ password, onEdit }: Props) {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [filters, setFilters] = useState({ tipo:"", localidad:"", activa:"", search:"" });
+  const [sort, setSort] = useState<{field:"precio"|"zona"|null, dir:"asc"|"desc"}>({field:null, dir:"asc"});
+  const [editing, setEditing] = useState<Property|null>(null);
+  const [editForm, setEditForm] = useState<Partial<Property>>({});
 
   const fetchProperties = async () => {
     setLoading(true);
@@ -47,6 +50,25 @@ export default function Portfolio({ password, onEdit }: Props) {
     } catch { setStatus("❌ Error"); }
   };
 
+  const handleEdit = (p: Property) => {
+    setEditing(p);
+    setEditForm(p);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editing) return;
+    setStatus("Guardando...");
+    try {
+      const res = await fetch("/api/admin/save-property", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ password, property: editForm }),
+      });
+      const data = await res.json();
+      if (data.ok) { setStatus("✅ Actualizado"); setEditing(null); fetchProperties(); }
+      else setStatus(`❌ ${data.error}`);
+    } catch { setStatus("❌ Error"); }
+  };
+
   const handleDelete = async (slug: string) => {
     if (!confirm(`¿Eliminar ${slug}?`)) return;
     try {
@@ -61,6 +83,13 @@ export default function Portfolio({ password, onEdit }: Props) {
     } catch { setStatus("❌ Error"); }
   };
 
+  const toggleSort = (field: "precio"|"zona") => {
+    setSort(prev => ({
+      field,
+      dir: prev.field === field && prev.dir === "asc" ? "desc" : "asc"
+    }));
+  };
+
   const filtered = properties.filter(p => {
     const title = typeof p.titulo === "object" ? (p.titulo.es || p.titulo.en || "") : p.titulo;
     if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search)) return false;
@@ -69,6 +98,15 @@ export default function Portfolio({ password, onEdit }: Props) {
     if (filters.activa === "activa" && !p.activa) return false;
     if (filters.activa === "borrador" && p.activa) return false;
     return true;
+  }).sort((a,b) => {
+    if (!sort.field) return 0;
+    if (sort.field === "precio") return sort.dir === "asc" ? a.precio - b.precio : b.precio - a.precio;
+    if (sort.field === "zona") {
+      const az = a.localidad || a.ubicacion || "";
+      const bz = b.localidad || b.ubicacion || "";
+      return sort.dir === "asc" ? az.localeCompare(bz) : bz.localeCompare(az);
+    }
+    return 0;
   });
 
   return (
@@ -140,9 +178,18 @@ export default function Portfolio({ password, onEdit }: Props) {
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                {["Propiedad","Tipo","Ubicación","Precio","Estado","Destacada","Acciones"].map(h => (
-                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
-                ))}
+                {["Propiedad","Tipo"].map(h=>(
+                <th key={h} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em"}}>{h}</th>
+              ))}
+              <th onClick={()=>toggleSort("zona")} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",userSelect:"none"}}>
+                Zona {sort.field==="zona" ? (sort.dir==="asc"?"↑":"↓") : "↕"}
+              </th>
+              <th onClick={()=>toggleSort("precio")} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",userSelect:"none"}}>
+                Precio {sort.field==="precio" ? (sort.dir==="asc"?"↑":"↓") : "↕"}
+              </th>
+              {["Estado","Destacada","Acciones"].map(h=>(
+                <th key={h} style={{padding:"12px 16px",textAlign:"left",fontSize:"11px",fontWeight:700,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em"}}>{h}</th>
+              ))}
               </tr>
             </thead>
             <tbody>
@@ -155,7 +202,7 @@ export default function Portfolio({ password, onEdit }: Props) {
                       <div style={{ fontSize:"12px", color:"#9ca3af", marginTop:"2px" }}>{p.slug}</div>
                     </td>
                     <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.tipo || "—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.ubicacion || p.localidad || "—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151", textTransform:"capitalize" }}>{p.localidad || p.ubicacion || "—"}</td>
                     <td style={{ padding:"14px 16px", fontSize:"13px", fontWeight:600, color:"#111" }}>
                       {p.precio ? `€${(p.precio/1000000).toFixed(1)}M` : "—"}
                     </td>
@@ -176,11 +223,15 @@ export default function Portfolio({ password, onEdit }: Props) {
                       </button>
                     </td>
                     <td style={{ padding:"14px 16px" }}>
-                      <div style={{ display:"flex", gap:"8px" }}>
+                      <div style={{ display:"flex", gap:"6px" }}>
                         <a href={`/es/propiedades/${p.slug}`} target="_blank"
                           style={{ padding:"6px 10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", textDecoration:"none" }}>
                           Ver →
                         </a>
+                        <button onClick={()=>handleEdit(p)}
+                          style={{ padding:"6px 10px", background:"#eff6ff", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1d4ed8" }}>
+                          Editar
+                        </button>
                         <button onClick={()=>handleDelete(p.slug)}
                           style={{ padding:"6px 10px", background:"#fef2f2", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#991b1b" }}>
                           Eliminar
@@ -192,6 +243,33 @@ export default function Portfolio({ password, onEdit }: Props) {
               })}
             </tbody>
           </table>
+        </div>
+      )}
+      {/* Modal edición */}
+      {editing && (
+        <div onClick={()=>setEditing(null)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:"white",borderRadius:"12px",padding:"32px",width:"100%",maxWidth:"600px",maxHeight:"90vh",overflowY:"auto"}}>
+            <h2 style={{fontSize:"18px",fontWeight:700,marginBottom:"24px",color:"#111"}}>Editar Propiedad</h2>
+            {[
+              {label:"Precio (€)", field:"precio", type:"number"},
+              {label:"Habitaciones", field:"habitaciones", type:"number"},
+              {label:"Baños", field:"banos", type:"number"},
+              {label:"M² Construidos", field:"m2_construidos", type:"number"},
+              {label:"M² Parcela", field:"m2_parcela", type:"number"},
+              {label:"Ubicación", field:"ubicacion", type:"text"},
+            ].map(({label,field,type})=>(
+              <div key={field}>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>{label}</label>
+                <input type={type} value={(editForm as any)[field]||""}
+                  onChange={e=>setEditForm(p=>({...p,[field]:type==="number"?parseFloat(e.target.value)||0:e.target.value}))}
+                  style={{width:"100%",padding:"10px 12px",border:"1px solid #d1d5db",borderRadius:"6px",fontSize:"14px",outline:"none",boxSizing:"border-box",marginBottom:"16px"}}/>
+              </div>
+            ))}
+            <div style={{display:"flex",gap:"12px",marginTop:"8px"}}>
+              <button onClick={()=>setEditing(null)} style={{flex:1,padding:"10px",background:"#f3f4f6",border:"none",borderRadius:"6px",fontSize:"13px",cursor:"pointer",color:"#374151"}}>Cancelar</button>
+              <button onClick={handleSaveEdit} style={{flex:2,padding:"10px",background:"#16a34a",color:"white",border:"none",borderRadius:"6px",fontSize:"13px",fontWeight:600,cursor:"pointer"}}>✦ Guardar Cambios</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
