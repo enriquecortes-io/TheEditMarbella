@@ -18,20 +18,20 @@ const FILTERS = [
     id:"tipo", index:"02", label:"TIPO", question:"WHAT",
     accent:"#d4c4a8", accentRgb:"212,196,168",
     options:[
-      { v:"villa",     l:"Villa",     subKey:"villa" },
-      { v:"apartment", l:"Apartment", subKey:"apartment" },
-      { v:"townhouse", l:"Townhouse", subKey:"townhouse" },
-      { v:"plot",      l:"Plot",      subKey:"plot" },
+      { v:"villa",     l:"Villa",     sub:"", subKey:"villa" },
+      { v:"apartment", l:"Apartment", sub:"", subKey:"apartment" },
+      { v:"townhouse", l:"Townhouse", sub:"", subKey:"townhouse" },
+      { v:"plot",      l:"Plot",      sub:"", subKey:"plot" },
     ],
   },
   {
     id:"precio", index:"03", label:"PRECIO", question:"HOW",
     accent:"#b8a898", accentRgb:"184,168,152",
     options:[
-      { v:"500k-1m", l:"500K – 1M",  subKey:"500k-1m" },
-      { v:"1m-2m",   l:"1M – 2M",    subKey:"1m-2m" },
-      { v:"2m-5m",   l:"2M – 5M",    subKey:"2m-5m" },
-      { v:"5m+",     l:"5M +",       subKey:"5m+" },
+      { v:"500k-1m", l:"500K – 1M",  sub:"", subKey:"500k-1m" },
+      { v:"1m-2m",   l:"1M – 2M",    sub:"", subKey:"1m-2m" },
+      { v:"2m-5m",   l:"2M – 5M",    sub:"", subKey:"2m-5m" },
+      { v:"5m+",     l:"5M +",       sub:"", subKey:"5m+" },
     ],
   },
 ];
