@@ -54,7 +54,7 @@ export default function AdminPanel() {
   };
 
   const handleSave = async (publish = false) => {
-    console.log("handleSave called", publish, form.slug, form.titulo, form.precio);
+    setStatus(`⏳ Intentando guardar: slug=${form.slug} titulo=${form.titulo} precio=${form.precio}`);
     if (!form.slug || !form.titulo || !form.precio) {
       setStatus("❌ Slug, título y precio son obligatorios");
       return;
