@@ -30,11 +30,14 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
     .select("*")
     .eq("activa", true);
 
-  // Filtro zona — ubicacion contiene el nombre de la zona
+  // Filtro zona — busca en ubicacion o localidad
   if (zona) {
-    // Capitalizar primera letra para coincidir con los datos
-    const zonaCapitalized = zona.charAt(0).toUpperCase() + zona.slice(1);
-    query = query.ilike("ubicacion", `%${zonaCapitalized}%`);
+    query = query.or(`ubicacion.ilike.%${zona}%,localidad.ilike.%${zona}%`);
+  }
+
+  // Filtro tipo — villa, atico, etc
+  if (tipo) {
+    query = query.eq("tipo", tipo);
   }
 
   // Filtro precio — rango numérico
