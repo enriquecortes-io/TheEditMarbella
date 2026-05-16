@@ -68,8 +68,16 @@ export default function Portfolio({ password, onEdit }: Props) {
         method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({ password, property: {
           ...editForm,
-          titulo: editTranslated.titulo || editForm.titulo,
-          descripcion: editTranslated.descripcion || editForm.descripcion,
+          titulo: editTranslated.titulo
+            ? editTranslated.titulo
+            : typeof editForm.titulo === "object"
+              ? editForm.titulo
+              : { es:editForm.titulo, en:editForm.titulo, fr:editForm.titulo, ru:editForm.titulo },
+          descripcion: editTranslated.descripcion
+            ? editTranslated.descripcion
+            : typeof editForm.descripcion === "object"
+              ? editForm.descripcion
+              : { es:editForm.descripcion, en:editForm.descripcion, fr:editForm.descripcion, ru:editForm.descripcion },
         }}),
       });
       const data = await res.json();
@@ -89,11 +97,7 @@ export default function Portfolio({ password, onEdit }: Props) {
         body: JSON.stringify({ text, sourceLang: editSourceLang }),
       });
       const data = await res.json();
-      // Rellenar directamente el campo con las 4 traducciones
-      setEditForm((prev: any) => ({
-        ...prev,
-        [field]: data.translations,
-      }));
+      // Guardar traducciones — se usarán al guardar
       setEditTranslated(prev => ({...prev, [field]: data.translations}));
     } catch {}
     setEditTranslating(false);
@@ -308,8 +312,9 @@ export default function Portfolio({ password, onEdit }: Props) {
             </div>
             {editTranslated.titulo && (
               <div style={{background:"#f5f3ff",border:"1px solid #ddd6fe",borderRadius:"6px",padding:"12px",marginBottom:"16px",fontSize:"12px"}}>
+                <div style={{fontWeight:700,color:"#7c3aed",marginBottom:"6px",fontSize:"11px"}}>✅ Traducido en 4 idiomas</div>
                 {Object.entries(editTranslated.titulo).map(([lang,txt])=>(
-                  <div key={lang}><strong style={{color:"#7c3aed"}}>{lang.toUpperCase()}:</strong> {txt as string}</div>
+                  <div key={lang} style={{marginBottom:"2px"}}><strong style={{color:"#7c3aed"}}>{lang.toUpperCase()}:</strong> {txt as string}</div>
                 ))}
               </div>
             )}
@@ -327,6 +332,7 @@ export default function Portfolio({ password, onEdit }: Props) {
             </div>
             {editTranslated.descripcion && (
               <div style={{background:"#f5f3ff",border:"1px solid #ddd6fe",borderRadius:"6px",padding:"12px",marginBottom:"16px",fontSize:"12px"}}>
+                <div style={{fontWeight:700,color:"#7c3aed",marginBottom:"6px",fontSize:"11px"}}>✅ Traducido en 4 idiomas</div>
                 {Object.entries(editTranslated.descripcion).map(([lang,txt])=>(
                   <div key={lang} style={{marginBottom:"4px"}}><strong style={{color:"#7c3aed"}}>{lang.toUpperCase()}:</strong> {txt as string}</div>
                 ))}
