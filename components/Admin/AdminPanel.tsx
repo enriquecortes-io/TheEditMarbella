@@ -9,7 +9,7 @@ export default function AdminPanel() {
   const [translated, setTranslated] = useState<Record<string,Record<string,string>>>({});
 
   const [form, setForm] = useState({
-    slug: "", sourceLang: "es",
+    slug: "", sourceLang: "es", tipo: "",
     titulo: "", descripcion: "",
     precio: "", habitaciones: "", banos: "",
     m2Construidos: "", m2Parcela: "", tieneJardin: false,
@@ -62,6 +62,7 @@ export default function AdminPanel() {
     try {
       const property = {
         slug: form.slug,
+        tipo: form.tipo,
         titulo: translated.titulo || { [form.sourceLang]: form.titulo },
         descripcion: translated.descripcion || { [form.sourceLang]: form.descripcion },
         precio: parseFloat(form.precio),
@@ -182,6 +183,18 @@ export default function AdminPanel() {
               ))}
             </div>
           )}
+
+          {/* Tipo */}
+          <label style={L}>Tipo de Propiedad</label>
+          <select value={form.tipo} onChange={e=>setForm(p=>({...p,tipo:e.target.value}))} style={F}>
+            <option value="">— Seleccionar —</option>
+            <option value="villa">Villa</option>
+            <option value="casa-adosada">Casa Adosada</option>
+            <option value="atico">Apartamento — Ático</option>
+            <option value="media-planta">Apartamento — Media Planta</option>
+            <option value="bajo">Apartamento — Bajo</option>
+            <option value="terreno">Terreno</option>
+          </select>
 
           {/* Slug */}
           <label style={L}>Slug (URL)</label>
