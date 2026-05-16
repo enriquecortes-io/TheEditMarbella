@@ -49,12 +49,22 @@ export default function NewProperty({ password }: Props) {
     }
     setStatus("Guardando...");
     try {
+      // Si no se ha traducido, usar el texto original en todos los idiomas
+      const tituloFinal = translated.titulo || {
+        es: form.titulo, en: form.titulo, fr: form.titulo, ru: form.titulo
+      };
+      const descFinal = translated.descripcion || {
+        es: form.descripcion, en: form.descripcion, fr: form.descripcion, ru: form.descripcion
+      };
+      if (!translated.titulo || !translated.descripcion) {
+        setStatus("⚠️ Guardando sin traducir — se usará el mismo texto en todos los idiomas");
+      }
       const property = {
         slug: form.slug,
         tipo: form.tipo,
         zona: form.zona,
-        titulo: translated.titulo || { [form.sourceLang]: form.titulo },
-        descripcion: translated.descripcion || { [form.sourceLang]: form.descripcion },
+        titulo: tituloFinal,
+        descripcion: descFinal,
         precio: parseFloat(form.precio),
         habitaciones: parseInt(form.habitaciones)||0,
         banos: parseInt(form.banos)||0,
