@@ -98,8 +98,22 @@
       "2m-5m": "Ultra Premium",
       "5m+": "Sans Limites"
     },
-    "back": "← retour",
-    "discover": "Découvrir les Propriétés →"
+    "back": "Retour",
+    "discover": "Découvrir les Propriétés →",
+    "tipo_subs": {
+      "villa": "Résidence Privée",
+      "apartment": "Résidence en Hauteur",
+      "townhouse": "Adresse Urbaine",
+      "plot": "Terrain"
+    },
+    "precio_subs": {
+      "500k-1m": "Luxe d'Entrée",
+      "1m-2m": "Collection Prime",
+      "2m-5m": "Ultra Premium",
+      "5m+": "Sans Limites"
+    },
+    "search": "Rechercher des Propriétés",
+    "skip": "Passer"
   },
   "properties": {
     "discover": "DÉCOUVRIR →",

@@ -98,8 +98,22 @@
       "2m-5m": "Ultra Premium",
       "5m+": "No Limits"
     },
-    "back": "← back",
-    "discover": "Discover Properties →"
+    "back": "Back",
+    "discover": "Discover Properties →",
+    "tipo_subs": {
+      "villa": "Private Estate",
+      "apartment": "Sky Residence",
+      "townhouse": "Urban Address",
+      "plot": "Raw Land"
+    },
+    "precio_subs": {
+      "500k-1m": "Entry Luxury",
+      "1m-2m": "Prime Collection",
+      "2m-5m": "Ultra Premium",
+      "5m+": "No Limits"
+    },
+    "search": "Search Properties",
+    "skip": "Skip"
   },
   "properties": {
     "discover": "DISCOVER →",

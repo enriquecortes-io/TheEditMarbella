@@ -18,20 +18,20 @@ const FILTERS = [
     id:"tipo", index:"02", label:"TIPO", question:"WHAT",
     accent:"#d4c4a8", accentRgb:"212,196,168",
     options:[
-      { v:"villa",     l:"Villa",     sub:"Private Estate" },
-      { v:"apartment", l:"Apartment", sub:"Sky Residence" },
-      { v:"townhouse", l:"Townhouse", sub:"Urban Address" },
-      { v:"plot",      l:"Plot",      sub:"Raw Land" },
+      { v:"villa",     l:"Villa",     subKey:"villa" },
+      { v:"apartment", l:"Apartment", subKey:"apartment" },
+      { v:"townhouse", l:"Townhouse", subKey:"townhouse" },
+      { v:"plot",      l:"Plot",      subKey:"plot" },
     ],
   },
   {
     id:"precio", index:"03", label:"PRECIO", question:"HOW",
     accent:"#b8a898", accentRgb:"184,168,152",
     options:[
-      { v:"500k-1m", l:"500K – 1M",  sub:"Entry Luxury" },
-      { v:"1m-2m",   l:"1M – 2M",    sub:"Prime Collection" },
-      { v:"2m-5m",   l:"2M – 5M",    sub:"Ultra Premium" },
-      { v:"5m+",     l:"5M +",       sub:"No Limits" },
+      { v:"500k-1m", l:"500K – 1M",  subKey:"500k-1m" },
+      { v:"1m-2m",   l:"1M – 2M",    subKey:"1m-2m" },
+      { v:"2m-5m",   l:"2M – 5M",    subKey:"2m-5m" },
+      { v:"5m+",     l:"5M +",       subKey:"5m+" },
     ],
   },
 ];
@@ -49,6 +49,12 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
   const t = getT(urlLocale);
   const tf = t.filters;
   const [activePanel, setActivePanel] = useState(0);
+
+  const getSub = (filterId: string, opt: any) => {
+    if (filterId === "tipo" && opt.subKey) return (tf as any).tipo_subs?.[opt.subKey] || opt.subKey;
+    if (filterId === "precio" && opt.subKey) return (tf as any).precio_subs?.[opt.subKey] || opt.subKey;
+    return opt.sub || "";
+  };
 
   const filterLabels: Record<string,string> = {
     zona: tf.zona.label,
