@@ -29,7 +29,29 @@ export default function PropertyExperience({ property, locale }: Props) {
   const urlLocale = pathname.split("/")[1] || locale;
   const lang = urlLocale as "es" | "en" | "fr" | "ru";
   const inf1 = property.infografias?.[0] || null;
-  const inf2 = property.infografias?.[1] || null;
+
+  // Extraer primera frase de la descripción traducida
+  const getFirstSentence = (text: string) => {
+    const match = text?.match(/^[^.!?\n]+[.!?]?/);
+    return match ? match[0].trim() : text;
+  };
+
+  const desc = property.descripcion;
+  const descText = typeof desc === "object"
+    ? (desc as any)[lang] || (desc as any)["es"] || (desc as any)["en"] || ""
+    : desc || "";
+
+  const inf2 = {
+    label: { es:"Perspectiva", en:"Perspective", fr:"Perspective", ru:"Перспектива" },
+    titulo: {
+      es: getFirstSentence(typeof desc === "object" ? (desc as any)["es"] || "" : descText),
+      en: getFirstSentence(typeof desc === "object" ? (desc as any)["en"] || "" : descText),
+      fr: getFirstSentence(typeof desc === "object" ? (desc as any)["fr"] || "" : descText),
+      ru: getFirstSentence(typeof desc === "object" ? (desc as any)["ru"] || "" : descText),
+    },
+    subtitulo: { es:"", en:"", fr:"", ru:"" },
+    texto: { es:"", en:"", fr:"", ru:"" },
+  };
 
   useScrollEngine({
     videoRef,
