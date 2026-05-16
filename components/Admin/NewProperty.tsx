@@ -38,6 +38,8 @@ export default function NewProperty({ password }: Props) {
       });
       const data = await res.json();
       setTranslated(prev => ({...prev, [field]:data.translations}));
+      // Rellenar campo con la traducción del idioma seleccionado
+      setForm(p => ({...p, [field]: data.translations[p.sourceLang] || data.translations["es"] || p[field as keyof typeof p]}));
       setStatus(`✅ ${field} traducido en 4 idiomas`);
     } catch { setStatus("❌ Error al traducir"); }
     setTranslating(false);

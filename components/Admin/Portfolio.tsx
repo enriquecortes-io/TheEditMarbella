@@ -89,6 +89,11 @@ export default function Portfolio({ password, onEdit }: Props) {
         body: JSON.stringify({ text, sourceLang: editSourceLang }),
       });
       const data = await res.json();
+      // Rellenar directamente el campo con las 4 traducciones
+      setEditForm((prev: any) => ({
+        ...prev,
+        [field]: data.translations,
+      }));
       setEditTranslated(prev => ({...prev, [field]: data.translations}));
     } catch {}
     setEditTranslating(false);
