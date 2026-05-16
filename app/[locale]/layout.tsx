@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SkyBackground from "@/components/SkyBackground";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 const locales = ["en", "es", "fr", "ru"];
@@ -18,11 +19,14 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   if (!locales.includes(locale)) notFound();
+  const headersList = await headers();
+  const pathname = headersList.get("x-invoke-path") || headersList.get("x-pathname") || "";
+  const isAdmin = pathname.includes("/admin");
 
   return (
     <html lang={locale}>
       <body style={{ background: "#000", margin: 0 }}>
-        <SkyBackground />{children}</body>
+        {!isAdmin && <SkyBackground />}{children}</body>
     </html>
   );
 }
