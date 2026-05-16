@@ -143,7 +143,7 @@ export default function Portfolio({ password, onEdit }: Props) {
     const title = typeof p.titulo === "object" ? (p.titulo.es || p.titulo.en || "") : p.titulo;
     if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search)) return false;
     if (filters.tipo && p.tipo !== filters.tipo) return false;
-    if (filters.localidad && p.localidad !== filters.localidad) return false;
+    if (filters.localidad && (p as any).zona !== filters.localidad) return false;
     if (filters.activa === "activa" && !p.activa) return false;
     if (filters.activa === "borrador" && p.activa) return false;
     return true;
