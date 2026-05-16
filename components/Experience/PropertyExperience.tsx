@@ -154,16 +154,16 @@ export default function PropertyExperience({ property, locale }: Props) {
         inset:0,
         zIndex:8,
         display:"flex",
-        alignItems:"center",
+        alignItems:"flex-start",
         justifyContent:"center",
-        padding:"6rem clamp(2rem,12vw,14rem)",
+        padding:"0",
         background:"rgba(4,3,2,0.95)",
         opacity:0,
         pointerEvents:"none",
         transition:"opacity 0.3s ease",
         overflowY:"auto",
       }}>
-        <div style={{ maxWidth:"900px", width:"100%" }}>
+        <div style={{ maxWidth:"860px", width:"100%", padding:"5rem clamp(2rem,8vw,8rem)", margin:"0 auto" }}>
           <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
             {property.ubicacion}
           </p>
