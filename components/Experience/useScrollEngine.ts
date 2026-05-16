@@ -146,7 +146,7 @@ export function useScrollEngine({
       // ── FASE 2: TRANSICION ───────────────────────────────────────────────
       else if (phaseRef.current === "transition") {
         transitionProgressRef.current = Math.max(0, Math.min(1,
-          transitionProgressRef.current + delta * 0.004
+          transitionProgressRef.current + delta * 0.0015
         ));
         targetTransition = transitionProgressRef.current;
 

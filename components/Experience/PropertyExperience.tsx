@@ -156,11 +156,12 @@ export default function PropertyExperience({ property, locale }: Props) {
         display:"flex",
         alignItems:"center",
         justifyContent:"center",
-        padding:"4rem clamp(2rem,12vw,16rem)",
-        background:"rgba(0,0,0,0.92)",
+        padding:"6rem clamp(2rem,12vw,14rem)",
+        background:"rgba(4,3,2,0.95)",
         opacity:0,
         pointerEvents:"none",
         transition:"opacity 0.3s ease",
+        overflowY:"auto",
       }}>
         <div style={{ maxWidth:"900px", width:"100%" }}>
           <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
