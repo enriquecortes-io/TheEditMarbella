@@ -17,7 +17,7 @@ export default function Portfolio({ password, onEdit }: Props) {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
-  const [filters, setFilters] = useState({ tipo:"", localidad:"", activa:"", search:"" });
+  const [filters, setFilters] = useState({ tipo:"", zona:"", activa:"", search:"" });
   const [sort, setSort] = useState<{field:"precio"|"zona"|null, dir:"asc"|"desc"}>({field:null, dir:"asc"});
   const [editing, setEditing] = useState<Property|null>(null);
   const [editForm, setEditForm] = useState<any>({});
@@ -143,7 +143,7 @@ export default function Portfolio({ password, onEdit }: Props) {
     const title = typeof p.titulo === "object" ? (p.titulo.es || p.titulo.en || "") : p.titulo;
     if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search)) return false;
     if (filters.tipo && p.tipo !== filters.tipo) return false;
-    if (filters.localidad && (p as any).zona !== filters.localidad) return false;
+    if (filters.zona && (p as any).zona !== filters.zona) return false;
     if (filters.activa === "activa" && !p.activa) return false;
     if (filters.activa === "borrador" && p.activa) return false;
     return true;
@@ -151,8 +151,8 @@ export default function Portfolio({ password, onEdit }: Props) {
     if (!sort.field) return 0;
     if (sort.field === "precio") return sort.dir === "asc" ? a.precio - b.precio : b.precio - a.precio;
     if (sort.field === "zona") {
-      const az = a.localidad || a.ubicacion || "";
-      const bz = b.localidad || b.ubicacion || "";
+      const az = (a as any).zona || "";
+      const bz = (b as any).zona || "";
       return sort.dir === "asc" ? az.localeCompare(bz) : bz.localeCompare(az);
     }
     return 0;
@@ -191,7 +191,7 @@ export default function Portfolio({ password, onEdit }: Props) {
         </div>
         <div>
           <label style={L}>Localidad</label>
-          <select value={filters.localidad} onChange={e=>setFilters(p=>({...p,localidad:e.target.value}))} style={S}>
+          <select value={filters.zona} onChange={e=>setFilters(p=>({...p,zona:e.target.value}))} style={S}>
             <option value="">Todas</option>
             <option value="marbella">Marbella</option>
             <option value="estepona">Estepona</option>
