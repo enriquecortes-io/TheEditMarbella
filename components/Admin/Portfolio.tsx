@@ -331,7 +331,8 @@ export default function Portfolio({ password, onEdit }: Props) {
               {label:"Baños", field:"banos", type:"number"},
               {label:"M² Construidos", field:"m2_construidos", type:"number"},
               {label:"M² Parcela", field:"m2_parcela", type:"number"},
-              {label:"Ubicación/Zona", field:"ubicacion", type:"text"},
+              {label:"Ubicación", field:"ubicacion", type:"text"},
+              {label:"Zona (filtro)", field:"zona", type:"text"},
             ].map(({label,field,type})=>(
               <div key={field}>
                 <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:"4px"}}>{label}</label>

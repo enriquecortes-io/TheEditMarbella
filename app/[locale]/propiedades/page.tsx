@@ -30,9 +30,9 @@ export default async function PropertiesPage({ params, searchParams }: Props) {
     .select("*")
     .eq("activa", true);
 
-  // Filtro zona — busca en ubicacion o localidad
+  // Filtro zona — usa columna zona exacta
   if (zona) {
-    query = query.or(`ubicacion.ilike.%${zona}%,localidad.ilike.%${zona}%`);
+    query = query.eq("zona", zona);
   }
 
   // Filtro tipo — villa, atico, etc
