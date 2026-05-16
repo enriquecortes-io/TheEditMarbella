@@ -300,20 +300,39 @@ export default function AdminPanel() {
           </div>
         )}
 
-        {/* Guardar */}
-        <button onClick={handleSave} style={{
-          width:"100%", background:"none",
-          border:"1px solid rgba(201,169,110,0.5)",
-          color:"#c9a96e", fontFamily:"'Helvetica Neue',sans-serif",
-          fontSize:"0.5rem", letterSpacing:"0.6em",
-          textTransform:"uppercase", padding:"1.2rem",
-          cursor:"pointer", transition:"all 0.3s",
-        }}
-        onMouseEnter={e=>{e.currentTarget.style.background="rgba(201,169,110,0.1)";}}
-        onMouseLeave={e=>{e.currentTarget.style.background="none";}}
-        >
-          ✦ Guardar Propiedad
-        </button>
+        {/* Botones */}
+        <div style={{display:"flex",gap:"1rem"}}>
+          <button onClick={handleSave} style={{
+            flex:1, background:"none",
+            border:"1px solid rgba(255,255,255,0.2)",
+            color:"rgba(255,255,255,0.5)", fontFamily:"'Helvetica Neue',sans-serif",
+            fontSize:"0.5rem", letterSpacing:"0.6em",
+            textTransform:"uppercase", padding:"1.2rem",
+            cursor:"pointer", transition:"all 0.3s",
+          }}
+          onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,255,255,0.05)";}}
+          onMouseLeave={e=>{e.currentTarget.style.background="none";}}
+          >
+            Guardar Borrador
+          </button>
+
+          <button onClick={() => {
+            setForm(p => ({...p, activa:true}));
+            setTimeout(handleSave, 100);
+          }} style={{
+            flex:1, background:"none",
+            border:"1px solid rgba(201,169,110,0.5)",
+            color:"#c9a96e", fontFamily:"'Helvetica Neue',sans-serif",
+            fontSize:"0.5rem", letterSpacing:"0.6em",
+            textTransform:"uppercase", padding:"1.2rem",
+            cursor:"pointer", transition:"all 0.3s",
+          }}
+          onMouseEnter={e=>{e.currentTarget.style.background="rgba(201,169,110,0.1)";}}
+          onMouseLeave={e=>{e.currentTarget.style.background="none";}}
+          >
+            ✦ Publicar Propiedad
+          </button>
+        </div>
       </div>
     </div>
   );
