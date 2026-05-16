@@ -148,16 +148,7 @@ export default function AdminPanel() {
           </button>
         </div>
 
-        {/* Status */}
-        {status && (
-          <div style={{
-            padding:"12px 16px", borderRadius:"8px", marginBottom:"24px",
-            background: status.startsWith("✅") ? "#f0fdf4" : "#fef2f2",
-            border: `1px solid ${status.startsWith("✅") ? "#86efac" : "#fca5a5"}`,
-            color: status.startsWith("✅") ? "#166534" : "#991b1b",
-            fontSize:"14px",
-          }}>{status}</div>
-        )}
+
 
         <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", padding:"32px" }}>
 
@@ -308,6 +299,17 @@ export default function AdminPanel() {
               ✦ Publicar Propiedad
             </button>
           </div>
+
+          {/* Status */}
+          {status && (
+            <div style={{
+              padding:"12px 16px", borderRadius:"8px", marginTop:"16px",
+              background: status.startsWith("✅") ? "#f0fdf4" : status.startsWith("⏳") ? "#eff6ff" : "#fef2f2",
+              border: `1px solid ${status.startsWith("✅") ? "#86efac" : status.startsWith("⏳") ? "#93c5fd" : "#fca5a5"}`,
+              color: status.startsWith("✅") ? "#166534" : status.startsWith("⏳") ? "#1e40af" : "#991b1b",
+              fontSize:"14px",
+            }}>{status}</div>
+          )}
 
         </div>
       </div>
