@@ -55,9 +55,20 @@ export default function Portfolio({ password, onEdit }: Props) {
 
   const handleEdit = (p: Property) => {
     setEditing(p);
-    setEditForm(p);
+    // Normalizar a objeto multiidioma
+    const normalizeLang = (val: any, defaultLang = "en") => {
+      if (!val) return { es:"", en:"", fr:"", ru:"" };
+      if (typeof val === "string") return { es:"", en:"", fr:"", ru:"", [defaultLang]: val };
+      return val;
+    };
+    const sourceLang = typeof p.titulo === "string" ? "en" : "es";
+    setEditSourceLang(sourceLang);
+    setEditForm({
+      ...p,
+      titulo: normalizeLang(p.titulo, sourceLang),
+      descripcion: normalizeLang(p.descripcion, sourceLang),
+    });
     setEditTranslated({});
-    setEditSourceLang("es");
   };
 
   const handleSaveEdit = async () => {
