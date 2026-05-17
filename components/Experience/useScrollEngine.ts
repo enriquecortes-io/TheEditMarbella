@@ -32,6 +32,7 @@ export function useScrollEngine({
   useEffect(() => {
     const video = videoRef.current;
     const stage = stageRef.current;
+    const isDrive = video?.src?.includes("drive.google.com") || !video;
     const galleryTrack = galleryTrackRef.current;
     if (!video || !stage || !galleryTrack) return;
 
@@ -39,9 +40,9 @@ export function useScrollEngine({
     document.documentElement.style.overflow = "hidden";
     gsap.set(stage, { height: "100vh" });
     
-    // Pausar video para permitir scrubbing manual
-    video.pause();
-    video.currentTime = 0;
+    // Pausar video para scrubbing — solo si no es Drive
+    if (!isDrive) { video.pause(); video.currentTime = 0; }
+    else if (video) { video.muted = true; video.play().catch(()=>{}); }
 
     let smoothTransition = 0;
     let smoothGallery = 0;
@@ -79,7 +80,7 @@ export function useScrollEngine({
         videoProgressRef.current = Math.max(0, Math.min(1,
           videoProgressRef.current + delta * 0.0006
         ));
-        if (video.duration) video.currentTime = videoProgressRef.current * video.duration;
+        if (!isDrive && video.duration) video.currentTime = videoProgressRef.current * video.duration;
 
         const p = videoProgressRef.current;
 
