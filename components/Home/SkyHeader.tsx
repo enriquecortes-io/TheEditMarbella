@@ -140,12 +140,19 @@ export default function SkyHeader({ locale }: Props) {
             textShadow:"0 4px 60px rgba(0,0,0,0.7)",
 
           }}>
-            {scene.word.length > 7
-              ? <>
-                  {scene.word.slice(0, Math.ceil(scene.word.length/2))}<br/>
-                  {scene.word.slice(Math.ceil(scene.word.length/2))}
-                </>
-              : scene.word}
+            {(()=>{
+              const breaks: Record<string,string[]> = {
+                "CONDUCE":  ["CON","DUCE"],
+                "MARBELLA": ["MAR","BELLA"],
+                "POSSÉDER": ["POS","SÉDER"],
+                "CONDUIRE": ["CON","DUIRE"],
+                "УЖИНАЙ":   ["УЖИ","НАЙ"],
+                "ВЛАДЕЙ":   ["ВЛА","ДЕЙ"],
+              };
+              const parts = breaks[scene.word];
+              if (parts) return <>{parts.map((p,i)=><span key={i} style={{display:"block"}}>{p}</span>)}</>;
+              return <>{scene.word}</>;
+            })()}
           </div>
 
           <div className="phrase-anim" style={{
