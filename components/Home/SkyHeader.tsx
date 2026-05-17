@@ -49,7 +49,7 @@ export default function SkyHeader({ locale }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,900&family=Montserrat:wght@200;300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@200;300&display=swap');
 
         @keyframes wordIn {
           0%   { opacity:0; transform:translateY(40px) scaleY(0.8); filter:blur(10px); }
@@ -114,7 +114,7 @@ export default function SkyHeader({ locale }: Props) {
           maxWidth:"90vw",
         }}>
           <div className="word-anim" style={{
-            fontFamily:"'Fraunces', serif",
+            fontFamily:"'Cormorant Garamond','Cormorant',serif",
             fontSize:"clamp(6rem,16vw,16rem)",
             fontWeight:900,
             color:"#ffffff",
@@ -155,7 +155,7 @@ export default function SkyHeader({ locale }: Props) {
         gap:"2rem",
         flexWrap:"wrap",
         color:"rgba(255,255,255,0.35)",
-        fontFamily:"'Helvetica Neue',sans-serif",
+        fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
         fontSize:"clamp(0.4rem,0.6vw,0.55rem)",
         fontWeight:300, letterSpacing:"0.35em",
         textTransform:"uppercase",
@@ -177,7 +177,7 @@ export default function SkyHeader({ locale }: Props) {
       }}>
         <span style={{
           color:"rgba(255,255,255,0.3)", fontSize:"0.4rem",
-          letterSpacing:"0.6em", fontFamily:"'Helvetica Neue',sans-serif",
+          letterSpacing:"0.6em", fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
           textTransform:"uppercase",
         }}>{t.header.scroll}</span>
         <div className="neon-line" style={{ width:"1px", background:"rgba(201,169,110,0.8)" }}/>

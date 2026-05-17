@@ -73,7 +73,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               background:"none",
               border:"1px solid rgba(201,169,110,0.35)",
               color:"rgba(201,169,110,0.7)",
-              fontFamily:"'Helvetica Neue',sans-serif",
+              fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"0.6rem", letterSpacing:"0.3em",
               textTransform:"uppercase", cursor:"pointer",
               transition:"all 0.3s ease",
@@ -102,7 +102,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               background:"none",
               border:`1px solid rgba(255,255,255,${open?0.2:0.1})`,
               color:"rgba(255,255,255,0.7)",
-              fontFamily:"'Helvetica Neue',sans-serif",
+              fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"0.55rem",
               fontWeight:300,
               letterSpacing:"0.35em",
@@ -154,13 +154,13 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
                   }}
                 >
                   <span style={{
-                    fontFamily:"'Helvetica Neue',sans-serif",
+                    fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                     fontSize:"0.55rem", fontWeight:300,
                     color: lang.code === locale ? "#c9a96e" : "rgba(255,255,255,0.5)",
                     letterSpacing:"0.3em", textTransform:"uppercase",
                   }}>{lang.label}</span>
                   <span style={{
-                    fontFamily:"'Helvetica Neue',sans-serif",
+                    fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                     fontSize:"0.45rem", fontWeight:200,
                     color: lang.code === locale ? "rgba(201,169,110,0.6)" : "rgba(255,255,255,0.2)",
                     letterSpacing:"0.1em",

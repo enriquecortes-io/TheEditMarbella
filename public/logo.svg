@@ -1,34 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
-  <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@200;300&display=swap');
-    </style>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" width="800" height="320">
+  <rect width="800" height="320" fill="none"/>
 
-  <!-- Fondo transparente -->
-  <rect width="800" height="300" fill="none"/>
-
-  <!-- THE EDIT -->
-  <text x="400" y="170"
-    font-family="'Cormorant Garamond', 'Didot', 'Playfair Display', Georgia, serif"
-    font-size="140"
-    font-weight="700"
+  <!-- The Edit — Cormorant alto contraste -->
+  <text x="400" y="185"
+    font-family="'Cormorant Garamond','Cormorant','Didot','Playfair Display',Georgia,serif"
+    font-size="160"
+    font-weight="600"
     fill="white"
     text-anchor="middle"
-    letter-spacing="8">The Edit</text>
+    letter-spacing="4">The Edit</text>
 
   <!-- Línea separadora -->
-  <line x1="80" y1="195" x2="720" y2="195"
-    stroke="white" stroke-width="0.8" opacity="0.6"/>
+  <line x1="60" y1="210" x2="740" y2="210"
+    stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
 
-  <!-- MARBELLA -->
-  <text x="400" y="250"
-    font-family="'Montserrat', 'Helvetica Neue', Arial, sans-serif"
-    font-size="42"
+  <!-- Marbella — Montserrat ligera espaciada -->
+  <text x="400" y="268"
+    font-family="'Montserrat','Helvetica Neue',Arial,sans-serif"
+    font-size="38"
     font-weight="200"
-    fill="white"
+    fill="rgba(255,255,255,0.8)"
     text-anchor="middle"
-    letter-spacing="18"
-    opacity="0.85">Marbella</text>
+    letter-spacing="22">Marbella</text>
 </svg>

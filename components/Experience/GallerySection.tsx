@@ -25,7 +25,7 @@ export default function GallerySection({ galleryTrackRef, images, titulo, ubicac
         <div onClick={() => setLightbox(null)} style={{ position:"fixed", inset:0, zIndex:1000, background:"rgba(0,0,0,0.92)", display:"flex", alignItems:"center", justifyContent:"center", cursor:"zoom-out", backdropFilter:"blur(8px)" }}>
           <div onClick={e => e.stopPropagation()} style={{ width:"80vw", height:"80vh", position:"relative" }}>
             <img src={lightbox} alt="" style={{ width:"100%", height:"100%", objectFit:"contain" }} />
-            <button onClick={() => setLightbox(null)} style={{ position:"absolute", top:"-2.5rem", right:0, background:"none", border:"none", color:"rgba(255,255,255,0.5)", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase", cursor:"pointer" }}>CLOSE ✕</button>
+            <button onClick={() => setLightbox(null)} style={{ position:"absolute", top:"-2.5rem", right:0, background:"none", border:"none", color:"rgba(255,255,255,0.5)", fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase", cursor:"pointer" }}>CLOSE ✕</button>
           </div>
         </div>
       )}

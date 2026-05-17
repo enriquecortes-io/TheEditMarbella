@@ -126,7 +126,7 @@ export default function PropertyExperience({ property, locale }: Props) {
                 position:"absolute", top:"-2.5rem", right:0,
                 background:"none", border:"none",
                 color:"rgba(255,255,255,0.5)",
-                fontFamily:"'Helvetica Neue',sans-serif",
+                fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                 fontSize:"0.5rem", letterSpacing:"0.4em",
                 textTransform:"uppercase", cursor:"pointer",
               }}
@@ -143,7 +143,7 @@ export default function PropertyExperience({ property, locale }: Props) {
                 >→</button>
               </>
             )}
-            <div style={{ position:"absolute", bottom:"-2rem", left:"50%", transform:"translateX(-50%)", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.4em" }}>
+            <div style={{ position:"absolute", bottom:"-2rem", left:"50%", transform:"translateX(-50%)", fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.4em" }}>
               {String(images.indexOf(lightbox)+1).padStart(2,"0")} / {String(images.length).padStart(2,"0")}
             </div>
           </div>
@@ -165,10 +165,10 @@ export default function PropertyExperience({ property, locale }: Props) {
         overflowY:"auto",
       }}>
         <div style={{ maxWidth:"860px", width:"100%", padding:"5rem clamp(2rem,8vw,8rem)", margin:"0 auto" }}>
-          <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
+          <p style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
             {property.ubicacion}
           </p>
-          <h1 style={{ fontFamily:"'Fraunces',serif", fontSize:"clamp(3rem,8vw,8rem)", fontWeight:900, color:"white", lineHeight:0.9, margin:"0 0 3rem", letterSpacing:"-0.02em" }}>
+          <h1 style={{ fontFamily:"'Cormorant Garamond','Cormorant',serif", fontSize:"clamp(3rem,8vw,8rem)", fontWeight:900, color:"white", lineHeight:0.9, margin:"0 0 3rem", letterSpacing:"-0.02em" }}>
             {property.titulo[lang]}
           </h1>
           <div style={{ width:"4rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"0 0 3rem" }}/>
@@ -206,7 +206,7 @@ export default function PropertyExperience({ property, locale }: Props) {
                 position:"absolute", top:"1.5rem", right:"1.5rem",
                 background:"none", border:"none",
                 color:"rgba(255,255,255,0.3)",
-                fontFamily:"'Helvetica Neue',sans-serif",
+                fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                 fontSize:"0.45rem", letterSpacing:"0.4em",
                 cursor:"pointer", textTransform:"uppercase",
               }}

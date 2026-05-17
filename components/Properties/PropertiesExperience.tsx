@@ -142,15 +142,15 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
       <div style={{ position:"fixed", inset:0, background:"rgba(4,3,2,0.7)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
         <Navbar locale={locale} />
         <div style={{ textAlign:"center", padding:"2rem" }}>
-          <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", letterSpacing:"0.5em", color:"rgba(201,169,110,0.7)", textTransform:"uppercase", marginBottom:"2rem" }}>
+          <p style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.5rem", letterSpacing:"0.5em", color:"rgba(201,169,110,0.7)", textTransform:"uppercase", marginBottom:"2rem" }}>
             No properties found
           </p>
-          <h2 style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"clamp(2rem,4vw,3.5rem)", fontWeight:100, textTransform:"uppercase", color:"white", letterSpacing:"-0.02em", marginBottom:"3rem" }}>
+          <h2 style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"clamp(2rem,4vw,3.5rem)", fontWeight:100, textTransform:"uppercase", color:"white", letterSpacing:"-0.02em", marginBottom:"3rem" }}>
             Refine your search
           </h2>
           <button
             onClick={() => router.push(`/${locale}`)}
-            style={{ background:"none", border:"1px solid rgba(201,169,110,0.4)", color:"#c9a96e", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.45rem", letterSpacing:"0.5em", textTransform:"uppercase", padding:"1.2rem 3rem", cursor:"pointer" }}
+            style={{ background:"none", border:"1px solid rgba(201,169,110,0.4)", color:"#c9a96e", fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.45rem", letterSpacing:"0.5em", textTransform:"uppercase", padding:"1.2rem 3rem", cursor:"pointer" }}
           >
             ← Back to Search
           </button>
@@ -186,14 +186,14 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
             borderRight:"1px solid rgba(255,255,255,0.06)",
           }}>
             <span style={{
-              fontFamily:"'Helvetica Neue',sans-serif",
+              fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"clamp(0.35rem,1.5vw,0.45rem)", fontWeight:200,
               color:"rgba(201,169,110,0.5)",
               letterSpacing:"0.3em", textTransform:"uppercase",
               marginRight:"0.5rem",
             }}>{k}</span>
             <span style={{
-              fontFamily:"'Helvetica Neue',sans-serif",
+              fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"clamp(0.4rem,1.8vw,0.6rem)", fontWeight:300,
               color:"rgba(201,169,110,0.9)",
               letterSpacing:"0.15em", textTransform:"uppercase",
@@ -205,7 +205,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
         <div style={{
           marginLeft:"auto",
           padding:"0 2rem",
-          fontFamily:"'Helvetica Neue',sans-serif",
+          fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
           fontSize:"0.5rem", fontWeight:200,
           color:"rgba(255,255,255,0.2)",
           letterSpacing:"0.3em",
@@ -264,24 +264,24 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
 
               {/* Info */}
               <div style={{ position:"absolute", bottom:"3rem", left:"3rem", right:"3rem" }}>
-                <p style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.5rem", fontWeight:300, letterSpacing:"0.45em", color:"#c9a96e", textTransform:"uppercase", margin:"0 0 1rem" }}>
+                <p style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.5rem", fontWeight:300, letterSpacing:"0.45em", color:"#c9a96e", textTransform:"uppercase", margin:"0 0 1rem" }}>
                   {property.ubicacion}
                 </p>
-                <h2 style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"clamp(1.8rem,3.5vw,3rem)", fontWeight:100, textTransform:"uppercase", color:"#fff", letterSpacing:"0.02em", lineHeight:1.1, margin:"0 0 1.5rem" }}>
+                <h2 style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"clamp(1.8rem,3.5vw,3rem)", fontWeight:100, textTransform:"uppercase", color:"#fff", letterSpacing:"0.02em", lineHeight:1.1, margin:"0 0 1.5rem" }}>
                   {property.titulo[lang]}
                 </h2>
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", borderTop:"1px solid rgba(255,255,255,0.1)", paddingTop:"1.5rem" }}>
                   <div style={{ display:"flex", alignItems:"baseline", gap:"0.4rem" }}>
-                    <span style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"1rem", fontWeight:200, color:"#c9a96e" }}>€</span>
-                    <span style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"clamp(1.4rem,2.5vw,2rem)", fontWeight:100, color:"white", letterSpacing:"0.05em" }}>
+                    <span style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"1rem", fontWeight:200, color:"#c9a96e" }}>€</span>
+                    <span style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"clamp(1.4rem,2.5vw,2rem)", fontWeight:100, color:"white", letterSpacing:"0.05em" }}>
                       {(property.precio/1000000).toFixed(1)}<span style={{color:"#c9a96e",fontSize:"0.7em"}}>M</span>
                     </span>
                   </div>
                   <div style={{ display:"flex", gap:"2rem" }}>
-                    <span style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.75rem", color:"rgba(255,255,255,0.55)", letterSpacing:"0.25em" }}>
+                    <span style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.75rem", color:"rgba(255,255,255,0.55)", letterSpacing:"0.25em" }}>
                       {property.habitaciones} {tp.bed}
                     </span>
-                    <span style={{ fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.75rem", color:"rgba(255,255,255,0.55)", letterSpacing:"0.25em" }}>
+                    <span style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.75rem", color:"rgba(255,255,255,0.55)", letterSpacing:"0.25em" }}>
                       {property.m2_construidos} M²
                     </span>
                   </div>
@@ -336,7 +336,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
           background:"rgba(4,3,2,0.7)",
           border:"1px solid rgba(201,169,110,0.35)",
           color:"rgba(201,169,110,0.8)",
-          fontFamily:"'Helvetica Neue',sans-serif",
+          fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
           fontSize:"clamp(0.5rem,2vw,0.75rem)",
           letterSpacing:"clamp(0.2em,1vw,0.4em)",
           textTransform:"uppercase",
@@ -379,7 +379,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
           background:"rgba(4,3,2,0.7)",
           border:"1px solid rgba(201,169,110,0.35)",
           color:"rgba(201,169,110,0.8)",
-          fontFamily:"'Helvetica Neue',sans-serif",
+          fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
           fontSize:"clamp(0.5rem,2vw,0.75rem)",
           letterSpacing:"clamp(0.2em,1vw,0.4em)",
           textTransform:"uppercase",
@@ -409,7 +409,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
       }}>
         <span className="scroll-prop" style={{
           color:"rgba(201,169,110,0.5)", fontSize:"0.4rem",
-          letterSpacing:"0.5em", fontFamily:"'Helvetica Neue',sans-serif",
+          letterSpacing:"0.5em", fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
           textTransform:"uppercase",
         }}>
           {String(displayIdx+1).padStart(2,"0")} / {String(n).padStart(2,"0")}
