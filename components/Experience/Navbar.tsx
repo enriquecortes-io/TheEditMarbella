@@ -58,34 +58,10 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         borderBottom:"1px solid rgba(255,255,255,0.05)",
       }}>
 
-        {/* Logo THE EDIT MARBELLA */}
+                {/* Logo THE EDIT MARBELLA */}
         <Link href={`/${locale}`} style={{ textDecoration:"none" }}>
-          <div style={{ width:"clamp(60px,8vw,100px)" }}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="100%" height="100%">
-              <defs>
-                <linearGradient id="brushedChampagne" x1="0%" y1="0%" x2="100%" y2="80%">
-                  <stop offset="0%" stopColor="#DCD0C0"/>
-                  <stop offset="25%" stopColor="#C2AD8A"/>
-                  <stop offset="50%" stopColor="#D4C1A0"/>
-                  <stop offset="75%" stopColor="#B8A380"/>
-                  <stop offset="100%" stopColor="#A59170"/>
-                </linearGradient>
-              </defs>
-              <g transform="translate(0, -30)">
-                <path d="M 630 120 L 970 120 L 970 140 L 900 140 L 900 290 L 950 290 L 950 310 L 900 310 L 900 460 L 970 460 L 970 480 L 860 480 L 860 200 A 60 60 0 0 0 740 200 L 740 480 L 700 480 L 700 140 L 630 140 Z" fill="url(#brushedChampagne)"/>
-                <text x="810" y="630"
-                  fontFamily="'Didot','Playfair Display','Bodoni MT',serif"
-                  fontSize="42" fill="#F5F5F5"
-                  style={{letterSpacing:"0.55em"}}
-                  textAnchor="middle">THE EDIT</text>
-                <text x="814" y="690"
-                  fontFamily="'Montserrat','Helvetica Neue','Arial',sans-serif"
-                  fontSize="13" fill="#A89F91"
-                  style={{letterSpacing:"1.3em"}}
-                  fontWeight="300"
-                  textAnchor="middle">MARBELLA</text>
-              </g>
-            </svg>
+          <div style={{ width:"clamp(45px,6vw,70px)", display:"flex", alignItems:"center" }}>
+            <img src="/logo.svg" alt="The Edit Marbella" style={{ width:"100%", height:"auto" }} />
           </div>
         </Link>
 
