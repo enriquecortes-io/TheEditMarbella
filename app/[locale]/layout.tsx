@@ -5,8 +5,20 @@ import { notFound } from "next/navigation";
 const locales = ["en", "es", "fr", "ru"];
 
 export const metadata: Metadata = {
-  title: "Million Dollars Listing Marbella",
-  description: "Ultra-luxury properties in Marbella",
+  title: "Million Dollars Listing Marbella | Ultra-Luxury Properties",
+  description: "Exclusive ultra-luxury properties in Marbella, Estepona, Sotogrande and the Costa del Sol. Private viewings by appointment.",
+  openGraph: {
+    title: "Million Dollars Listing Marbella",
+    description: "Exclusive ultra-luxury properties on the Costa del Sol.",
+    images: [{ url:"https://mdlm-xi.vercel.app/og-default.jpg", width:1200, height:630 }],
+    type: "website",
+    siteName: "Million Dollars Listing Marbella",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Million Dollars Listing Marbella",
+    description: "Exclusive ultra-luxury properties on the Costa del Sol.",
+  },
 };
 
 export default async function LocaleLayout({
