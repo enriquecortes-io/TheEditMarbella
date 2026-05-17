@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { convertGDriveUrl } from "@/lib/gdrive";
 
 interface Property {
   id: string; slug: string; titulo: any; descripcion: any; precio: number;
@@ -91,7 +92,7 @@ export default function Portfolio({ password, onEdit }: Props) {
         slug: editing.slug,
         titulo, descripcion,
         ...editFields,
-        galeria_urls: editFields.galeria_urls.split("\n").map((s:string)=>s.trim()).filter(Boolean),
+        galeria_urls: editFields.galeria_urls.split("\n").map((s:string)=>convertGDriveUrl(s.trim())).filter(Boolean),
       };
       const res = await fetch("/api/admin/save-property", {
         method:"POST", headers:{"Content-Type":"application/json"},
@@ -397,7 +398,7 @@ export default function Portfolio({ password, onEdit }: Props) {
               })}
             </div>
 
-            <label style={L}>URL Video</label>
+            <label style={L}>URL Video — acepta Google Drive</label>
             <input value={editFields.video_url||""} onChange={e=>setEditFields((p:any)=>({...p,video_url:e.target.value}))} style={INP}/>
 
             <label style={L}>URLs Galería (una por línea)</label>

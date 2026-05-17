@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { convertGDriveUrl } from "@/lib/gdrive";
 
 interface Props { password: string; }
 
@@ -78,8 +79,8 @@ export default function NewProperty({ password }: Props) {
         m2_construidos: parseInt(form.m2Construidos)||0,
         m2_parcela: form.tieneJardin ? (parseInt(form.m2Parcela)||0) : 0,
         ubicacion: form.ubicacion,
-        video_url: form.videoUrl,
-        galeria_urls: form.galeriaUrls.split("\n").map(s=>s.trim()).filter(Boolean),
+        video_url: convertGDriveUrl(form.videoUrl),
+        galeria_urls: form.galeriaUrls.split("\n").map(s=>convertGDriveUrl(s.trim())).filter(Boolean),
         infografias: [],
         google_maps_url: form.google_maps_url,
         latitud: form.latitud ? parseFloat(form.latitud) : null,
@@ -295,11 +296,12 @@ export default function NewProperty({ password }: Props) {
         </div>
 
         {/* Video */}
-        <label style={L}>URL del Video</label>
+        <label style={L}>URL del Video — acepta Google Drive</label>
         <input value={form.videoUrl} onChange={e=>setForm(p=>({...p,videoUrl:e.target.value}))} placeholder="/videos/hero.mp4" style={F}/>
 
         {/* Galería */}
-        <label style={L}>URLs de Galería (una por línea)</label>
+        <label style={L}>URLs de Galería (una por línea) — acepta Google Drive</label>
+        <p style={{fontSize:"11px",color:"#9ca3af",margin:"-8px 0 8px"}}>Pega el enlace de compartir de Google Drive directamente</p>
         <textarea value={form.galeriaUrls} onChange={e=>setForm(p=>({...p,galeriaUrls:e.target.value}))}
           placeholder="/gallery/foto1.jpg" rows={4} style={{...F,resize:"vertical"}}/>
 
