@@ -18,10 +18,12 @@ interface Props { password: string; }
 
 export default function Leads({ password }: Props) {
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [agentes, setAgentes] = useState<string[]>(["Enrique"]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    // Cargar leads
     fetch("/api/admin/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -30,9 +32,22 @@ export default function Leads({ password }: Props) {
       .then(r => r.json())
       .then(d => { setLeads(d.leads || []); setLoading(false); })
       .catch(() => setLoading(false));
-  }, []);
 
-  const [agentes] = useState(["Enrique"]);
+    // Cargar agentes desde tabla usuarios
+    fetch("/api/admin/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password, action: "list" }),
+    })
+      .then(r => r.json())
+      .then(d => {
+        const userAgentes = (d.users || [])
+          .filter((u: any) => u.role === "agente" || u.role === "superadmin")
+          .map((u: any) => u.name);
+        if (userAgentes.length > 0) setAgentes(userAgentes);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleChangeAgente = async (id: string, agente: string) => {
     await fetch("/api/admin/leads/update", {
