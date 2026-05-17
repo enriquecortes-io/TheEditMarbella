@@ -44,6 +44,11 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         .lang-dropdown { animation: dropIn 0.25s cubic-bezier(0.16,1,0.3,1) both; }
         .lang-opt { transition: all 0.2s ease; }
         .lang-opt:hover { background: rgba(201,169,110,0.1) !important; color: #c9a96e !important; }
+        @keyframes neonPulse {
+          0%,100% { text-shadow: 0 0 6px rgba(201,169,110,0.8), 0 0 12px rgba(201,169,110,0.5), 0 0 24px rgba(201,169,110,0.3); }
+          50%     { text-shadow: 0 0 12px rgba(201,169,110,1), 0 0 24px rgba(201,169,110,0.8), 0 0 48px rgba(201,169,110,0.5), 0 0 80px rgba(201,169,110,0.2); }
+        }
+        .neon-btn { animation: neonPulse 2s ease-in-out infinite; }
       `}</style>
 
       <nav style={{
@@ -98,7 +103,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               textTransform:"uppercase", cursor:"pointer",
               transition:"all 0.3s ease",
               padding:"0.5rem 1.2rem",
-              textShadow:"0 0 8px rgba(201,169,110,0.9), 0 0 20px rgba(201,169,110,0.6), 0 0 40px rgba(201,169,110,0.3)",
+
             }}
             onMouseEnter={e=>{
               e.currentTarget.style.color="#c9a96e";
@@ -106,10 +111,10 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               e.currentTarget.style.background="rgba(201,169,110,0.08)";
             }}
             onMouseLeave={e=>{
-              e.currentTarget.style.color="rgba(201,169,110,0.7)";
-              e.currentTarget.style.textShadow="0 0 8px rgba(201,169,110,0.7), 0 0 16px rgba(201,169,110,0.3)";
+              e.currentTarget.style.color="#c9a96e";
               e.currentTarget.style.background="none";
             }}
+            className="neon-btn"
           >
             {PRIVATE_VIEWING[locale as keyof typeof PRIVATE_VIEWING] || "Private Viewing"}
           </button>
