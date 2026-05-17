@@ -35,6 +35,8 @@ export function useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels }:
         const fOp = Math.max(0, (smoothHeader - 0.4) / 0.6);
         filtersRef.current.style.opacity = String(fOp);
         filtersRef.current.style.pointerEvents = fOp > 0.3 ? "auto" : "none";
+        // Una vez visible, mantener opacidad 1
+        if (fOp >= 0.99) filtersRef.current.style.opacity = "1";
       }
 
       // Z-AXIS — tú avanzas hacia los paneles
