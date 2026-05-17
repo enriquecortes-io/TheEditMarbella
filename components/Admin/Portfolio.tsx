@@ -341,6 +341,62 @@ export default function Portfolio({ password, onEdit }: Props) {
               ))}
             </div>
 
+            {/* Selects */}
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"16px", marginBottom:"16px" }}>
+              <div>
+                <label style={L}>Estado</label>
+                <select value={editFields.estado||""} onChange={e=>setEditFields((p:any)=>({...p,estado:e.target.value}))} style={{...INP}}>
+                  <option value="">—</option>
+                  <option value="nueva">Nueva construcción</option>
+                  <option value="buen-estado">Buen estado</option>
+                  <option value="reformado">Reformado</option>
+                  <option value="a-reformar">A reformar</option>
+                </select>
+              </div>
+              <div>
+                <label style={L}>Orientación</label>
+                <select value={editFields.orientacion||""} onChange={e=>setEditFields((p:any)=>({...p,orientacion:e.target.value}))} style={{...INP}}>
+                  <option value="">—</option>
+                  <option value="sur">Sur</option>
+                  <option value="norte">Norte</option>
+                  <option value="este">Este</option>
+                  <option value="oeste">Oeste</option>
+                  <option value="sur-este">Sur-Este</option>
+                  <option value="sur-oeste">Sur-Oeste</option>
+                </select>
+              </div>
+              <div>
+                <label style={L}>Amueblado</label>
+                <select value={editFields.amueblado||"no"} onChange={e=>setEditFields((p:any)=>({...p,amueblado:e.target.value}))} style={{...INP}}>
+                  <option value="no">No</option>
+                  <option value="si">Sí</option>
+                  <option value="parcial">Parcial</option>
+                </select>
+              </div>
+              <div>
+                <label style={L}>Cert. Energético</label>
+                <select value={editFields.certificado_energetico||""} onChange={e=>setEditFields((p:any)=>({...p,certificado_energetico:e.target.value}))} style={{...INP}}>
+                  <option value="">—</option>
+                  {["A","B","C","D","E","F","G"].map(l=><option key={l} value={l}>{l}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {/* Amenidades */}
+            <label style={L}>Amenidades</label>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"6px", marginBottom:"16px" }}>
+              {["Piscina","Jardín","Terraza","Ascensor","Aire acondicionado","Calefacción","Seguridad 24h","Spa","Gimnasio","Garaje","Trastero","Bodega","Cine","Sala de juegos","Pista de tenis","Paddle","Domótica","Vistas al mar","Primera línea de playa","Acceso directo playa"].map(a=>{
+                const amenidades = editFields.amenidades || [];
+                const isChecked = amenidades.includes(a);
+                return (
+                  <label key={a} onClick={()=>setEditFields((p:any)=>({...p,amenidades:isChecked?amenidades.filter((x:string)=>x!==a):[...amenidades,a]}))}
+                    style={{ fontSize:"12px", cursor:"pointer", padding:"5px 10px", border:`1px solid ${isChecked?"#2563eb":"#d1d5db"}`, borderRadius:"20px", background:isChecked?"#eff6ff":"white", color:isChecked?"#1d4ed8":"#374151" }}>
+                    {a}
+                  </label>
+                );
+              })}
+            </div>
+
             <label style={L}>URL Video</label>
             <input value={editFields.video_url||""} onChange={e=>setEditFields((p:any)=>({...p,video_url:e.target.value}))} style={INP}/>
 
