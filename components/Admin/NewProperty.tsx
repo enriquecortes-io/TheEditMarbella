@@ -19,6 +19,13 @@ export default function NewProperty({ password }: Props) {
     m2Construidos:"", m2Parcela:"", tieneJardin:false,
     ubicacion:"", videoUrl:"", galeriaUrls:"",
     destacada:false, activa:false,
+    // Ubicación detallada
+    latitud:'', longitud:'', codigo_postal:'', direccion:'',
+    // Características
+    ano_construccion:'', estado:'', orientacion:'', planta:'',
+    garajes:'0', trasteros:'0', amueblado:'no', certificado_energetico:'',
+    // Amenidades
+    amenidades:[] as string[],
   });
 
   const generateSlug = (text: string) =>
@@ -74,6 +81,19 @@ export default function NewProperty({ password }: Props) {
         video_url: form.videoUrl,
         galeria_urls: form.galeriaUrls.split("\n").map(s=>s.trim()).filter(Boolean),
         infografias: [],
+        latitud: form.latitud ? parseFloat(form.latitud) : null,
+        longitud: form.longitud ? parseFloat(form.longitud) : null,
+        codigo_postal: form.codigo_postal,
+        direccion: form.direccion,
+        ano_construccion: form.ano_construccion ? parseInt(form.ano_construccion) : null,
+        estado: form.estado,
+        orientacion: form.orientacion,
+        planta: form.planta ? parseInt(form.planta) : null,
+        garajes: parseInt(form.garajes) || 0,
+        trasteros: parseInt(form.trasteros) || 0,
+        amueblado: form.amueblado,
+        certificado_energetico: form.certificado_energetico,
+        amenidades: form.amenidades,
         destacada: form.destacada,
         activa: publish ? true : form.activa,
       };
@@ -193,6 +213,78 @@ export default function NewProperty({ password }: Props) {
           </div>
           <div><label style={L}>Ubicación</label>
             <input value={form.ubicacion} onChange={e=>setForm(p=>({...p,ubicacion:e.target.value}))} placeholder="Golden Mile, Marbella" style={F}/></div>
+        </div>
+
+        {/* Separador */}
+        <div style={{ borderTop:"2px solid #f3f4f6", margin:"8px 0 24px", paddingTop:"24px" }}>
+          <p style={{ fontSize:"13px", fontWeight:700, color:"#111", margin:"0 0 20px" }}>📍 Ubicación detallada</p>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+            <div><label style={L}>Latitud</label>
+              <input type="number" step="any" value={form.latitud} onChange={e=>setForm(p=>({...p,latitud:e.target.value}))} placeholder="36.5123" style={F}/></div>
+            <div><label style={L}>Longitud</label>
+              <input type="number" step="any" value={form.longitud} onChange={e=>setForm(p=>({...p,longitud:e.target.value}))} placeholder="-4.8765" style={F}/></div>
+            <div><label style={L}>Código Postal</label>
+              <input value={form.codigo_postal} onChange={e=>setForm(p=>({...p,codigo_postal:e.target.value}))} placeholder="29600" style={F}/></div>
+            <div><label style={L}>Dirección</label>
+              <input value={form.direccion} onChange={e=>setForm(p=>({...p,direccion:e.target.value}))} placeholder="Urb. Los Monteros, 12" style={F}/></div>
+          </div>
+        </div>
+
+        <div style={{ borderTop:"2px solid #f3f4f6", margin:"8px 0 24px", paddingTop:"24px" }}>
+          <p style={{ fontSize:"13px", fontWeight:700, color:"#111", margin:"0 0 20px" }}>🏗️ Características adicionales</p>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:"16px" }}>
+            <div><label style={L}>Año construcción</label>
+              <input type="number" value={form.ano_construccion} onChange={e=>setForm(p=>({...p,ano_construccion:e.target.value}))} placeholder="2018" style={F}/></div>
+            <div><label style={L}>Estado</label>
+              <select value={form.estado} onChange={e=>setForm(p=>({...p,estado:e.target.value}))} style={F}>
+                <option value="">— Seleccionar —</option>
+                <option value="nueva">Nueva construcción</option>
+                <option value="buen-estado">Buen estado</option>
+                <option value="reformado">Reformado</option>
+                <option value="a-reformar">A reformar</option>
+              </select></div>
+            <div><label style={L}>Orientación</label>
+              <select value={form.orientacion} onChange={e=>setForm(p=>({...p,orientacion:e.target.value}))} style={F}>
+                <option value="">— Seleccionar —</option>
+                <option value="sur">Sur</option>
+                <option value="norte">Norte</option>
+                <option value="este">Este</option>
+                <option value="oeste">Oeste</option>
+                <option value="sur-este">Sur-Este</option>
+                <option value="sur-oeste">Sur-Oeste</option>
+              </select></div>
+            <div><label style={L}>Planta</label>
+              <input type="number" value={form.planta} onChange={e=>setForm(p=>({...p,planta:e.target.value}))} placeholder="3" style={F}/></div>
+            <div><label style={L}>Garajes</label>
+              <input type="number" value={form.garajes} onChange={e=>setForm(p=>({...p,garajes:e.target.value}))} placeholder="2" style={F}/></div>
+            <div><label style={L}>Trasteros</label>
+              <input type="number" value={form.trasteros} onChange={e=>setForm(p=>({...p,trasteros:e.target.value}))} placeholder="1" style={F}/></div>
+            <div><label style={L}>Amueblado</label>
+              <select value={form.amueblado} onChange={e=>setForm(p=>({...p,amueblado:e.target.value}))} style={F}>
+                <option value="no">No</option>
+                <option value="si">Sí</option>
+                <option value="parcial">Parcial</option>
+              </select></div>
+            <div><label style={L}>Cert. Energético</label>
+              <select value={form.certificado_energetico} onChange={e=>setForm(p=>({...p,certificado_energetico:e.target.value}))} style={F}>
+                <option value="">— Seleccionar —</option>
+                {["A","B","C","D","E","F","G"].map(l=><option key={l} value={l}>{l}</option>)}
+              </select></div>
+          </div>
+        </div>
+
+        <div style={{ borderTop:"2px solid #f3f4f6", margin:"8px 0 24px", paddingTop:"24px" }}>
+          <p style={{ fontSize:"13px", fontWeight:700, color:"#111", margin:"0 0 16px" }}>✨ Amenidades</p>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
+            {["Piscina","Jardín","Terraza","Ascensor","Aire acondicionado","Calefacción","Seguridad 24h","Spa","Gimnasio","Garaje","Trastero","Bodega","Cine","Sala de juegos","Pista de tenis","Paddle","Domótica","Vistas al mar","Primera línea de playa","Acceso directo playa"].map(a=>(
+              <label key={a} style={{ display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", cursor:"pointer", padding:"6px 12px", border:`1px solid ${form.amenidades.includes(a)?"#2563eb":"#d1d5db"}`, borderRadius:"20px", background:form.amenidades.includes(a)?"#eff6ff":"white", color:form.amenidades.includes(a)?"#1d4ed8":"#374151", transition:"all 0.15s" }}>
+                <input type="checkbox" checked={form.amenidades.includes(a)}
+                  onChange={e=>setForm(p=>({...p,amenidades:e.target.checked?[...p.amenidades,a]:p.amenidades.filter(x=>x!==a)}))}
+                  style={{ display:"none" }}/>
+                {a}
+              </label>
+            ))}
+          </div>
         </div>
 
         {/* Video */}
