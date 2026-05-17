@@ -60,7 +60,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
 
                 {/* Logo THE EDIT MARBELLA */}
         <Link href={`/${locale}`} style={{ textDecoration:"none" }}>
-          <div style={{ width:"clamp(45px,6vw,70px)", display:"flex", alignItems:"center" }}>
+          <div style={{ width:"clamp(100px,14vw,180px)", display:"flex", alignItems:"center" }}>
             <img src="/logo.svg" alt="The Edit Marbella" style={{ width:"100%", height:"auto" }} />
           </div>
         </Link>
