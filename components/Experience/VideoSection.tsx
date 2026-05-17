@@ -1,5 +1,13 @@
 "use client";
 
+const isDriveUrl = (url: string) => url?.includes("drive.google.com");
+const getDrivePreviewUrl = (url: string) => {
+  const match = url?.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url?.match(/id=([a-zA-Z0-9_-]+)/);
+  if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+  return url;
+};
+
+
 type InfText = string | { es: string; en: string; fr: string; ru: string };
 
 function getText(val: InfText | undefined, lang: string): string {
