@@ -86,7 +86,7 @@ export default function SkyHeader({ locale }: Props) {
         position:"absolute", inset:0, zIndex:0,
         background:"linear-gradient(135deg, #0a0a0f 0%, #0f0a08 50%, #080a0f 100%)",
         opacity: videoReady ? 0 : 1,
-        transition:"opacity 0.8s ease",
+        transition:"opacity 0.4s ease",
         pointerEvents:"none",
       }}/>
 
@@ -94,7 +94,8 @@ export default function SkyHeader({ locale }: Props) {
       <video
         ref={videoRef}
         src="/videos/HeroHeader.mp4"
-        muted playsInline loop
+        muted playsInline loop autoPlay
+        preload="auto"
         onCanPlay={()=>setVideoReady(true)}
         style={{
           position:"absolute", inset:0,
