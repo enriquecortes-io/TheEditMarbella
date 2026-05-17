@@ -130,8 +130,8 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
         {/* Headline */}
         <h2 style={{
           fontFamily:"'Helvetica Neue',sans-serif",
-          fontSize:"clamp(1.6rem,3vw,2.8rem)",
-          fontWeight:100,
+          fontSize:"clamp(2rem,4vw,3.5rem)",
+          fontWeight:300,
           color:"#ffffff",
           letterSpacing:"-0.02em",
           lineHeight:1.2,
@@ -140,9 +140,9 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
 
         <p style={{
           fontFamily:"'Helvetica Neue',sans-serif",
-          fontSize:"clamp(0.7rem,1.2vw,0.95rem)",
-          fontWeight:200,
-          color:"rgba(255,255,255,0.6)",
+          fontSize:"clamp(0.9rem,1.5vw,1.1rem)",
+          fontWeight:300,
+          color:"rgba(255,255,255,0.75)",
           lineHeight:1.8,
           margin:"0 0 4rem",
           letterSpacing:"0.01em",
@@ -167,7 +167,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
 
             {/* Nombre */}
             <div>
-              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.7)", letterSpacing:"0.3em", fontSize:"0.55rem", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                 {c.fields.name}
               </label>
               <input
@@ -182,7 +182,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
             {/* Email + Telefono en fila */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"2rem" }}>
               <div>
-                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.7)", letterSpacing:"0.3em", fontSize:"0.55rem", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                   {c.fields.email}
                 </label>
                 <input
@@ -194,7 +194,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
                 />
               </div>
               <div>
-                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.7)", letterSpacing:"0.3em", fontSize:"0.55rem", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                   {c.fields.phone}
                 </label>
                 <input
@@ -209,7 +209,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
 
             {/* Horizonte */}
             <div>
-              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.8rem" }}>
+              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.7)", letterSpacing:"0.3em", fontSize:"0.55rem", textTransform:"uppercase", marginBottom:"0.8rem" }}>
                 {c.fields.horizon}
               </label>
               <div style={{ display:"flex", gap:"1rem", flexWrap:"wrap" }}>
@@ -221,8 +221,8 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
                       border:`1px solid rgba(255,255,255,${form.horizon===opt?0.6:0.25})`,
                       color: form.horizon===opt ? "#c9a96e" : "rgba(255,255,255,0.55)",
                       fontFamily:"'Helvetica Neue',sans-serif",
-                      fontSize:"0.5rem", letterSpacing:"0.2em",
-                      padding:"0.7rem 1.5rem", cursor:"pointer",
+                      fontSize:"0.65rem", letterSpacing:"0.2em",
+                      padding:"0.8rem 1.8rem", cursor:"pointer",
                       transition:"all 0.3s ease",
                     } as React.CSSProperties}
                   >{opt}</button>
@@ -234,7 +234,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
             <p style={{
               fontFamily:"'Helvetica Neue',sans-serif",
               fontSize:"0.45rem", fontWeight:200,
-              color:"rgba(255,255,255,0.35)",
+              color:"rgba(255,255,255,0.5)",
               letterSpacing:"0.02em", lineHeight:1.8,
               borderLeft:"1px solid rgba(201,169,110,0.2)",
               paddingLeft:"1rem",
