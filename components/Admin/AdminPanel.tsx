@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import NewProperty from "./NewProperty";
 import Portfolio from "./Portfolio";
 import Leads from "./Leads";
+import CruceVentas from "./CruceVentas";
 
-type Section = "portfolio" | "new" | "leads";
+type Section = "portfolio" | "new" | "leads" | "cruce";
 
 export default function AdminPanel() {
   const [password, setPassword] = useState("");
@@ -51,9 +52,10 @@ export default function AdminPanel() {
   );
 
   const NAV: { id: Section; icon: string; label: string }[] = [
+    { id:"new",       icon:"➕", label:"Nueva Propiedad", green:true },
     { id:"portfolio", icon:"🏠", label:"Portfolio" },
-    { id:"new",       icon:"➕", label:"Nueva Propiedad" },
     { id:"leads",     icon:"👥", label:"Leads" },
+    { id:"cruce",     icon:"🔗", label:"Cruce de Ventas" },
   ];
 
   return (
@@ -74,10 +76,15 @@ export default function AdminPanel() {
               style={{
                 display:"flex", alignItems:"center", gap:"10px",
                 width:"100%", padding:"10px 12px",
-                background: section===item.id ? "rgba(255,255,255,0.1)" : "none",
-                border:"none", borderRadius:"8px",
-                color: section===item.id ? "white" : "rgba(255,255,255,0.5)",
-                fontSize:"13px", fontWeight: section===item.id ? 600 : 400,
+                background: (item as any).green && section!==item.id
+                  ? "rgba(22,163,74,0.2)"
+                  : section===item.id ? "rgba(255,255,255,0.1)" : "none",
+                border: (item as any).green ? "1px solid rgba(22,163,74,0.4)" : "none",
+                borderRadius:"8px",
+                color: (item as any).green
+                  ? "#4ade80"
+                  : section===item.id ? "white" : "rgba(255,255,255,0.5)",
+                fontSize:"13px", fontWeight: section===item.id || (item as any).green ? 600 : 400,
                 cursor:"pointer", textAlign:"left",
                 transition:"all 0.15s",
                 marginBottom:"4px",
@@ -101,6 +108,7 @@ export default function AdminPanel() {
         {section === "portfolio" && <Portfolio password={password} onEdit={()=>setSection("new")} />}
         {section === "new" && <NewProperty password={password} />}
         {section === "leads" && <Leads password={password} />}
+        {section === "cruce" && <CruceVentas password={password} />}
       </div>
     </div>
   );
