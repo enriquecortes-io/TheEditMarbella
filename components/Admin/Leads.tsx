@@ -10,6 +10,7 @@ interface Lead {
   property_title: string;
   property_slug: string;
   locale: string;
+  agente: string;
   created_at: string;
 }
 
@@ -30,6 +31,17 @@ export default function Leads({ password }: Props) {
       .then(d => { setLeads(d.leads || []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
+
+  const [agentes] = useState(["Enrique"]);
+
+  const handleChangeAgente = async (id: string, agente: string) => {
+    await fetch("/api/admin/leads/update", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ password, id, agente }),
+    });
+    setLeads(prev => prev.map(l => l.id === id ? {...l, agente} : l));
+  };
 
   const filtered = leads.filter(l =>
     !search ||
@@ -70,7 +82,7 @@ export default function Leads({ password }: Props) {
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                {["Fecha","Nombre","Email","Teléfono","Propiedad","Horizonte","Idioma"].map(h => (
+                {["Fecha","Nombre","Email","Teléfono","Propiedad","Horizonte","Agente","Idioma"].map(h => (
                   <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
                 ))}
               </tr>
@@ -96,6 +108,15 @@ export default function Leads({ password }: Props) {
                     <span style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, background:"#fef3c7", color:"#92400e" }}>
                       {l.horizon || "—"}
                     </span>
+                  </td>
+                  <td style={{ padding:"14px 16px" }}>
+                    <select
+                      value={l.agente || "Enrique"}
+                      onChange={e => handleChangeAgente(l.id, e.target.value)}
+                      style={{ padding:"4px 8px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"12px", background:"white", cursor:"pointer" }}
+                    >
+                      {agentes.map(a => <option key={a} value={a}>{a}</option>)}
+                    </select>
                   </td>
                   <td style={{ padding:"14px 16px", fontSize:"12px", color:"#6b7280", textTransform:"uppercase" }}>{l.locale || "—"}</td>
                 </tr>

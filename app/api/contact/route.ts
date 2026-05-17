@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
       property_title: propertyTitle,
       property_slug: propertySlug,
       locale,
+      agente: "Enrique",
       created_at: new Date().toISOString(),
     });
 
