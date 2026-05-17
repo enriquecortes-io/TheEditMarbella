@@ -12,6 +12,7 @@ const SCENE_CONFIG = [
   { start:10, end:15, align:"center", pos:"center top" },
   { start:15, end:20, align:"left",   pos:"center top" },
   { start:20, end:27, align:"right",  pos:"center top" },
+  { start:27, end:32, align:"center", pos:"center center" },
 ];
 
 export default function SkyHeader({ locale }: Props) {
