@@ -20,7 +20,7 @@ export default function NewProperty({ password }: Props) {
     ubicacion:"", videoUrl:"", galeriaUrls:"",
     destacada:false, activa:false,
     // Ubicación detallada
-    latitud:'', longitud:'', codigo_postal:'', direccion:'',
+    latitud:'', longitud:'', codigo_postal:'', direccion:'', google_maps_url:'',
     // Características
     ano_construccion:'', estado:'', orientacion:'', planta:'',
     garajes:'0', trasteros:'0', amueblado:'no', certificado_energetico:'',
@@ -81,6 +81,7 @@ export default function NewProperty({ password }: Props) {
         video_url: form.videoUrl,
         galeria_urls: form.galeriaUrls.split("\n").map(s=>s.trim()).filter(Boolean),
         infografias: [],
+        google_maps_url: form.google_maps_url,
         latitud: form.latitud ? parseFloat(form.latitud) : null,
         longitud: form.longitud ? parseFloat(form.longitud) : null,
         codigo_postal: form.codigo_postal,
@@ -228,6 +229,12 @@ export default function NewProperty({ password }: Props) {
             <div><label style={L}>Dirección</label>
               <input value={form.direccion} onChange={e=>setForm(p=>({...p,direccion:e.target.value}))} placeholder="Urb. Los Monteros, 12" style={F}/></div>
           </div>
+          <div style={{ marginTop:"16px" }}>
+            <label style={L}>URL Google Maps</label>
+            <input value={form.google_maps_url} onChange={e=>setForm(p=>({...p,google_maps_url:e.target.value}))} placeholder="https://maps.google.com/..." style={F}/>
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"16px" }}>
+          </div>
         </div>
 
         <div style={{ borderTop:"2px solid #f3f4f6", margin:"8px 0 24px", paddingTop:"24px" }}>
@@ -276,7 +283,7 @@ export default function NewProperty({ password }: Props) {
         <div style={{ borderTop:"2px solid #f3f4f6", margin:"8px 0 24px", paddingTop:"24px" }}>
           <p style={{ fontSize:"13px", fontWeight:700, color:"#111", margin:"0 0 16px" }}>✨ Amenidades</p>
           <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
-            {["Piscina","Jardín","Terraza","Ascensor","Aire acondicionado","Calefacción","Seguridad 24h","Spa","Gimnasio","Garaje","Trastero","Bodega","Cine","Sala de juegos","Pista de tenis","Paddle","Domótica","Vistas al mar","Primera línea de playa","Acceso directo playa"].map(a=>(
+            {["Piscina","Jardín","Terraza","Ascensor","Aire acondicionado","Calefacción","Seguridad 24h","Spa","Gimnasio","Garaje","Trastero","Bodega","Cine","Sala de juegos","Pista de tenis","Paddle","Domótica","Vistas al mar","Primera línea de playa","Acceso directo playa","Urbanización cerrada"].map(a=>(
               <label key={a} style={{ display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", cursor:"pointer", padding:"6px 12px", border:`1px solid ${form.amenidades.includes(a)?"#2563eb":"#d1d5db"}`, borderRadius:"20px", background:form.amenidades.includes(a)?"#eff6ff":"white", color:form.amenidades.includes(a)?"#1d4ed8":"#374151", transition:"all 0.15s" }}>
                 <input type="checkbox" checked={form.amenidades.includes(a)}
                   onChange={e=>setForm(p=>({...p,amenidades:e.target.checked?[...p.amenidades,a]:p.amenidades.filter(x=>x!==a)}))}
