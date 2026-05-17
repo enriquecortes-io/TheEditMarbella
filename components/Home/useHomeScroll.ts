@@ -62,7 +62,7 @@ export function useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels }:
           scale = 1 + t * 1.5;   // 2.5 → 1 — efecto de aproximación dramático
           zPos = t * 450;         // 450 → 0
           blur = t * 20;
-        } else if (diff >= -0.05 && diff <= 0.05) {
+        } else if (diff >= -0.3 && diff <= 0.05) {
           opacity = 1; scale = 1; zPos = 0; blur = 0;
         } else {
           // Anterior — se aleja detrás pequeño
