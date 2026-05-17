@@ -11,6 +11,7 @@ interface Lead {
   property_slug: string;
   locale: string;
   agente: string;
+  notas: string;
   created_at: string;
 }
 
@@ -19,6 +20,8 @@ interface Props { password: string; }
 export default function Leads({ password }: Props) {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [agentes, setAgentes] = useState<string[]>(["Enrique"]);
+  const [notaLead, setNotaLead] = useState<Lead|null>(null);
+  const [notaText, setNotaText] = useState("");
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -48,6 +51,17 @@ export default function Leads({ password }: Props) {
       })
       .catch(() => {});
   }, []);
+
+  const handleSaveNota = async () => {
+    if (!notaLead) return;
+    await fetch("/api/admin/leads/update", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ password, id: notaLead.id, notas: notaText }),
+    });
+    setLeads(prev => prev.map(l => l.id === notaLead.id ? {...l, notas: notaText} : l));
+    setNotaLead(null);
+  };
 
   const handleChangeAgente = async (id: string, agente: string) => {
     await fetch("/api/admin/leads/update", {
@@ -97,7 +111,7 @@ export default function Leads({ password }: Props) {
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                {["Fecha","Nombre","Email","Teléfono","Propiedad","Horizonte","Agente","Idioma"].map(h => (
+                {["Fecha","Nombre","Email","Teléfono","Propiedad","Horizonte","Agente","Notas","Idioma"].map(h => (
                   <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
                 ))}
               </tr>
@@ -133,6 +147,12 @@ export default function Leads({ password }: Props) {
                       {agentes.map(a => <option key={a} value={a}>{a}</option>)}
                     </select>
                   </td>
+                  <td style={{ padding:"14px 16px" }}>
+                    <button onClick={()=>{ setNotaLead(l); setNotaText(l.notas||""); }}
+                      style={{ padding:"4px 10px", background: l.notas ? "#f0fdf4" : "#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color: l.notas ? "#166534" : "#6b7280" }}>
+                      {l.notas ? "📝 Ver" : "➕ Añadir"}
+                    </button>
+                  </td>
                   <td style={{ padding:"14px 16px", fontSize:"12px", color:"#6b7280", textTransform:"uppercase" }}>{l.locale || "—"}</td>
                 </tr>
               ))}
@@ -141,5 +161,25 @@ export default function Leads({ password }: Props) {
         </div>
       )}
     </div>
+      {/* Modal notas */}
+      {notaLead && (
+        <div onClick={()=>setNotaLead(null)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px" }}>
+          <div onClick={e=>e.stopPropagation()} style={{ background:"white", borderRadius:"12px", padding:"32px", width:"100%", maxWidth:"560px" }}>
+            <h2 style={{ fontSize:"18px", fontWeight:700, color:"#111", margin:"0 0 4px" }}>Notas internas</h2>
+            <p style={{ fontSize:"13px", color:"#6b7280", margin:"0 0 20px" }}>{notaLead.name} · {notaLead.property_title}</p>
+            <textarea
+              value={notaText}
+              onChange={e=>setNotaText(e.target.value)}
+              placeholder="Escribe aquí tus notas sobre este lead — conversaciones, preferencias, seguimiento..."
+              rows={8}
+              style={{ width:"100%", padding:"12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", outline:"none", resize:"vertical", boxSizing:"border-box", marginBottom:"16px" }}
+            />
+            <div style={{ display:"flex", gap:"12px" }}>
+              <button onClick={()=>setNotaLead(null)} style={{ flex:1, padding:"10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>Cancelar</button>
+              <button onClick={handleSaveNota} style={{ flex:2, padding:"10px", background:"#16a34a", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>✦ Guardar Nota</button>
+            </div>
+          </div>
+        </div>
+      )}
   );
 }
