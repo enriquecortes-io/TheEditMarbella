@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("slug", slug)
     .single();
 
-  if (!property) return { title: "Million Dollars Listing Marbella" };
+  if (!property) return { title: "Edit Marbella" };
 
   const titulo = typeof property.titulo === "object"
     ? property.titulo[locale] || property.titulo.es || property.titulo.en || ""
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const metaDesc = `${firstSentence} ${precio} · ${property.ubicacion || "Marbella"} · ${property.m2_construidos || ""}m² · ${property.habitaciones || ""} hab.`.trim();
 
   return {
-    title: `${titulo} — Million Dollars Listing Marbella`,
+    title: `${titulo} — Edit Marbella`,
     description: metaDesc,
     openGraph: {
       title: `${titulo} — MDLM`,
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ogImageUrl ? [{ url: ogImageUrl, width:1200, height:630, alt: titulo }] : [],
       type: "website",
       locale: locale,
-      siteName: "Million Dollars Listing Marbella",
+      siteName: "Edit Marbella",
     },
     twitter: {
       card: "summary_large_image",

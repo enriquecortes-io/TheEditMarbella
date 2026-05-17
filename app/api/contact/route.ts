@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       html: `
         <div style="font-family:'Helvetica Neue',sans-serif;max-width:600px;margin:0 auto;padding:40px;background:#0a0805;color:white;">
           <p style="color:#c9a96e;font-size:11px;letter-spacing:0.5em;text-transform:uppercase;margin:0 0 24px">
-            MILLION DOLLARS LISTING MARBELLA
+            EDIT MARBELLA
           </p>
           <h1 style="font-size:24px;font-weight:300;color:white;margin:0 0 8px">
             Nueva Solicitud de Visita Privada

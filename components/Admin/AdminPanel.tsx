@@ -53,7 +53,7 @@ export default function AdminPanel() {
     <div style={{ minHeight:"100vh", background:"#f9fafb", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ background:"white", padding:"40px", borderRadius:"12px", boxShadow:"0 4px 24px rgba(0,0,0,0.08)", width:"360px" }}>
         <h2 style={{ fontFamily:"system-ui", fontSize:"20px", fontWeight:700, marginBottom:"8px", color:"#111" }}>
-          Million Dollars Listing
+          Edit Marbella
         </h2>
         <p style={{ fontSize:"13px", color:"#6b7280", marginBottom:"24px", fontFamily:"system-ui" }}>Panel de Administración</p>
         <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px", fontFamily:"system-ui" }}>
