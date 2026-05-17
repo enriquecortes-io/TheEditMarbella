@@ -103,7 +103,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
     width:"100%",
     background:"transparent",
     border:"none",
-    borderBottom:`1px solid rgba(255,255,255,${focused===field?0.4:0.12})`,
+    borderBottom:`1px solid rgba(255,255,255,${focused===field?0.6:0.25})`,
     color:"white",
     fontFamily:"'Helvetica Neue',sans-serif",
     fontSize:"clamp(0.8rem,1.4vw,1.1rem)",
@@ -132,7 +132,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
           fontFamily:"'Helvetica Neue',sans-serif",
           fontSize:"clamp(1.6rem,3vw,2.8rem)",
           fontWeight:100,
-          color:"rgba(255,255,255,0.92)",
+          color:"#ffffff",
           letterSpacing:"-0.02em",
           lineHeight:1.2,
           margin:"0 0 1.5rem",
@@ -142,7 +142,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
           fontFamily:"'Helvetica Neue',sans-serif",
           fontSize:"clamp(0.7rem,1.2vw,0.95rem)",
           fontWeight:200,
-          color:"rgba(255,255,255,0.45)",
+          color:"rgba(255,255,255,0.6)",
           lineHeight:1.8,
           margin:"0 0 4rem",
           letterSpacing:"0.01em",
@@ -167,7 +167,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
 
             {/* Nombre */}
             <div>
-              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.5em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                 {c.fields.name}
               </label>
               <input
@@ -182,7 +182,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
             {/* Email + Telefono en fila */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"2rem" }}>
               <div>
-                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.5em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                   {c.fields.email}
                 </label>
                 <input
@@ -194,7 +194,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
                 />
               </div>
               <div>
-                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.5em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
+                <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.5rem" }}>
                   {c.fields.phone}
                 </label>
                 <input
@@ -209,7 +209,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
 
             {/* Horizonte */}
             <div>
-              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.5em", textTransform:"uppercase", marginBottom:"0.8rem" }}>
+              <label style={{ display:"block", fontFamily:"'Helvetica Neue',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", marginBottom:"0.8rem" }}>
                 {c.fields.horizon}
               </label>
               <div style={{ display:"flex", gap:"1rem", flexWrap:"wrap" }}>
@@ -218,8 +218,8 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
                     onClick={() => setForm(p=>({...p,horizon:opt}))}
                     style={{
                       background: form.horizon===opt ? "rgba(201,169,110,0.08)" : "none",
-                      border:`1px solid rgba(255,255,255,${form.horizon===opt?0.4:0.1})`,
-                      color: form.horizon===opt ? "#c9a96e" : "rgba(255,255,255,0.35)",
+                      border:`1px solid rgba(255,255,255,${form.horizon===opt?0.6:0.25})`,
+                      color: form.horizon===opt ? "#c9a96e" : "rgba(255,255,255,0.55)",
                       fontFamily:"'Helvetica Neue',sans-serif",
                       fontSize:"0.5rem", letterSpacing:"0.2em",
                       padding:"0.7rem 1.5rem", cursor:"pointer",
@@ -234,7 +234,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
             <p style={{
               fontFamily:"'Helvetica Neue',sans-serif",
               fontSize:"0.45rem", fontWeight:200,
-              color:"rgba(255,255,255,0.2)",
+              color:"rgba(255,255,255,0.35)",
               letterSpacing:"0.02em", lineHeight:1.8,
               borderLeft:"1px solid rgba(201,169,110,0.2)",
               paddingLeft:"1rem",
