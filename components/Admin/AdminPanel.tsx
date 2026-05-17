@@ -4,8 +4,9 @@ import NewProperty from "./NewProperty";
 import Portfolio from "./Portfolio";
 import Leads from "./Leads";
 import CruceVentas from "./CruceVentas";
+import FeedsPanel from "./FeedsPanel";
 
-type Section = "portfolio" | "new" | "leads" | "cruce";
+type Section = "portfolio" | "new" | "leads" | "cruce" | "feeds";
 
 export default function AdminPanel() {
   const [password, setPassword] = useState("");
@@ -56,6 +57,7 @@ export default function AdminPanel() {
     { id:"portfolio", icon:"🏠", label:"Portfolio" },
     { id:"leads",     icon:"👥", label:"Leads" },
     { id:"cruce",     icon:"🔗", label:"Cruce de Ventas" },
+    { id:"feeds",     icon:"📡", label:"Portales / Feeds" },
   ];
 
   return (
@@ -109,6 +111,7 @@ export default function AdminPanel() {
         {section === "new" && <NewProperty password={password} />}
         {section === "leads" && <Leads password={password} />}
         {section === "cruce" && <CruceVentas password={password} />}
+        {section === "feeds" && <FeedsPanel />}
       </div>
     </div>
   );
