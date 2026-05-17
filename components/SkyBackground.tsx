@@ -6,7 +6,7 @@ export default function SkyBackground() {
   const skyRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  if (pathname.includes("/admin")) return null;
+  if (pathname.includes("/admin") || pathname.includes("/legal") || pathname.includes("/privacidad") || pathname.includes("/cookies")) return null;
 
   // Intensidad según la página
   const isProperty = pathname.includes("/propiedades/");
