@@ -5,27 +5,47 @@ import Portfolio from "./Portfolio";
 import Leads from "./Leads";
 import CruceVentas from "./CruceVentas";
 import FeedsPanel from "./FeedsPanel";
+import Users from "./Users";
 
-type Section = "portfolio" | "new" | "leads" | "cruce" | "feeds";
+type Section = "portfolio" | "new" | "leads" | "cruce" | "feeds" | "users";
 
 export default function AdminPanel() {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState<{name:string,role:string,password:string}|null>(null);
   const [authError, setAuthError] = useState("");
   const [section, setSection] = useState<Section>("portfolio");
 
   useEffect(() => {
-    if (localStorage.getItem("mdlm_admin") === "mdlm2026secure") {
-      setAuth(true);
-      setPassword("mdlm2026secure");
+    const saved = localStorage.getItem("mdlm_admin_user");
+    if (saved) {
+      try {
+        const u = JSON.parse(saved);
+        setAuth(true);
+        setPassword(u.password);
+        setUser(u);
+      } catch {}
     }
   }, []);
 
-  const handleAuth = () => {
-    if (password === "mdlm2026secure") {
-      setAuth(true);
-      localStorage.setItem("mdlm_admin", "mdlm2026secure");
-    } else setAuthError("Contraseña incorrecta");
+  const handleAuth = async () => {
+    try {
+      const res = await fetch("/api/admin/auth", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setAuth(true);
+        setUser(data.user);
+        localStorage.setItem("mdlm_admin_user", JSON.stringify(data.user));
+      } else {
+        setAuthError("Contraseña incorrecta");
+      }
+    } catch {
+      setAuthError("Error de conexión");
+    }
   };
 
   if (!auth) return (
@@ -58,6 +78,7 @@ export default function AdminPanel() {
     { id:"leads",     icon:"👥", label:"Leads" },
     { id:"cruce",     icon:"🔗", label:"Cruce de Ventas" },
     { id:"feeds",     icon:"📡", label:"Portales / Feeds" },
+    { id:"users",     icon:"👤", label:"Usuarios" },
   ];
 
   return (
@@ -68,6 +89,7 @@ export default function AdminPanel() {
         <div style={{ padding:"24px 20px 16px" }}>
           <p style={{ fontSize:"10px", color:"rgba(255,255,255,0.4)", textTransform:"uppercase", letterSpacing:"0.12em", margin:"0 0 4px" }}>MDLM</p>
           <p style={{ fontSize:"14px", color:"white", fontWeight:600, margin:0 }}>Admin Panel</p>
+          {user && <p style={{ fontSize:"11px", color:"rgba(255,255,255,0.4)", margin:"4px 0 0" }}>{user.name} · {user.role}</p>}
         </div>
 
         <div style={{ height:"1px", background:"rgba(255,255,255,0.08)", margin:"0 20px 16px" }}/>
@@ -98,7 +120,7 @@ export default function AdminPanel() {
         </nav>
 
         <div style={{ padding:"16px 20px", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
-          <button onClick={()=>{ localStorage.removeItem("mdlm_admin"); setAuth(false); }}
+          <button onClick={()=>{ localStorage.removeItem("mdlm_admin_user"); setAuth(false); setUser(null); }}
             style={{ background:"none", border:"none", color:"rgba(255,255,255,0.4)", fontSize:"12px", cursor:"pointer", padding:0 }}>
             Cerrar sesión →
           </button>
@@ -112,6 +134,7 @@ export default function AdminPanel() {
         {section === "leads" && <Leads password={password} />}
         {section === "cruce" && <CruceVentas password={password} />}
         {section === "feeds" && <FeedsPanel />}
+        {section === "users" && <Users password={password} />}
       </div>
     </div>
   );
