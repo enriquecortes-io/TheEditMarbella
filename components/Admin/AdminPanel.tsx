@@ -51,7 +51,7 @@ export default function AdminPanel() {
     </div>
   );
 
-  const NAV: { id: Section; icon: string; label: string }[] = [
+  const NAV: { id: Section; icon: string; label: string; green?: boolean }[] = [
     { id:"new",       icon:"➕", label:"Nueva Propiedad", green:true },
     { id:"portfolio", icon:"🏠", label:"Portfolio" },
     { id:"leads",     icon:"👥", label:"Leads" },
