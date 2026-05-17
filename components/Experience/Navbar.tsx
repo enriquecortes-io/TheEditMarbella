@@ -186,7 +186,8 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
                     letterSpacing:"0.1em",
                   }}>{lang.name}</span>
                   {lang.code === locale && (
-                    <span style={{ color:"#c9a96e", fontSize:"0.5rem" }}>✦</span>
+                    <span style={{ color:"#c9a96e",
+          textShadow:"0 0 10px rgba(201,169,110,0.9), 0 0 20px rgba(201,169,110,0.5), 0 0 40px rgba(201,169,110,0.3)", fontSize:"0.5rem" }}>✦</span>
                   )}
                 </button>
               ))}
