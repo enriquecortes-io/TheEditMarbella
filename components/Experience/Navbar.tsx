@@ -58,10 +58,29 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         borderBottom:"1px solid rgba(255,255,255,0.05)",
       }}>
 
-                {/* Logo THE EDIT MARBELLA */}
+                        {/* Logo THE EDIT MARBELLA */}
         <Link href={`/${locale}`} style={{ textDecoration:"none" }}>
-          <div style={{ width:"clamp(100px,14vw,180px)", display:"flex", alignItems:"center" }}>
-            <img src="/logo.svg" alt="The Edit Marbella" style={{ width:"100%", height:"auto" }} />
+          <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-start", gap:"4px" }}>
+            <span style={{
+              fontFamily:"'Cormorant Garamond','Cormorant',Georgia,serif",
+              fontSize:"clamp(1.4rem,2.5vw,2.2rem)",
+              fontWeight:600,
+              color:"white",
+              letterSpacing:"0.05em",
+              lineHeight:1,
+            }}>The Edit</span>
+            <div style={{ display:"flex", alignItems:"center", gap:"0", width:"100%" }}>
+              <div style={{ flex:1, height:"0.5px", background:"rgba(255,255,255,0.4)" }}/>
+            </div>
+            <span style={{
+              fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
+              fontSize:"clamp(0.4rem,0.7vw,0.6rem)",
+              fontWeight:200,
+              color:"rgba(255,255,255,0.65)",
+              letterSpacing:"0.35em",
+              textTransform:"uppercase",
+              lineHeight:1,
+            }}>Marbella</span>
           </div>
         </Link>
 
