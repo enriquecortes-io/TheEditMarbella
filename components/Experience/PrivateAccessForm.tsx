@@ -130,7 +130,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
         {/* Headline */}
         <h2 style={{
           fontFamily:"'Helvetica Neue',sans-serif",
-          fontSize:"clamp(2rem,4vw,3.5rem)",
+          fontSize:"clamp(1.5rem,3vw,2.2rem)",
           fontWeight:300,
           color:"#ffffff",
           letterSpacing:"-0.02em",
@@ -144,7 +144,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
           fontWeight:300,
           color:"rgba(255,255,255,0.75)",
           lineHeight:1.8,
-          margin:"0 0 4rem",
+          margin:"0 0 2rem",
           letterSpacing:"0.01em",
         }}>{c.sub}</p>
 
@@ -163,7 +163,7 @@ export default function PrivateAccessForm({ locale, propertyTitle, propertySlug 
             }}>{c.success}</p>
           </div>
         ) : (
-          <div style={{ display:"flex", flexDirection:"column", gap:"2.5rem" }}>
+          <div style={{ display:"flex", flexDirection:"column", gap:"1.5rem" }}>
 
             {/* Nombre */}
             <div>
