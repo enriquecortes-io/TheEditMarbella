@@ -38,16 +38,20 @@ export default function NotFound() {
 
         {/* Logo */}
         <div className="fade-in" style={{ marginBottom:"4rem", animationDelay:"0s" }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150" width="160px">
-            <g transform="translate(200, 75)">
-              <text x="0" y="0"
-                fontFamily="'Montserrat','Helvetica Neue',sans-serif"
-                fontWeight="900" fontSize="80" fill="white"
-                textAnchor="middle" letterSpacing="2">EDIT</text>
-              <text x="0" y="45"
-                fontFamily="'Montserrat','Helvetica Neue',sans-serif"
-                fontWeight="300" fontSize="34" fill="rgba(255,255,255,0.4)"
-                textAnchor="middle" letterSpacing="10">marbella</text>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="120px">
+            <defs>
+              <linearGradient id="brushedChampagne2" x1="0%" y1="0%" x2="100%" y2="80%">
+                <stop offset="0%" stopColor="#DCD0C0"/>
+                <stop offset="25%" stopColor="#C2AD8A"/>
+                <stop offset="50%" stopColor="#D4C1A0"/>
+                <stop offset="75%" stopColor="#B8A380"/>
+                <stop offset="100%" stopColor="#A59170"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(0, -30)">
+              <path d="M 630 120 L 970 120 L 970 140 L 900 140 L 900 290 L 950 290 L 950 310 L 900 310 L 900 460 L 970 460 L 970 480 L 860 480 L 860 200 A 60 60 0 0 0 740 200 L 740 480 L 700 480 L 700 140 L 630 140 Z" fill="url(#brushedChampagne2)"/>
+              <text x="810" y="630" fontFamily="'Didot','Playfair Display',serif" fontSize="42" fill="#F5F5F5" style={{letterSpacing:"0.55em"}} textAnchor="middle">THE EDIT</text>
+              <text x="814" y="690" fontFamily="'Montserrat','Helvetica Neue',sans-serif" fontSize="13" fill="#A89F91" style={{letterSpacing:"1.3em"}} fontWeight="300" textAnchor="middle">MARBELLA</text>
             </g>
           </svg>
         </div>
