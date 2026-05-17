@@ -54,13 +54,29 @@ export default function Leads({ password }: Props) {
 
   const handleSaveNota = async () => {
     if (!notaLead) return;
+    const now = new Date();
+    const timestamp = now.toLocaleDateString("es-ES", { 
+      weekday:"long", day:"2-digit", month:"long", year:"numeric",
+      hour:"2-digit", minute:"2-digit"
+    });
+    // Si ya hay notas, añadir nueva entrada con separador
+    const existingNotas = notaLead.notas || "";
+    const newEntry = `━━━ ${timestamp} ━━━
+${notaText}`;
+    const finalNotas = existingNotas 
+      ? `${existingNotas}
+
+${newEntry}`
+      : newEntry;
+
     await fetch("/api/admin/leads/update", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ password, id: notaLead.id, notas: notaText }),
+      body: JSON.stringify({ password, id: notaLead.id, notas: finalNotas }),
     });
-    setLeads(prev => prev.map(l => l.id === notaLead.id ? {...l, notas: notaText} : l));
+    setLeads(prev => prev.map(l => l.id === notaLead.id ? {...l, notas: finalNotas} : l));
     setNotaLead(null);
+    setNotaText("");
   };
 
   const handleChangeAgente = async (id: string, agente: string) => {
@@ -167,11 +183,21 @@ export default function Leads({ password }: Props) {
           <div onClick={e=>e.stopPropagation()} style={{ background:"white", borderRadius:"12px", padding:"32px", width:"100%", maxWidth:"560px" }}>
             <h2 style={{ fontSize:"18px", fontWeight:700, color:"#111", margin:"0 0 4px" }}>Notas internas</h2>
             <p style={{ fontSize:"13px", color:"#6b7280", margin:"0 0 20px" }}>{notaLead.name} · {notaLead.property_title}</p>
+            {/* Notas existentes */}
+            {notaLead.notas && (
+              <div style={{ background:"#f9fafb", border:"1px solid #e5e7eb", borderRadius:"6px", padding:"12px", marginBottom:"16px", maxHeight:"200px", overflowY:"auto" }}>
+                <p style={{ fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 8px" }}>Historial de notas</p>
+                <pre style={{ fontSize:"12px", color:"#374151", fontFamily:"system-ui", whiteSpace:"pre-wrap", margin:0, lineHeight:1.6 }}>{notaLead.notas}</pre>
+              </div>
+            )}
+
+            {/* Nueva nota */}
+            <p style={{ fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 6px" }}>Nueva nota</p>
             <textarea
               value={notaText}
               onChange={e=>setNotaText(e.target.value)}
-              placeholder="Escribe aquí tus notas sobre este lead — conversaciones, preferencias, seguimiento..."
-              rows={8}
+              placeholder="Escribe aquí tu nota — se añadirá con fecha y hora automáticamente..."
+              rows={5}
               style={{ width:"100%", padding:"12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", outline:"none", resize:"vertical", boxSizing:"border-box", marginBottom:"16px" }}
             />
             <div style={{ display:"flex", gap:"12px" }}>
