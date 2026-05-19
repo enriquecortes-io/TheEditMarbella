@@ -1,10 +1,7 @@
 
-// Convierte URL de Google Drive a URL directa
+// Convierte URL de Google Drive a URL del proxy interno
 export function convertGDriveUrl(url: string): string {
   if (!url) return url;
-  
-  // Si ya es URL directa de gdrive, devolverla tal cual
-  if (url.includes("drive.google.com/uc?")) return url;
   
   // Extraer ID de diferentes formatos de Google Drive
   const patterns = [
@@ -17,13 +14,9 @@ export function convertGDriveUrl(url: string): string {
     const match = url.match(pattern);
     if (match) {
       const id = match[1];
-      // Para videos usar embed, para imágenes usar uc
-      if (url.includes("preview") || url.includes("video")) {
-        return `https://drive.google.com/file/d/${id}/preview`;
-      }
-      return `https://drive.google.com/uc?export=view&id=${id}`;
+      return `/api/drive?id=${id}`;
     }
   }
   
-  return url; // Si no es Drive, devolver original
+  return url;
 }
