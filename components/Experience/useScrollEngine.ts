@@ -55,8 +55,8 @@ export function useScrollEngine({
       smoothGallery = lerp(smoothGallery, targetGallery, 0.08);
 
       if (smoothTransition > 0.001) {
-        const newHeight = 100 + smoothTransition * 150;
-        const scrollY = smoothTransition * 150;
+        const newHeight = 100 + smoothTransition * 200;
+        const scrollY = smoothTransition * 200;
         gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
         
         // Mostrar descripción cuando el stage la empieza a revelar (>50% transición)

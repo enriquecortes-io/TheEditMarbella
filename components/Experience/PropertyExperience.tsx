@@ -141,7 +141,7 @@ export default function PropertyExperience({ property, locale }: Props) {
               </div>
 
               {/* Texto revista — drop cap + 2 columnas */}
-              <div style={{ padding:"clamp(1rem,2vw,2.5rem) clamp(1rem,3vw,3rem)", overflowY:"auto", maxHeight:"55vh" }}>
+              <div style={{ padding:"clamp(1rem,2vw,2.5rem) clamp(1rem,3vw,3rem)" }}>
                 {(() => {
                   const fullText = typeof property.descripcion === "object"
                     ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
