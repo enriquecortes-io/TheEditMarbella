@@ -55,8 +55,8 @@ export function useScrollEngine({
       smoothGallery = lerp(smoothGallery, targetGallery, 0.08);
 
       if (smoothTransition > 0.001) {
-        const newHeight = 100 + smoothTransition * 200;
-        const scrollY = smoothTransition * 200;
+        const newHeight = 100 + smoothTransition * 300;
+        const scrollY = smoothTransition * 300;
         gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
         
         // Mostrar descripción cuando el stage la empieza a revelar (>50% transición)
@@ -216,12 +216,10 @@ export function useScrollEngine({
 
         if (galleryProgressRef.current <= 0.001 && delta < 0) {
           phaseRef.current = "description";
-          descProgressRef.current = 1;
+          descProgressRef.current = 0.99;
           if (descRef?.current) {
             descRef.current.style.opacity = "1";
             descRef.current.style.pointerEvents = "auto";
-            const maxScroll = descRef.current.scrollHeight - descRef.current.clientHeight;
-            descRef.current.scrollTop = maxScroll;
           }
         }
       }
