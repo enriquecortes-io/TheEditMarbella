@@ -84,103 +84,121 @@ export default function PropertyExperience({ property, locale }: Props) {
         {/* Descripción enmarcada — revista de lujo */}
         <div ref={descRef} style={{
           position:"absolute", top:"100vh", left:0, right:0,
-          height:"100vh", display:"flex", alignItems:"center",
-          justifyContent:"center", padding:"clamp(1.5rem,4vw,4rem)",
+          minHeight:"100vh", display:"flex", alignItems:"center",
+          justifyContent:"center", padding:"clamp(1rem,3vw,3rem)",
           opacity:0, pointerEvents:"none", transition:"opacity 0.5s ease",
+          boxSizing:"border-box",
         }}>
           <div style={{
             maxWidth:"1100px", width:"100%",
             border:"1px solid rgba(201,169,110,0.3)",
-            display:"grid", gridTemplateColumns:"320px 1fr",
-            background:"rgba(6,4,2,0.92)",
+            background:"rgba(6,4,2,0.95)",
             backdropFilter:"blur(24px)",
-            boxShadow:"0 0 100px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.04)",
-            maxHeight:"85vh", overflow:"hidden",
+            boxShadow:"0 0 100px rgba(0,0,0,0.8)",
+            display:"flex", flexDirection:"column",
           }}>
 
-            {/* Columna izquierda */}
+            {/* Header — ubicación + título */}
             <div style={{
-              padding:"3rem 2.5rem",
-              borderRight:"1px solid rgba(201,169,110,0.2)",
-              display:"flex", flexDirection:"column", justifyContent:"space-between",
-              background:"rgba(201,169,110,0.03)",
+              padding:"clamp(1.5rem,3vw,3rem) clamp(1.5rem,4vw,4rem)",
+              borderBottom:"1px solid rgba(201,169,110,0.2)",
+              display:"flex", flexDirection:"column", gap:"0.8rem",
             }}>
-              <div>
-                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", fontWeight:500, color:"#c9a96e", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 1rem" }}>
-                  {property.ubicacion}
-                </p>
-                <div style={{ width:"2.5rem", height:"1px", background:"rgba(201,169,110,0.6)", margin:"0 0 1.5rem" }}/>
-                <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,2.5vw,2.8rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:"0 0 2.5rem", letterSpacing:"-0.01em" }}>
-                  {typeof property.titulo === "object" ? (property.titulo as any)[lang] || (property.titulo as any)["en"] || "" : property.titulo}
-                </h2>
-
-                {/* Datos */}
-                <div style={{ display:"flex", flexDirection:"column", gap:"0" }}>
-                  {[
-                    { label:"Construido", value: property.m2_construidos ? `${property.m2_construidos} m²` : null },
-                    { label:"Parcela", value: property.m2_parcela ? `${property.m2_parcela} m²` : null },
-                    { label:"Habitaciones", value: property.habitaciones || null },
-                    { label:"Baños", value: property.banos || null },
-                  ].filter(d => d.value).map(d => (
-                    <div key={d.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", padding:"0.8rem 0", borderBottom:"1px solid rgba(255,255,255,0.07)" }}>
-                      <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(255,255,255,0.45)", letterSpacing:"0.35em", textTransform:"uppercase" }}>{d.label}</span>
-                      <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", color:"white", fontWeight:400, lineHeight:1 }}>{String(d.value)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Precio */}
-              {property.precio && (
-                <div style={{ marginTop:"2rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(201,169,110,0.25)" }}>
-                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", fontWeight:500, color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.5rem" }}>Precio</p>
-                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"2.8rem", color:"#c9a96e", margin:0, fontWeight:300, lineHeight:1 }}>€{(property.precio/1000000).toFixed(1)}M</p>
-                </div>
-              )}
+              <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", fontWeight:500, color:"#c9a96e", letterSpacing:"0.5em", textTransform:"uppercase", margin:0 }}>
+                {property.ubicacion}
+              </p>
+              <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.5)" }}/>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.6rem,3vw,3rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:0, letterSpacing:"-0.01em" }}>
+                {typeof property.titulo === "object" ? (property.titulo as any)[lang] || (property.titulo as any)["en"] || "" : property.titulo}
+              </h2>
             </div>
 
-            {/* Columna derecha — texto revista */}
-            <div style={{ padding:"3rem", overflowY:"auto", display:"flex", flexDirection:"column", justifyContent:"space-between" }}>
-              
-              {/* Primera frase destacada */}
-              {(() => {
-                const fullText = typeof property.descripcion === "object"
-                  ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
-                  : property.descripcion || "";
-                const firstSentence = fullText.match(/^[^.!?]+[.!?]/)?.[0] || "";
-                const rest = fullText.slice(firstSentence.length).trim();
-                return <>
-                  {firstSentence && (
-                    <p style={{
-                      fontFamily:"'Cormorant Garamond',serif",
-                      fontSize:"clamp(1.1rem,1.6vw,1.4rem)",
-                      fontWeight:400,
-                      fontStyle:"italic",
-                      color:"rgba(255,255,255,0.9)",
-                      lineHeight:1.6,
-                      margin:"0 0 1.5rem",
-                      paddingBottom:"1.5rem",
-                      borderBottom:"1px solid rgba(201,169,110,0.2)",
-                      letterSpacing:"0.01em",
-                    }}>{firstSentence}</p>
-                  )}
-                  <p style={{
-                    fontFamily:"'Montserrat',sans-serif",
-                    fontSize:"clamp(0.75rem,0.9vw,0.85rem)",
-                    fontWeight:300,
-                    color:"rgba(255,255,255,0.6)",
-                    lineHeight:2,
-                    margin:0,
-                    letterSpacing:"0.02em",
-                    whiteSpace:"pre-line",
-                  }}>{rest}</p>
-                </>;
-              })()}
+            {/* Body — datos + texto */}
+            <div style={{ display:"flex", flexDirection:"column" }}>
 
-              {/* Firma */}
-              <div style={{ display:"flex", alignItems:"center", gap:"1rem", marginTop:"2rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
-                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.4)", letterSpacing:"0.4em", textTransform:"uppercase", margin:0 }}>The Edit · Marbella</p>
+              {/* Datos en fila horizontal */}
+              <div style={{
+                display:"flex", flexWrap:"wrap",
+                borderBottom:"1px solid rgba(255,255,255,0.06)",
+                padding:"clamp(1rem,2vw,1.5rem) clamp(1.5rem,4vw,4rem)",
+                gap:"0",
+              }}>
+                {[
+                  { label:"Construido", value: property.m2_construidos ? `${property.m2_construidos} m²` : null },
+                  { label:"Parcela", value: property.m2_parcela ? `${property.m2_parcela} m²` : null },
+                  { label:"Hab.", value: property.habitaciones || null },
+                  { label:"Baños", value: property.banos || null },
+                  { label:"Precio", value: property.precio ? `€${(property.precio/1000000).toFixed(1)}M` : null, gold:true },
+                ].filter(d => d.value).map((d,i,arr) => (
+                  <div key={d.label} style={{ flex:"1 1 80px", padding:"0.5rem 1rem 0.5rem 0", borderRight: i < arr.length-1 ? "1px solid rgba(255,255,255,0.07)" : "none", marginRight: i < arr.length-1 ? "1rem" : "0" }}>
+                    <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.38rem", color:"rgba(201,169,110,0.55)", letterSpacing:"0.35em", textTransform:"uppercase", margin:"0 0 0.2rem" }}>{d.label}</p>
+                    <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1rem,1.8vw,1.4rem)", color:(d as any).gold ? "#c9a96e" : "white", fontWeight:300, margin:0, lineHeight:1 }}>{String(d.value)}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Texto revista — drop cap + 2 columnas */}
+              <div style={{ padding:"clamp(1.5rem,3vw,3rem) clamp(1.5rem,4vw,4rem)" }}>
+                {(() => {
+                  const fullText = typeof property.descripcion === "object"
+                    ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
+                    : property.descripcion || "";
+                  const firstChar = fullText[0] || "";
+                  const firstSentenceEnd = fullText.search(/[.!?]/);
+                  const firstSentence = firstSentenceEnd > 0 ? fullText.slice(1, firstSentenceEnd+1) : fullText.slice(1, 100);
+                  const rest = fullText.slice(firstSentenceEnd > 0 ? firstSentenceEnd+1 : 100).trim();
+                  return (
+                    <div>
+                      {/* Lead paragraph con drop cap */}
+                      <p style={{
+                        fontFamily:"'Cormorant Garamond',serif",
+                        fontSize:"clamp(1rem,1.4vw,1.15rem)",
+                        fontStyle:"italic",
+                        color:"rgba(255,255,255,0.85)",
+                        lineHeight:1.8,
+                        margin:"0 0 1.5rem",
+                        paddingBottom:"1.5rem",
+                        borderBottom:"1px solid rgba(201,169,110,0.15)",
+                      }}>
+                        <span style={{
+                          float:"left",
+                          fontFamily:"'Cormorant Garamond',serif",
+                          fontSize:"clamp(3.5rem,6vw,5rem)",
+                          fontWeight:700,
+                          lineHeight:0.75,
+                          marginRight:"0.1em",
+                          marginTop:"0.05em",
+                          color:"#c9a96e",
+                        }}>{firstChar}</span>
+                        {firstSentence}
+                      </p>
+
+                      {/* Resto en 2 columnas */}
+                      <div style={{
+                        columns:"2",
+                        columnGap:"clamp(1.5rem,3vw,3rem)",
+                        columnRule:"1px solid rgba(255,255,255,0.06)",
+                      }}>
+                        <p style={{
+                          fontFamily:"'Montserrat',sans-serif",
+                          fontSize:"clamp(0.72rem,0.85vw,0.82rem)",
+                          fontWeight:300,
+                          color:"rgba(255,255,255,0.55)",
+                          lineHeight:1.9,
+                          margin:0,
+                          letterSpacing:"0.02em",
+                          textAlign:"justify",
+                        }}>{rest}</p>
+                      </div>
+
+                      {/* Firma */}
+                      <div style={{ display:"flex", alignItems:"center", gap:"1rem", marginTop:"1.5rem", paddingTop:"1rem", borderTop:"1px solid rgba(255,255,255,0.05)" }}>
+                        <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
+                        <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.38rem", color:"rgba(201,169,110,0.35)", letterSpacing:"0.4em", textTransform:"uppercase", margin:0 }}>The Edit · Marbella</p>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
 
