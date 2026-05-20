@@ -81,6 +81,80 @@ export default function PropertyExperience({ property, locale }: Props) {
           inf2={inf2}
           locale={urlLocale}
         />
+        {/* Descripción enmarcada — sección física en el scroll */}
+        <div ref={descRef} style={{
+          position:"absolute",
+          top:"100vh",
+          left:0, right:0,
+          height:"100vh",
+          display:"flex",
+          alignItems:"center",
+          justifyContent:"center",
+          padding:"clamp(2rem,5vw,5rem)",
+          opacity:0,
+          pointerEvents:"none",
+          transition:"opacity 0.5s ease",
+        }}>
+          {/* Marco revista */}
+          <div style={{
+            maxWidth:"1100px",
+            width:"100%",
+            border:"1px solid rgba(201,169,110,0.2)",
+            padding:"clamp(2rem,4vw,4rem)",
+            display:"grid",
+            gridTemplateColumns:"1fr 2fr",
+            gap:"clamp(2rem,4vw,4rem)",
+            background:"rgba(8,6,4,0.85)",
+            backdropFilter:"blur(20px)",
+            boxShadow:"0 0 80px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.03)",
+          }}>
+
+            {/* Columna izquierda — datos */}
+            <div style={{ borderRight:"1px solid rgba(201,169,110,0.15)", paddingRight:"clamp(1.5rem,3vw,3rem)" }}>
+              <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"#c9a96e", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 1rem" }}>
+                {property.ubicacion}
+              </p>
+              <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"0 0 1.5rem" }}/>
+              <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,3vw,3rem)", fontWeight:600, color:"white", lineHeight:1.0, margin:"0 0 2rem", letterSpacing:"-0.01em" }}>
+                {typeof property.titulo === "object" ? (property.titulo as any)[lang] || (property.titulo as any)["en"] || "" : property.titulo}
+              </h2>
+              <div style={{ display:"flex", flexDirection:"column", gap:"1rem" }}>
+                {[
+                  { label:"Construido", value: property.m2_construidos ? `${property.m2_construidos} m²` : null },
+                  { label:"Parcela", value: property.m2_parcela ? `${property.m2_parcela} m²` : null },
+                  { label:"Hab.", value: property.habitaciones || null },
+                  { label:"Baños", value: property.banos || null },
+                ].filter(d => d.value).map(d => (
+                  <div key={d.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", borderBottom:"1px solid rgba(255,255,255,0.05)", paddingBottom:"0.5rem" }}>
+                    <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.3)", letterSpacing:"0.3em", textTransform:"uppercase" }}>{d.label}</span>
+                    <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.2rem", color:"white", fontWeight:300 }}>{String(d.value)}</span>
+                  </div>
+                ))}
+              </div>
+              {property.precio && (
+                <div style={{ marginTop:"1.5rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(201,169,110,0.2)" }}>
+                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.3rem" }}>Precio</p>
+                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", color:"#c9a96e", margin:0, fontWeight:300 }}>€{(property.precio/1000000).toFixed(1)}M</p>
+                </div>
+              )}
+            </div>
+
+            {/* Columna derecha — descripción */}
+            <div style={{ overflowY:"auto", maxHeight:"60vh" }}>
+              <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.8rem,1vw,0.9rem)", fontWeight:400, color:"rgba(255,255,255,0.65)", lineHeight:2, margin:"0 0 2rem", letterSpacing:"0.02em", whiteSpace:"pre-line" }}>
+                {typeof property.descripcion === "object"
+                  ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
+                  : property.descripcion || ""}
+              </p>
+              <div style={{ display:"flex", alignItems:"center", gap:"1rem" }}>
+                <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
+                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.4)", letterSpacing:"0.4em", textTransform:"uppercase", margin:0 }}>The Edit · Marbella</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         <GallerySection
           galleryTrackRef={galleryTrackRef}
           images={images}
@@ -149,47 +223,7 @@ export default function PropertyExperience({ property, locale }: Props) {
           </div>
         </div>
       )}
-      {/* Sección descripción — aparece entre video y galería */}
-      <div ref={descRef} style={{
-        position:"fixed",
-        inset:0,
-        zIndex:8,
-        opacity:0,
-        pointerEvents:"none",
-        transition:"opacity 0.5s ease",
-        overflowY:"auto",
-        background:"#080604",
-      }}>
-        <div style={{
-          minHeight:"100vh", display:"grid",
-          gridTemplateColumns:"1fr 1fr",
-          maxWidth:"1400px", margin:"0 auto",
-          padding:"0 clamp(2rem,6vw,6rem)",
-          alignItems:"center",
-          gap:"clamp(2rem,4vw,6rem)",
-        }}>
-          {/* Columna izquierda */}
-          <div style={{ padding:"clamp(3rem,8vh,6rem) 0" }}>
-            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", fontWeight:400, color:"#c9a96e", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 1.5rem" }}>
-              {property.ubicacion}
-            </p>
-            <div style={{ width:"3rem", height:"1px", background:"rgba(201,169,110,0.6)", margin:"0 0 2rem" }}/>
-            <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.5rem,4vw,5rem)", fontWeight:600, color:"white", lineHeight:1.0, margin:"0 0 2.5rem", letterSpacing:"-0.02em" }}>
-              {typeof property.titulo === "object" ? (property.titulo as any)[lang] || (property.titulo as any)["en"] || "" : property.titulo}
-            </h1>
-            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1.2rem", borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:"1.5rem" }}>
-              {[
-                { label:"M² Construidos", value: property.m2_construidos ? `${property.m2_construidos} m²` : null },
-                { label:"Parcela", value: property.m2_parcela ? `${property.m2_parcela} m²` : null },
-                { label:"Habitaciones", value: property.habitaciones || null },
-                { label:"Baños", value: property.banos || null },
-              ].filter(d => d.value).map(d => (
-                <div key={d.label}>
-                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.3rem" }}>{d.label}</p>
-                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.6rem", fontWeight:300, color:"white", margin:0, lineHeight:1 }}>{String(d.value)}</p>
-                </div>
-              ))}
-            </div>
+      
             {property.precio && (
               <div style={{ marginTop:"1.5rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
                 <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.4rem" }}>Precio</p>

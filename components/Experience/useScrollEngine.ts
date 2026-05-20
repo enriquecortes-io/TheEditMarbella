@@ -55,8 +55,8 @@ export function useScrollEngine({
       smoothGallery = lerp(smoothGallery, targetGallery, 0.08);
 
       if (smoothTransition > 0.001) {
-        const newHeight = 100 + smoothTransition * 50;
-        const scrollY = smoothTransition * 50;
+        const newHeight = 100 + smoothTransition * 100;
+        const scrollY = smoothTransition * 100;
         gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
       }
 
@@ -169,23 +169,18 @@ export function useScrollEngine({
 
       // ── FASE 3: DESCRIPTION ─────────────────────────────────────────────
       else if (phaseRef.current === "description") {
-        const el = descRef?.current;
-        if (el) {
-          // Asegurar visible
-          el.style.opacity = "1";
-          el.style.pointerEvents = "auto";
+        // Acumular progreso con scroll
+        descProgressRef.current = Math.max(0, Math.min(1,
+          descProgressRef.current + delta * 0.004
+        ));
 
-          const maxScroll = el.scrollHeight - el.clientHeight;
-          if (maxScroll > 10) {
-            el.scrollTop = Math.max(0, Math.min(maxScroll, el.scrollTop + delta * 1.2));
-            descProgressRef.current = el.scrollTop / maxScroll;
-          } else {
-            // Si no hay scroll suficiente, acumular delta
-            descProgressRef.current = Math.max(0, Math.min(1, descProgressRef.current + delta * 0.003));
-          }
+        // Mostrar enmarcado
+        if (descRef?.current) {
+          descRef.current.style.opacity = "1";
+          descRef.current.style.pointerEvents = "auto";
         }
 
-        if (descProgressRef.current >= 0.98 && delta > 0) {
+        if (descProgressRef.current >= 0.999 && delta > 0) {
           phaseRef.current = "gallery";
           galleryProgressRef.current = 0;
           targetGallery = 0;
@@ -194,14 +189,13 @@ export function useScrollEngine({
             descRef.current.style.pointerEvents = "none";
           }
         }
-        if (delta < 0 && descProgressRef.current <= 0.02) {
+        if (delta < 0 && descProgressRef.current <= 0.001) {
           phaseRef.current = "transition";
           transitionProgressRef.current = 1;
           targetTransition = 1;
           if (descRef?.current) {
             descRef.current.style.opacity = "0";
             descRef.current.style.pointerEvents = "none";
-            descRef.current.scrollTop = 0;
           }
         }
       }
