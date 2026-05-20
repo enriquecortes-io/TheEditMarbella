@@ -223,26 +223,7 @@ export default function PropertyExperience({ property, locale }: Props) {
           </div>
         </div>
       )}
-      
-            {property.precio && (
-              <div style={{ marginTop:"1.5rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
-                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.4rem" }}>Precio</p>
-                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"2.2rem", fontWeight:300, color:"#c9a96e", margin:0 }}>€{(property.precio/1000000).toFixed(1)}M</p>
-              </div>
-            )}
-          </div>
-          {/* Columna derecha */}
-          <div style={{ padding:"clamp(3rem,8vh,6rem) 0", borderLeft:"1px solid rgba(255,255,255,0.06)", paddingLeft:"clamp(2rem,4vw,4rem)" }}>
-            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.8rem,1vw,0.95rem)", fontWeight:400, color:"rgba(255,255,255,0.7)", lineHeight:2, margin:0, letterSpacing:"0.02em", whiteSpace:"pre-line" }}>
-              {typeof property.descripcion === "object"
-                ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
-                : property.descripcion || ""}
-            </p>
-            <div style={{ marginTop:"2.5rem", display:"flex", alignItems:"center", gap:"1rem" }}>
-              <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
-              <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(201,169,110,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", margin:0 }}>The Edit · Marbella</p>
-            </div>
-          </div>
+
         </div>
       </div>
 
