@@ -27,6 +27,21 @@ export default function PropertyExperience({ property, locale }: Props) {
   const galleryTrackRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  // Posicionar galería dinámicamente según alto real de descripción
+  useEffect(() => {
+    const updateGalleryPos = () => {
+      const desc = descRef.current;
+      const gallery = document.querySelector(".gallery-section") as HTMLElement;
+      if (!desc || !gallery) return;
+      const descHeight = desc.offsetHeight;
+      const descTop = window.innerHeight; // 100vh
+      gallery.style.top = `${descTop + descHeight}px`;
+    };
+    updateGalleryPos();
+    window.addEventListener("resize", updateGalleryPos);
+    return () => window.removeEventListener("resize", updateGalleryPos);
+  }, []);
   const infographic1Ref = useRef<HTMLDivElement>(null);
   const infographic2Ref = useRef<HTMLDivElement>(null);
 

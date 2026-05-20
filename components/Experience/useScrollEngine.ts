@@ -55,11 +55,9 @@ export function useScrollEngine({
       smoothGallery = lerp(smoothGallery, targetGallery, 0.08);
 
       if (smoothTransition > 0.001) {
-        // Usar altura real del contenido del stage
-        const contentHeight = stage.scrollHeight;
-        const maxScroll = contentHeight - window.innerHeight;
-        const scrollY = smoothTransition * maxScroll;
-        gsap.set(stage, { y: -scrollY + "px", height: contentHeight + "px" });
+        const newHeight = 100 + smoothTransition * 300;
+        const scrollY = smoothTransition * 300;
+        gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
         
         // Mostrar descripción cuando el stage la empieza a revelar (>50% transición)
         if (descRef?.current) {
