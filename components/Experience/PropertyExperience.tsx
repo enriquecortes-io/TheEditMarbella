@@ -151,32 +151,60 @@ export default function PropertyExperience({ property, locale }: Props) {
       )}
       {/* Sección descripción — aparece entre video y galería */}
       <div ref={descRef} style={{
-        position:"fixed",
-        inset:0,
-        zIndex:8,
-        display:"flex",
-        alignItems:"flex-start",
-        justifyContent:"center",
-        padding:"0",
-        background:"rgba(4,3,2,0.95)",
-        opacity:0,
-        pointerEvents:"none",
-        transition:"opacity 0.3s ease",
-        overflowY:"auto",
+        position:"fixed", inset:0, zIndex:8,
+        opacity:0, pointerEvents:"none",
+        transition:"opacity 0.4s ease",
+        overflowY:"auto", background:"#080604",
       }}>
-        <div style={{ maxWidth:"860px", width:"100%", padding:"5rem clamp(2rem,8vw,8rem)", margin:"0 auto" }}>
-          <p style={{ fontFamily:"'Montserrat','Helvetica Neue',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 2rem" }}>
-            {property.ubicacion}
-          </p>
-          <h1 style={{ fontFamily:"'Cormorant Garamond','Cormorant',serif", fontSize:"clamp(3rem,8vw,8rem)", fontWeight:900, color:"white", lineHeight:0.9, margin:"0 0 3rem", letterSpacing:"-0.02em" }}>
-            {property.titulo[lang]}
-          </h1>
-          <div style={{ width:"4rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"0 0 3rem" }}/>
-          <p style={{ fontFamily:"'Cormorant Garamond','Georgia',serif", fontSize:"clamp(1.1rem,2vw,1.6rem)", fontWeight:300, fontStyle:"normal", color:"rgba(255,255,255,0.75)", lineHeight:1.8, margin:0, whiteSpace:"pre-line" }}>
-            {typeof property.descripcion === "object"
-              ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
-              : property.descripcion || ""}
-          </p>
+        <div style={{
+          minHeight:"100vh", display:"grid",
+          gridTemplateColumns:"1fr 1fr",
+          maxWidth:"1400px", margin:"0 auto",
+          padding:"0 clamp(2rem,6vw,6rem)",
+          alignItems:"center",
+          gap:"clamp(2rem,4vw,6rem)",
+        }}>
+          {/* Columna izquierda */}
+          <div style={{ padding:"clamp(3rem,8vh,6rem) 0" }}>
+            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", fontWeight:400, color:"#c9a96e", letterSpacing:"0.6em", textTransform:"uppercase", margin:"0 0 1.5rem" }}>
+              {property.ubicacion}
+            </p>
+            <div style={{ width:"3rem", height:"1px", background:"rgba(201,169,110,0.6)", margin:"0 0 2rem" }}/>
+            <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.5rem,4vw,5rem)", fontWeight:600, color:"white", lineHeight:1.0, margin:"0 0 2.5rem", letterSpacing:"-0.02em" }}>
+              {typeof property.titulo === "object" ? (property.titulo as any)[lang] || (property.titulo as any)["en"] || "" : property.titulo}
+            </h1>
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1.2rem", borderTop:"1px solid rgba(255,255,255,0.08)", paddingTop:"1.5rem" }}>
+              {[
+                { label:"M² Construidos", value: property.m2_construidos ? `${property.m2_construidos} m²` : null },
+                { label:"Parcela", value: property.m2_parcela ? `${property.m2_parcela} m²` : null },
+                { label:"Habitaciones", value: property.habitaciones || null },
+                { label:"Baños", value: property.banos || null },
+              ].filter(d => d.value).map(d => (
+                <div key={d.label}>
+                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.3rem" }}>{d.label}</p>
+                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.6rem", fontWeight:300, color:"white", margin:0, lineHeight:1 }}>{String(d.value)}</p>
+                </div>
+              ))}
+            </div>
+            {property.precio && (
+              <div style={{ marginTop:"1.5rem", paddingTop:"1.5rem", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
+                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.4rem" }}>Precio</p>
+                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"2.2rem", fontWeight:300, color:"#c9a96e", margin:0 }}>€{(property.precio/1000000).toFixed(1)}M</p>
+              </div>
+            )}
+          </div>
+          {/* Columna derecha */}
+          <div style={{ padding:"clamp(3rem,8vh,6rem) 0", borderLeft:"1px solid rgba(255,255,255,0.06)", paddingLeft:"clamp(2rem,4vw,4rem)" }}>
+            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.8rem,1vw,0.95rem)", fontWeight:400, color:"rgba(255,255,255,0.7)", lineHeight:2, margin:0, letterSpacing:"0.02em", whiteSpace:"pre-line" }}>
+              {typeof property.descripcion === "object"
+                ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
+                : property.descripcion || ""}
+            </p>
+            <div style={{ marginTop:"2.5rem", display:"flex", alignItems:"center", gap:"1rem" }}>
+              <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
+              <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(201,169,110,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", margin:0 }}>The Edit · Marbella</p>
+            </div>
+          </div>
         </div>
       </div>
 
