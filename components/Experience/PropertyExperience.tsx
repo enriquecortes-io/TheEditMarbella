@@ -17,11 +17,9 @@ interface Props {
 
 const descStyles = `
   .desc-columns { columns: 2; column-gap: clamp(1.5rem,3vw,3rem); column-rule: 1px solid rgba(255,255,255,0.06); }
-  const descStyles = `
-  .desc-columns { columns: 2; column-gap: clamp(1.5rem,3vw,3rem); column-rule: 1px solid rgba(255,255,255,0.06); }
   .desc-columns p::first-letter { font-family: "Cormorant Garamond",serif; font-size: 3.5rem; font-weight: 700; color: #c9a96e; float: left; line-height: 0.75; margin-right: 0.08em; margin-top: 0.05em; }
   @media (max-width: 768px) { .desc-columns { columns: 1; } }
-`;
+\`;
 
 export default function PropertyExperience({ property, locale }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
