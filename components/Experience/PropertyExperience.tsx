@@ -87,7 +87,7 @@ export default function PropertyExperience({ property, locale }: Props) {
         {/* Descripción enmarcada — revista de lujo */}
         <div ref={descRef} style={{
           position:"absolute", top:"100vh", left:0, right:0,
-          minHeight:"100vh", display:"flex", alignItems:"flex-start", paddingTop:"2rem",
+          minHeight:"100vh", display:"flex", alignItems:"flex-start", paddingTop:"1rem", paddingBottom:"1rem",
           justifyContent:"center", padding:"clamp(1rem,3vw,3rem)",
           opacity:0, pointerEvents:"none", transition:"opacity 0.5s ease",
           boxSizing:"border-box",
@@ -141,7 +141,7 @@ export default function PropertyExperience({ property, locale }: Props) {
               </div>
 
               {/* Texto revista — drop cap + 2 columnas */}
-              <div style={{ padding:"clamp(1.5rem,3vw,3rem) clamp(1.5rem,4vw,4rem)" }}>
+              <div style={{ padding:"clamp(1rem,2vw,2.5rem) clamp(1rem,3vw,3rem)", overflowY:"auto", maxHeight:"55vh" }}>
                 {(() => {
                   const fullText = typeof property.descripcion === "object"
                     ? (property.descripcion as any)[lang] || (property.descripcion as any)["en"] || ""
@@ -155,25 +155,16 @@ export default function PropertyExperience({ property, locale }: Props) {
                       {/* Lead paragraph con drop cap */}
                       <p style={{
                         fontFamily:"'Cormorant Garamond',serif",
-                        fontSize:"clamp(1rem,1.4vw,1.15rem)",
+                        fontSize:"clamp(1.3rem,2vw,1.7rem)",
                         fontStyle:"italic",
-                        color:"rgba(255,255,255,0.85)",
-                        lineHeight:1.8,
+                        fontWeight:600,
+                        color:"white",
+                        lineHeight:1.6,
                         margin:"0 0 1.5rem",
                         paddingBottom:"1.5rem",
                         borderBottom:"1px solid rgba(201,169,110,0.15)",
                       }}>
-                        <span style={{
-                          float:"left",
-                          fontFamily:"'Cormorant Garamond',serif",
-                          fontSize:"clamp(3.5rem,6vw,5rem)",
-                          fontWeight:700,
-                          lineHeight:0.75,
-                          marginRight:"0.1em",
-                          marginTop:"0.05em",
-                          color:"#c9a96e",
-                        }}>{firstChar}</span>
-                        {firstSentence}
+                        {firstChar}{firstSentence}
                       </p>
 
                       {/* Resto en 2 columnas */}
