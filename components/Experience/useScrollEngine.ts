@@ -72,11 +72,11 @@ export function useScrollEngine({
           galleryEl.style.top = (vh + descH) + "px";
         }
         
-        // Descripción visible cuando se empieza a revelar
+        // Descripción visible desde el inicio de la transición
         if (descRef?.current) {
-          const descOpacity = Math.max(0, Math.min(1, (smoothTransition - 0.2) / 0.3));
+          const descOpacity = Math.max(0, Math.min(1, smoothTransition / 0.15));
           descRef.current.style.opacity = String(descOpacity);
-          descRef.current.style.pointerEvents = descOpacity > 0.1 ? "auto" : "none";
+          descRef.current.style.pointerEvents = descOpacity > 0.05 ? "auto" : "none";
         }
       }
 
