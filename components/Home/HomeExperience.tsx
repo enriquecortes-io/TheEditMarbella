@@ -7,7 +7,7 @@ import FilterPanels from "./FilterPanels";
 
 interface Props { locale: string; }
 
-const TOTAL_PANELS = 3;
+const TOTAL_PANELS = 4;
 
 export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
@@ -29,15 +29,6 @@ export default function HomeExperience({ locale }: Props) {
       </div>
 
       {/* Filtros */}
-      {/* Carrusel 3D propiedades */}
-      <div style={{
-        position:"fixed", inset:0, zIndex:5,
-        display:"flex", alignItems:"center", justifyContent:"center",
-        pointerEvents:"none",
-      }} id="carousel-wrapper">
-        <PropertyCarousel locale={locale} />
-      </div>
-
       <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
         opacity:1, pointerEvents:"none",
