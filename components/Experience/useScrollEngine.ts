@@ -58,6 +58,13 @@ export function useScrollEngine({
         const newHeight = 100 + smoothTransition * 150;
         const scrollY = smoothTransition * 150;
         gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
+        
+        // Mostrar descripción cuando el stage la empieza a revelar (>50% transición)
+        if (descRef?.current) {
+          const descOpacity = Math.max(0, Math.min(1, (smoothTransition - 0.4) / 0.4));
+          descRef.current.style.opacity = String(descOpacity);
+          descRef.current.style.pointerEvents = descOpacity > 0.3 ? "auto" : "none";
+        }
       }
 
 
