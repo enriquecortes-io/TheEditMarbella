@@ -151,10 +151,14 @@ export default function PropertyExperience({ property, locale }: Props) {
       )}
       {/* Sección descripción — aparece entre video y galería */}
       <div ref={descRef} style={{
-        position:"fixed", inset:0, zIndex:8,
-        opacity:0, pointerEvents:"none",
-        transition:"opacity 0.4s ease",
-        overflowY:"auto", background:"#080604",
+        position:"fixed",
+        inset:0,
+        zIndex:8,
+        opacity:0,
+        pointerEvents:"none",
+        transition:"opacity 0.5s ease",
+        overflowY:"auto",
+        background:"#080604",
       }}>
         <div style={{
           minHeight:"100vh", display:"grid",

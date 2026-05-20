@@ -62,6 +62,7 @@ export function useScrollEngine({
         gsap.set(stage, { y: -scrollY + "vh", height: newHeight + "vh" });
       }
 
+
       if (smoothGallery > 0.001) {
         const maxX = galleryTrack.scrollWidth - window.innerWidth;
         gsap.set(galleryTrack, { x: -smoothGallery * maxX });
@@ -172,26 +173,38 @@ export function useScrollEngine({
       else if (phaseRef.current === "description") {
         const el = descRef?.current;
         if (el) {
+          // Asegurar visible
+          el.style.opacity = "1";
+          el.style.pointerEvents = "auto";
+
           const maxScroll = el.scrollHeight - el.clientHeight;
-          if (maxScroll > 0) {
-            el.scrollTop = Math.max(0, Math.min(maxScroll, el.scrollTop + delta * 0.8));
+          if (maxScroll > 10) {
+            el.scrollTop = Math.max(0, Math.min(maxScroll, el.scrollTop + delta * 1.2));
             descProgressRef.current = el.scrollTop / maxScroll;
           } else {
-            descProgressRef.current = 1;
+            // Si no hay scroll suficiente, acumular delta
+            descProgressRef.current = Math.max(0, Math.min(1, descProgressRef.current + delta * 0.003));
           }
         }
 
-        if (descProgressRef.current >= 0.999 && delta > 0) {
+        if (descProgressRef.current >= 0.98 && delta > 0) {
           phaseRef.current = "gallery";
           galleryProgressRef.current = 0;
           targetGallery = 0;
-          if (descRef?.current) { descRef.current.style.opacity = "0"; descRef.current.style.pointerEvents = "none"; }
+          if (descRef?.current) {
+            descRef.current.style.opacity = "0";
+            descRef.current.style.pointerEvents = "none";
+          }
         }
-        if (delta < 0 && descProgressRef.current <= 0.001) {
+        if (delta < 0 && descProgressRef.current <= 0.02) {
           phaseRef.current = "transition";
           transitionProgressRef.current = 1;
           targetTransition = 1;
-          if (descRef?.current) { descRef.current.style.opacity = "0"; descRef.current.style.pointerEvents = "none"; }
+          if (descRef?.current) {
+            descRef.current.style.opacity = "0";
+            descRef.current.style.pointerEvents = "none";
+            descRef.current.scrollTop = 0;
+          }
         }
       }
 
