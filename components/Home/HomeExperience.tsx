@@ -1,4 +1,5 @@
 "use client";
+import PropertyCarousel from "./PropertyCarousel";
 import { useRef } from "react";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
@@ -28,6 +29,15 @@ export default function HomeExperience({ locale }: Props) {
       </div>
 
       {/* Filtros */}
+      {/* Carrusel 3D propiedades */}
+      <div style={{
+        position:"fixed", inset:0, zIndex:5,
+        display:"flex", alignItems:"center", justifyContent:"center",
+        pointerEvents:"none",
+      }} id="carousel-wrapper">
+        <PropertyCarousel locale={locale} />
+      </div>
+
       <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
         opacity:1, pointerEvents:"none",
