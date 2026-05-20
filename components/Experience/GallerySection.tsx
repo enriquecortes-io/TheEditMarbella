@@ -31,7 +31,7 @@ export default function GallerySection({ galleryTrackRef, images, titulo, ubicac
       )}
 
       {/* Galería — estructura ORIGINAL */}
-      <div style={{ position:"absolute", top:"300vh", left:0, width:"100%", height:"50vh", overflow:"hidden", background:"linear-gradient(to bottom, #050505, #0a0a0a)", borderTop:"1px solid rgba(201,169,110,0.15)" }}>
+      <div style={{ position:"relative", width:"100%", height:"50vh", overflow:"hidden", background:"linear-gradient(to bottom, #050505, #0a0a0a)", borderTop:"1px solid rgba(201,169,110,0.15)" }}>
         <div ref={galleryTrackRef} style={{ display:"flex", alignItems:"center", height:"100%", width:"max-content", gap:"1.5rem", paddingLeft:"4rem", paddingRight:"4rem", willChange:"transform" }}>
           <div style={{ flexShrink:0, width:"16vw", color:"#c9a96e", fontFamily:"Georgia, serif" }}>
             <p style={{ fontSize:"0.5rem", letterSpacing:"0.45em", opacity:0.4, textTransform:"uppercase", margin:"0 0 0.8rem" }}>

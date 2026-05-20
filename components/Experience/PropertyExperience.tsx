@@ -26,6 +26,7 @@ export default function PropertyExperience({ property, locale }: Props) {
   const images = property.galeria_urls || [];
   const galleryTrackRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const infographic1Ref = useRef<HTMLDivElement>(null);
   const infographic2Ref = useRef<HTMLDivElement>(null);
 
