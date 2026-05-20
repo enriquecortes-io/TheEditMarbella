@@ -15,6 +15,18 @@ interface Props {
   locale: string;
 }
 
+const descStyles = `
+  .desc-columns { columns: 2; column-gap: clamp(1.5rem,3vw,3rem); column-rule: 1px solid rgba(255,255,255,0.06); }
+  .desc-columns p::first-letter { font-family: "Cormorant Garamond",serif; font-size: 3.5rem; font-weight: 700; color: #c9a96e; float: left; line-height: 0.75; margin-right: 0.08em; margin-top: 0.05em; }
+  @media (max-width: 768px) { .desc-columns { columns: 1; } }
+`;
+
+const descStyles = `
+  .desc-columns { columns: 2; column-gap: clamp(1.5rem,3vw,3rem); column-rule: 1px solid rgba(255,255,255,0.06); }
+  .desc-columns p::first-letter { font-family: "Cormorant Garamond",serif; font-size: 3.5rem; font-weight: 700; color: #c9a96e; float: left; line-height: 0.75; margin-right: 0.08em; margin-top: 0.05em; }
+  @media (max-width: 768px) { .desc-columns { columns: 1; } }
+`;
+
 export default function PropertyExperience({ property, locale }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -84,7 +96,7 @@ export default function PropertyExperience({ property, locale }: Props) {
         {/* Descripción enmarcada — revista de lujo */}
         <div ref={descRef} style={{
           position:"absolute", top:"100vh", left:0, right:0,
-          minHeight:"100vh", display:"flex", alignItems:"center",
+          minHeight:"100vh", display:"flex", alignItems:"flex-start", paddingTop:"2rem",
           justifyContent:"center", padding:"clamp(1rem,3vw,3rem)",
           opacity:0, pointerEvents:"none", transition:"opacity 0.5s ease",
           boxSizing:"border-box",
@@ -174,19 +186,16 @@ export default function PropertyExperience({ property, locale }: Props) {
                       </p>
 
                       {/* Resto en 2 columnas */}
-                      <div style={{
-                        columns:"2",
-                        columnGap:"clamp(1.5rem,3vw,3rem)",
-                        columnRule:"1px solid rgba(255,255,255,0.06)",
-                      }}>
+                      <style>{descStyles}</style>
+                      <div className="desc-columns">
                         <p style={{
                           fontFamily:"'Montserrat',sans-serif",
-                          fontSize:"clamp(0.72rem,0.85vw,0.82rem)",
+                          fontSize:"clamp(0.85rem,1vw,0.95rem)",
                           fontWeight:300,
-                          color:"rgba(255,255,255,0.55)",
-                          lineHeight:1.9,
+                          color:"rgba(255,255,255,0.9)",
+                          lineHeight:2,
                           margin:0,
-                          letterSpacing:"0.02em",
+                          letterSpacing:"0.01em",
                           textAlign:"justify",
                         }}>{rest}</p>
                       </div>
