@@ -224,9 +224,6 @@ export default function PropertyExperience({ property, locale }: Props) {
         </div>
       )}
 
-        </div>
-      </div>
-
       {/* Modal formulario */}
       {showForm && (
         <div style={{
