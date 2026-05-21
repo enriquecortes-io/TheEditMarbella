@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropertyCarousel from "./PropertyCarousel";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
@@ -13,18 +13,10 @@ export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [showCarousel, setShowCarousel] = useState(false);
-
-  useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels: TOTAL_PANELS });
+  useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels: TOTAL_PANELS });
 
   // Observar la opacidad del header — cuando casi desaparece, mostrar carrusel
-  useEffect(() => {
-    const observer = setInterval(() => {
-      const phase = (window as any).__phase;
-      setShowCarousel(phase === "carousel");
-    }, 100);
-    return () => clearInterval(observer);
-  }, []);
+
 
   return (
     <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
@@ -37,23 +29,15 @@ export default function HomeExperience({ locale }: Props) {
         <SkyHeader locale={locale} />
       </div>
 
-      {/* Carrusel — controlado por state React, no por refs */}
-      {showCarousel && (
-        <div style={{
-          position:"absolute", inset:0, zIndex:25,
-          display:"flex", alignItems:"center", justifyContent:"center",
-          padding:"0 clamp(1rem,5vw,4rem)",
-          animation:"carouselFadeIn 0.5s ease forwards",
-        }}>
-          <style>{`
-            @keyframes carouselFadeIn {
-              from { opacity: 0; }
-              to { opacity: 1; }
-            }
-          `}</style>
-          <PropertyCarousel locale={locale} />
-        </div>
-      )}
+      {/* Carrusel — siempre en DOM, opacidad gestionada por RAF */}
+      <div ref={carouselRef} style={{
+        position:"absolute", inset:0, zIndex:25,
+        opacity:0, pointerEvents:"none",
+        display:"flex", alignItems:"center", justifyContent:"center",
+        padding:"0 clamp(1rem,5vw,4rem)",
+      }}>
+        <PropertyCarousel locale={locale} />
+      </div>
 
       <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
