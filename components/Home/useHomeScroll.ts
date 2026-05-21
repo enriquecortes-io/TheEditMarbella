@@ -83,11 +83,11 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         el.style.pointerEvents = Math.abs(diff) < 0.4 ? "auto" : "none";
       }
 
+      (window as any).__phase = phaseRef.current;
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
 
-    (window as any).__getPhase = () => phaseRef.current;
     (window as any).__advancePanel = (next: number) => {
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
