@@ -39,12 +39,11 @@ const FILTERS = [
 import { getT } from "@/lib/i18n";
 
 interface Props {
-  startIndex?: number;
   locale: string;
   panelRefs: React.RefObject<(HTMLDivElement | null)[]>;
 }
 
-export default function FilterPanels({ locale, panelRefs, startIndex = 0 }: Props) {
+export default function FilterPanels({ locale, panelRefs }: Props) {
   const pathname = usePathname();
   const urlLocale = pathname.split("/")[1] || locale;
   const t = getT(urlLocale);
@@ -173,7 +172,7 @@ export default function FilterPanels({ locale, panelRefs, startIndex = 0 }: Prop
       {FILTERS.map((filter, i) => (
         <div
           key={filter.id}
-          ref={el => { panelRefs.current[i + startIndex] = el; }}
+          ref={el => { panelRefs.current[i] = el; }}
           className="filter-panel"
           style={{
             willChange:"transform,opacity,filter",
