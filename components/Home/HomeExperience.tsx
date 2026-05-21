@@ -1,6 +1,6 @@
 "use client";
+import { useRef, useState, useEffect } from "react";
 import PropertyCarousel from "./PropertyCarousel";
-import { useRef } from "react";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
 import FilterPanels from "./FilterPanels";
@@ -12,44 +12,35 @@ const TOTAL_PANELS = 3;
 export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels: TOTAL_PANELS });
-
 
   return (
     <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
 
-      {/* Header */}
       <div ref={headerRef} style={{
         position:"absolute", inset:0, zIndex:20,
         willChange:"opacity,transform",
-        display:"flex", flexDirection:"column",
-        alignItems:"center", justifyContent:"center",
+        display:"flex", alignItems:"center", justifyContent:"center",
       }}>
         <SkyHeader locale={locale} />
       </div>
 
-      {/* Carrusel — empieza oculto, RAF lo muestra */}
       <div ref={carouselRef} style={{
         position:"absolute", inset:0, zIndex:15,
         opacity:0, pointerEvents:"none",
         display:"flex", alignItems:"center", justifyContent:"center",
         padding:"0 clamp(1rem,5vw,4rem)",
       }}>
-        <div style={{ color:"white", fontSize:"3rem", fontFamily:"serif" }}>
-          CARRUSEL TEST
-        </div>
+        <PropertyCarousel locale={locale} />
       </div>
 
-      {/* Filtros — empieza oculto, RAF lo muestra */}
       <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
         opacity:0, pointerEvents:"none",
         perspective:"500px",
-        perspectiveOrigin:"center center",
-        background:"transparent",
       }}>
         <div style={{position:"absolute",inset:0,transformStyle:"preserve-3d"}}>
           <FilterPanels locale={locale} panelRefs={panelRefs} />

@@ -14,7 +14,7 @@ interface Property {
 
 export default function PropertyCarousel({ locale = "es" }: { locale?: string }) {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const dragStartX = useRef(0);
   const isDragging = useRef(false);
 
@@ -22,18 +22,28 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
     fetch("/api/admin/properties")
       .then(r => r.json())
       .then(data => {
-        const props = (data.properties || [])
-          .filter((p: any) => p.activa)
-          .slice(0, 5);
+        const props = (data.properties || []).filter((p: any) => p.activa).slice(0, 5);
         setProperties(props);
         setActive(Math.floor(props.length / 2));
-      });
+      })
+      .catch(() => {});
   }, []);
-
-  if (properties.length === 0) return null;
 
   const getTitle = (p: Property) =>
     typeof p.titulo === "object" ? p.titulo[locale] || p.titulo["es"] || "" : p.titulo;
+
+  // Si no hay propiedades, mostrar placeholder
+  if (properties.length === 0) {
+    return (
+      <div style={{
+        color:"rgba(201,169,110,0.6)",
+        fontFamily:"'Montserrat',sans-serif",
+        fontSize:"0.5rem",
+        letterSpacing:"0.5em",
+        textTransform:"uppercase",
+      }}>Cargando selección...</div>
+    );
+  }
 
   const getCardStyle = (i: number): React.CSSProperties => {
     const diff = i - active;
@@ -45,8 +55,8 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
       top: "50%",
       width: "clamp(200px,25vw,300px)",
       height: "clamp(280px,35vw,420px)",
-      marginLeft: `calc(-${abs === 0 ? 150 : 120}px)`,
-      marginTop: `calc(-${abs === 0 ? 210 : 168}px)`,
+      marginLeft: `-${abs === 0 ? 150 : 120}px`,
+      marginTop: `-${abs === 0 ? 210 : 168}px`,
       transform: `translateX(${diff * 52}%) translateZ(${abs === 0 ? 0 : -180}px) rotateY(${diff * 42}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.78 : 0.58})`,
       opacity: abs === 0 ? 1 : abs === 1 ? 0.65 : 0.35,
       zIndex: 10 - abs,
@@ -57,13 +67,11 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
 
   return (
     <div style={{
-      width:"100%", height:"100%",
+      width:"100%", maxWidth:"1200px", margin:"0 auto",
       display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center",
       gap:"2rem",
     }}>
-
-      {/* Label superior */}
       <div style={{ textAlign:"center" }}>
         <p style={{
           fontFamily:"'Montserrat',sans-serif",
@@ -75,7 +83,6 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.4)", margin:"0.6rem auto 0" }}/>
       </div>
 
-      {/* Stage 3D */}
       <div
         style={{
           position:"relative",
@@ -102,8 +109,6 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
       >
         {properties.map((p, i) => (
           <div key={p.slug} style={getCardStyle(i)} onClick={() => i !== active && setActive(i)}>
-
-            {/* Card — mismo estilo que filtro */}
             <div style={{
               width:"100%", height:"100%",
               background:"rgba(6,4,2,0.65)",
@@ -113,40 +118,22 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                 : "0 20px 60px rgba(0,0,0,0.5)",
               backdropFilter:"blur(20px)",
               display:"flex", flexDirection:"column",
-              overflow:"hidden",
-              position:"relative",
+              overflow:"hidden", position:"relative",
             }}>
-
-              {/* Línea dorada superior */}
               <div style={{ position:"absolute", top:0, left:"10%", right:"10%", height:"1px", background:`linear-gradient(90deg,transparent,rgba(201,169,110,${i === active ? 0.8 : 0.3}),transparent)` }}/>
 
-              {/* Foto */}
               <div style={{ flex:1, overflow:"hidden", position:"relative" }}>
                 {p.galeria_urls?.[0] ? (
-                  <img src={p.galeria_urls[0]} alt={getTitle(p)}
-                    style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                  <img src={p.galeria_urls[0]} alt={getTitle(p)} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                 ) : (
                   <div style={{ width:"100%", height:"100%", background:"#111" }}/>
                 )}
                 <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 50%, rgba(6,4,2,0.9) 100%)" }}/>
               </div>
 
-              {/* Info */}
               <div style={{ padding:"1rem 1.2rem 1.2rem" }}>
-                <span style={{
-                  fontFamily:"'Montserrat',sans-serif",
-                  fontSize:"0.38rem", color:"rgba(201,169,110,0.7)",
-                  letterSpacing:"0.5em", textTransform:"uppercase",
-                  display:"block", marginBottom:"0.4rem",
-                }}>{p.ubicacion}</span>
-
-                <h3 style={{
-                  fontFamily:"'Cormorant Garamond',serif",
-                  fontSize:"clamp(0.95rem,1.4vw,1.2rem)",
-                  fontWeight:600, color:"white",
-                  margin:"0 0 0.6rem", lineHeight:1.1,
-                }}>{getTitle(p)}</h3>
-
+                <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.38rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.5em", textTransform:"uppercase", display:"block", marginBottom:"0.4rem" }}>{p.ubicacion}</span>
+                <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.95rem,1.4vw,1.2rem)", fontWeight:600, color:"white", margin:"0 0 0.6rem", lineHeight:1.1 }}>{getTitle(p)}</h3>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                   <div style={{ display:"flex", gap:"0.8rem" }}>
                     {p.m2_construidos && <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(255,255,255,0.35)" }}>{p.m2_construidos}m²</span>}
@@ -154,17 +141,8 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                   </div>
                   {p.precio && <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.3vw,1.1rem)", color:"#c9a96e", fontWeight:300 }}>€{(p.precio/1000000).toFixed(1)}M</span>}
                 </div>
-
                 {i === active && (
-                  <Link href={`/${locale}/propiedades/${p.slug}`} style={{
-                    display:"block", textAlign:"center",
-                    fontFamily:"'Montserrat',sans-serif",
-                    fontSize:"0.38rem", letterSpacing:"0.45em",
-                    textTransform:"uppercase", color:"rgba(201,169,110,0.7)",
-                    textDecoration:"none", marginTop:"0.8rem",
-                    paddingTop:"0.7rem",
-                    borderTop:"1px solid rgba(201,169,110,0.2)",
-                  }}>Ver propiedad</Link>
+                  <Link href={`/${locale}/propiedades/${p.slug}`} style={{ display:"block", textAlign:"center", fontFamily:"'Montserrat',sans-serif", fontSize:"0.38rem", letterSpacing:"0.45em", textTransform:"uppercase", color:"rgba(201,169,110,0.7)", textDecoration:"none", marginTop:"0.8rem", paddingTop:"0.7rem", borderTop:"1px solid rgba(201,169,110,0.2)" }}>Ver propiedad</Link>
                 )}
               </div>
             </div>
@@ -172,7 +150,6 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         ))}
       </div>
 
-      {/* Dots */}
       <div style={{ display:"flex", gap:"0.5rem", alignItems:"center" }}>
         {properties.map((_, i) => (
           <button key={i} onClick={() => setActive(i)} style={{
