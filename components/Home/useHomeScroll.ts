@@ -4,12 +4,13 @@ import { useEffect, useRef } from "react";
 interface Props {
   headerRef: React.RefObject<HTMLDivElement | null>;
   filtersRef: React.RefObject<HTMLDivElement | null>;
+  carouselRef?: React.RefObject<HTMLDivElement | null>;
   panelRefs: React.RefObject<(HTMLDivElement | null)[]>;
   totalPanels: number;
 }
 
-export function useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels }: Props) {
-  const phaseRef = useRef<"header" | "filters">("header");
+export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels }: Props) {
+  const phaseRef = useRef<"header" | "carousel" | "filters">("header");
   const headerProgressRef = useRef(0);
   const progressRef = useRef(0);
   const targetProgressRef = useRef(0);
@@ -31,12 +32,18 @@ export function useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels }:
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
+      // Carousel — visible cuando header casi desaparece
+      if (carouselRef?.current) {
+        const cOp = phaseRef.current === "carousel" ? 1 : 0;
+        carouselRef.current.style.opacity = String(cOp);
+        carouselRef.current.style.pointerEvents = cOp > 0 ? "auto" : "none";
+      }
+
+      // Filtros — solo visibles en fase filters
       if (filtersRef.current) {
-        const fOp = Math.max(0, (smoothHeader - 0.4) / 0.6);
-        
-        filtersRef.current.style.pointerEvents = fOp > 0.3 ? "auto" : "none";
-        // Una vez visible, mantener opacidad 1
-        
+        const fOp = phaseRef.current === "filters" ? 1 : 0;
+        filtersRef.current.style.opacity = String(fOp);
+        filtersRef.current.style.pointerEvents = fOp > 0 ? "auto" : "none";
       }
 
       // Z-AXIS — tú avanzas hacia los paneles

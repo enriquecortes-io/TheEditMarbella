@@ -1,4 +1,5 @@
 "use client";
+import PropertyCarousel from "./PropertyCarousel";
 import { useRef } from "react";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
@@ -12,8 +13,9 @@ export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-  useHomeScroll({ headerRef, filtersRef, panelRefs, totalPanels: TOTAL_PANELS });
+  useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels: TOTAL_PANELS });
 
   return (
     <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
@@ -26,7 +28,18 @@ export default function HomeExperience({ locale }: Props) {
         <SkyHeader locale={locale} />
       </div>
 
-      <div ref={filtersRef} style={{
+      {/* Carrusel */}
+     <div ref={carouselRef} style={{
+       position:"absolute", inset:0, zIndex:15,
+       opacity:0, pointerEvents:"none",
+       display:"flex", alignItems:"center", justifyContent:"center",
+       padding:"0 clamp(1rem,5vw,4rem)",
+       transition:"opacity 0.4s ease",
+     }}>
+       <PropertyCarousel locale={locale} />
+     </div>
+
+     <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
         opacity:1, pointerEvents:"none",
         perspective:"500px",
