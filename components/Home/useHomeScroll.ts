@@ -34,21 +34,27 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Carousel
+      // Carousel — fade suave
       if (carouselRef?.current) {
         const show = phaseRef.current === "carousel";
-        carouselRef.current.style.opacity = show ? "1" : "0";
-        carouselRef.current.style.pointerEvents = show ? "auto" : "none";
+        const cur = parseFloat(carouselRef.current.style.opacity || "0");
+        const target = show ? 1 : 0;
+        const next = lerp(cur, target, 0.08);
+        carouselRef.current.style.opacity = String(next);
+        carouselRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Filtros
+      // Filtros — fade suave
       if (filtersRef.current) {
         const show = phaseRef.current === "filters";
-        filtersRef.current.style.opacity = show ? "1" : "0";
-        filtersRef.current.style.pointerEvents = show ? "auto" : "none";
+        const cur = parseFloat(filtersRef.current.style.opacity || "0");
+        const target = show ? 1 : 0;
+        const next = lerp(cur, target, 0.08);
+        filtersRef.current.style.opacity = String(next);
+        filtersRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Panels Z-axis
+      // Panels Z-axis — solo se animan, NO avanzan solos
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
@@ -82,6 +88,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     };
     rafId = requestAnimationFrame(tick);
 
+    // Los paneles del filtro solo avanzan cuando el usuario selecciona una opción
     (window as any).__advancePanel = (next: number) => {
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
@@ -91,29 +98,22 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         headerProgressRef.current = Math.max(0, Math.min(1, headerProgressRef.current + delta * 0.003));
         targetHeader = headerProgressRef.current;
         if (headerProgressRef.current >= 1) {
-          phaseRef.current = carouselRef ? "carousel" : "filters";
+          phaseRef.current = "carousel";
         }
       } else if (phaseRef.current === "carousel") {
         if (delta < 0) {
-          // Scroll up — volver al header
           phaseRef.current = "header";
           headerProgressRef.current = 0.95;
           targetHeader = 0.95;
-        } else {
-          // Scroll down — ir a filtros
+        } else if (delta > 100) {
           phaseRef.current = "filters";
           targetProgressRef.current = 0;
         }
       } else if (phaseRef.current === "filters") {
-        if (targetProgressRef.current <= 0 && delta < 0) {
-          // Volver al carrusel
-          phaseRef.current = carouselRef ? "carousel" : "header";
-        } else {
-          const isMobile = window.innerWidth < 768;
-          const sensitivity = isMobile ? 0.0005 : 0.0015;
-          targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1,
-            targetProgressRef.current + delta * sensitivity
-          ));
+        // En filtros el scroll NO avanza paneles — solo se avanza seleccionando opciones
+        // Solo permite volver al carrusel
+        if (targetProgressRef.current <= 0 && delta < -100) {
+          phaseRef.current = "carousel";
         }
       }
     };
@@ -127,7 +127,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      const delta = (touchStartY - e.touches[0].clientY) * 1.5;
+      const delta = (touchStartY - e.touches[0].clientY) * 2;
       touchStartY = e.touches[0].clientY;
       handleDelta(delta);
     };
