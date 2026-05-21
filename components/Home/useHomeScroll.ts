@@ -10,11 +10,9 @@ interface Props {
 }
 
 export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels }: Props) {
-  const phaseRef = useRef<"header" | "filters">("header");
-  const headerProgressRef = useRef(0);
+  const phaseRef = useRef<"header" | "carousel" | "filters">("header");
   const progressRef = useRef(0);
   const targetProgressRef = useRef(0);
-  const carouselShownRef = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -28,31 +26,31 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
 
+      // Header
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Carrusel — visible cuando header desaparece pero filtro aún no
+      // Carousel
       if (carouselRef?.current) {
-        const show = smoothHeader > 0.85 && phaseRef.current === "header";
+        const show = phaseRef.current === "carousel";
         const cur = parseFloat(carouselRef.current.style.opacity || "0");
-        const next = lerp(cur, show ? 1 : 0, 0.08);
-        carouselRef.current.style.opacity = String(next);
-        carouselRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
+        carouselRef.current.style.opacity = String(lerp(cur, show ? 1 : 0, 0.06));
+        carouselRef.current.style.pointerEvents = cur > 0.3 ? "auto" : "none";
       }
 
+      // Filters
       if (filtersRef.current) {
-        const fOp = phaseRef.current === "filters" ? 1 : 0;
+        const show = phaseRef.current === "filters";
         const cur = parseFloat(filtersRef.current.style.opacity || "0");
-        const next = lerp(cur, fOp, 0.08);
-        filtersRef.current.style.opacity = String(next);
-        filtersRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
+        filtersRef.current.style.opacity = String(lerp(cur, show ? 1 : 0, 0.06));
+        filtersRef.current.style.pointerEvents = cur > 0.3 ? "auto" : "none";
       }
 
+      // Panels
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
-
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
         if (!el) continue;
@@ -63,17 +61,14 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         } else if (diff > 0 && diff <= 1) {
           const t = diff;
           opacity = Math.max(0, 1 - t * 0.7);
-          scale = 1 + t * 1.5;
-          zPos = t * 450;
-          blur = t * 20;
+          scale = 1 + t * 1.5; zPos = t * 450; blur = t * 20;
         } else if (diff >= -0.3 && diff <= 0.05) {
           opacity = 1; scale = 1; zPos = 0; blur = 0;
         } else {
           const t = Math.abs(diff);
           opacity = Math.max(0, 1 - t * 1.5);
           scale = Math.max(0.4, 1 - t * 0.5);
-          zPos = -t * 350;
-          blur = t * 12;
+          zPos = -t * 350; blur = t * 12;
         }
         el.style.opacity = String(opacity);
         el.style.transform = `translate3d(0,0,${zPos}px) scale(${scale})`;
@@ -91,33 +86,32 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
 
     const handleDelta = (delta: number) => {
       if (phaseRef.current === "header") {
-        headerProgressRef.current = Math.max(0, Math.min(1, headerProgressRef.current + delta * 0.003));
-        targetHeader = headerProgressRef.current;
-        if (headerProgressRef.current >= 1 && delta > 0 && carouselShownRef.current) {
-          phaseRef.current = "filters";
+        targetHeader = Math.max(0, Math.min(1, targetHeader + delta * 0.002));
+        if (targetHeader >= 1) {
+          targetHeader = 1;
+          phaseRef.current = "carousel";
         }
-        // Marcar que el carrusel se ha mostrado
-        if (smoothHeader > 0.85) carouselShownRef.current = true;
+      } else if (phaseRef.current === "carousel") {
+        if (delta < 0) {
+          phaseRef.current = "header";
+          targetHeader = 0.5;
+        } else if (delta > 0) {
+          phaseRef.current = "filters";
+          targetProgressRef.current = 0;
+        }
       } else if (phaseRef.current === "filters") {
         if (targetProgressRef.current <= 0 && delta < 0) {
-          phaseRef.current = "header";
-          headerProgressRef.current = 1;
-          targetHeader = 1;
-          carouselShownRef.current = false;
+          phaseRef.current = "carousel";
         }
       }
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      handleDelta(e.deltaY);
-    };
-
+    const handleWheel = (e: WheelEvent) => { e.preventDefault(); handleDelta(e.deltaY); };
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      const delta = (touchStartY - e.touches[0].clientY) * 1.5;
+      const delta = (touchStartY - e.touches[0].clientY) * 2;
       touchStartY = e.touches[0].clientY;
       handleDelta(delta);
     };
