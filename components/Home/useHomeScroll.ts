@@ -27,61 +27,51 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
 
+      // Header
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
-      // Carousel — visible cuando header casi desaparece
+
+      // Carousel
       if (carouselRef?.current) {
-        const cOp = phaseRef.current === "carousel" ? 1 : 0;
-        carouselRef.current.style.opacity = String(cOp);
-        carouselRef.current.style.pointerEvents = cOp > 0 ? "auto" : "none";
+        const show = phaseRef.current === "carousel";
+        carouselRef.current.style.opacity = show ? "1" : "0";
+        carouselRef.current.style.pointerEvents = show ? "auto" : "none";
       }
 
-      // Filtros — solo visibles en fase filters
+      // Filtros
       if (filtersRef.current) {
-        const fOp = phaseRef.current === "filters" ? 1 : 0;
-        filtersRef.current.style.opacity = String(fOp);
-        filtersRef.current.style.pointerEvents = fOp > 0 ? "auto" : "none";
+        const show = phaseRef.current === "filters";
+        filtersRef.current.style.opacity = show ? "1" : "0";
+        filtersRef.current.style.pointerEvents = show ? "auto" : "none";
       }
 
-      // Z-AXIS — tú avanzas hacia los paneles
-      // Panel activo: Z=0 (tamaño normal)
-      // Panel siguiente: Z=+600 (grande, cerca, delante) → se aleja a Z=0 al activarse
-      // Panel anterior: Z=-400 (pequeño, lejos, detrás)
+      // Panels Z-axis
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
-
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
         if (!el) continue;
-
-        // diff: cuánto está este panel por delante del activo
-        // diff=0 → activo, diff=1 → siguiente, diff=-1 → anterior
         const diff = i - progressRef.current;
-
         let opacity = 0, scale = 1, zPos = 0, blur = 0;
-
         if (diff > 1 || diff < -1.5) {
           opacity = 0; scale = 0.3; zPos = diff > 0 ? 450 : -450; blur = 30;
         } else if (diff > 0 && diff <= 1) {
-          // Siguiente — empieza MUY grande y cerca, se aleja hacia Z=0
           const t = diff;
           opacity = Math.max(0, 1 - t * 0.7);
-          scale = 1 + t * 1.5;   // 2.5 → 1 — efecto de aproximación dramático
-          zPos = t * 450;         // 450 → 0
+          scale = 1 + t * 1.5;
+          zPos = t * 450;
           blur = t * 20;
         } else if (diff >= -0.3 && diff <= 0.05) {
           opacity = 1; scale = 1; zPos = 0; blur = 0;
         } else {
-          // Anterior — se aleja detrás pequeño
           const t = Math.abs(diff);
           opacity = Math.max(0, 1 - t * 1.5);
           scale = Math.max(0.4, 1 - t * 0.5);
           zPos = -t * 350;
           blur = t * 12;
         }
-
         el.style.opacity = String(opacity);
         el.style.transform = `translate3d(0,0,${zPos}px) scale(${scale})`;
         el.style.filter = blur > 0 ? `blur(${blur}px)` : "none";
@@ -96,20 +86,41 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
 
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const delta = e.deltaY;
+    const handleDelta = (delta: number) => {
       if (phaseRef.current === "header") {
         headerProgressRef.current = Math.max(0, Math.min(1, headerProgressRef.current + delta * 0.003));
         targetHeader = headerProgressRef.current;
-        if (headerProgressRef.current >= 1) phaseRef.current = "carousel";
-      } else {
-        if (targetProgressRef.current <= 0 && delta < 0) {
+        if (headerProgressRef.current >= 1) {
+          phaseRef.current = carouselRef ? "carousel" : "filters";
+        }
+      } else if (phaseRef.current === "carousel") {
+        if (delta < 0) {
+          // Scroll up — volver al header
           phaseRef.current = "header";
-          headerProgressRef.current = 1;
-          targetHeader = 1;
+          headerProgressRef.current = 0.95;
+          targetHeader = 0.95;
+        } else {
+          // Scroll down — ir a filtros
+          phaseRef.current = "filters";
+          targetProgressRef.current = 0;
+        }
+      } else if (phaseRef.current === "filters") {
+        if (targetProgressRef.current <= 0 && delta < 0) {
+          // Volver al carrusel
+          phaseRef.current = carouselRef ? "carousel" : "header";
+        } else {
+          const isMobile = window.innerWidth < 768;
+          const sensitivity = isMobile ? 0.0005 : 0.0015;
+          targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1,
+            targetProgressRef.current + delta * sensitivity
+          ));
         }
       }
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      handleDelta(e.deltaY);
     };
 
     let touchStartY = 0;
@@ -118,17 +129,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       e.preventDefault();
       const delta = (touchStartY - e.touches[0].clientY) * 1.5;
       touchStartY = e.touches[0].clientY;
-      if (phaseRef.current === "header") {
-        headerProgressRef.current = Math.max(0, Math.min(1, headerProgressRef.current + delta * 0.003));
-        targetHeader = headerProgressRef.current;
-        if (headerProgressRef.current >= 1) phaseRef.current = "carousel";
-      } else {
-        if (targetProgressRef.current <= 0 && delta < 0) {
-          phaseRef.current = "header";
-          headerProgressRef.current = 1;
-          targetHeader = 1;
-        }
-      }
+      handleDelta(delta);
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
