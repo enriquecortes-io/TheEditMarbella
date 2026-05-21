@@ -6,7 +6,7 @@ import FilterPanels from "./FilterPanels";
 
 interface Props { locale: string; }
 
-const TOTAL_PANELS = 3;
+const TOTAL_PANELS = 4;
 
 export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);

@@ -1,4 +1,5 @@
 "use client";
+import PropertyCarousel from "./PropertyCarousel";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -172,7 +173,7 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
       {FILTERS.map((filter, i) => (
         <div
           key={filter.id}
-          ref={el => { panelRefs.current[i] = el; }}
+          ref={el => { panelRefs.current[i + 1] = el; }}
           className="filter-panel"
           style={{
             willChange:"transform,opacity,filter",
