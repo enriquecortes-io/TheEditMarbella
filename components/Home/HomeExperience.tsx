@@ -24,7 +24,7 @@ export default function HomeExperience({ locale }: Props) {
       const headerOp = parseFloat(headerRef.current.style.opacity || "1");
       const filtersOp = parseFloat(filtersRef.current.style.opacity || "0");
       // Carrusel solo visible cuando header invisible Y filtros invisibles
-      setShowCarousel(headerOp < 0.15 && filtersOp < 0.15);
+      setShowCarousel(headerOp < 0.15 && filtersOp < 0.5);
     }, 100);
     return () => clearInterval(observer);
   }, []);
