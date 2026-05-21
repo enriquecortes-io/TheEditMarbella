@@ -49,7 +49,7 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
   const urlLocale = pathname.split("/")[1] || locale;
   const t = getT(urlLocale);
   const tf = t.filters;
-  const [activePanel, setActivePanel] = useState(0);
+  const [activePanel, setActivePanel] = useState(-1);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getSub = (filterId: string, opt: Record<string,any>) => {
@@ -78,7 +78,8 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
       const next = idx + 1;
       setTimeout(() => {
         setActivePanel(next);
-        (window as any).__advancePanel?.(next);
+        // +1 porque los filtros empiezan en panel 1
+        (window as any).__advancePanel?.(next + 1);
       }, 400);
     }
   };
