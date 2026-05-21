@@ -10,10 +10,11 @@ interface Props {
 }
 
 export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels }: Props) {
-  const phaseRef = useRef<"header" | "carousel" | "filters">("header");
+  const phaseRef = useRef<"header" | "filters">("header");
   const headerProgressRef = useRef(0);
   const progressRef = useRef(0);
   const targetProgressRef = useRef(0);
+  const carouselShownRef = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -27,35 +28,31 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
 
-      // Header
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Carousel — fade suave
+      // Carrusel — visible cuando header desaparece pero filtro aún no
       if (carouselRef?.current) {
-        const show = phaseRef.current === "carousel";
+        const show = smoothHeader > 0.85 && phaseRef.current === "header";
         const cur = parseFloat(carouselRef.current.style.opacity || "0");
-        const target = show ? 1 : 0;
-        const next = lerp(cur, target, 0.08);
+        const next = lerp(cur, show ? 1 : 0, 0.08);
         carouselRef.current.style.opacity = String(next);
         carouselRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Filtros — fade suave
       if (filtersRef.current) {
-        const show = phaseRef.current === "filters";
+        const fOp = phaseRef.current === "filters" ? 1 : 0;
         const cur = parseFloat(filtersRef.current.style.opacity || "0");
-        const target = show ? 1 : 0;
-        const next = lerp(cur, target, 0.08);
+        const next = lerp(cur, fOp, 0.08);
         filtersRef.current.style.opacity = String(next);
         filtersRef.current.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Panels Z-axis — solo se animan, NO avanzan solos
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
+
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
         if (!el) continue;
@@ -88,7 +85,6 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     };
     rafId = requestAnimationFrame(tick);
 
-    // Los paneles del filtro solo avanzan cuando el usuario selecciona una opción
     (window as any).__advancePanel = (next: number) => {
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
@@ -97,23 +93,17 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       if (phaseRef.current === "header") {
         headerProgressRef.current = Math.max(0, Math.min(1, headerProgressRef.current + delta * 0.003));
         targetHeader = headerProgressRef.current;
-        if (headerProgressRef.current >= 1) {
-          phaseRef.current = "carousel";
-        }
-      } else if (phaseRef.current === "carousel") {
-        if (delta < 0) {
-          phaseRef.current = "header";
-          headerProgressRef.current = 0.95;
-          targetHeader = 0.95;
-        } else if (delta > 100) {
+        if (headerProgressRef.current >= 1 && delta > 0 && carouselShownRef.current) {
           phaseRef.current = "filters";
-          targetProgressRef.current = 0;
         }
+        // Marcar que el carrusel se ha mostrado
+        if (smoothHeader > 0.85) carouselShownRef.current = true;
       } else if (phaseRef.current === "filters") {
-        // En filtros el scroll NO avanza paneles — solo se avanza seleccionando opciones
-        // Solo permite volver al carrusel
-        if (targetProgressRef.current <= 0 && delta < -100) {
-          phaseRef.current = "carousel";
+        if (targetProgressRef.current <= 0 && delta < 0) {
+          phaseRef.current = "header";
+          headerProgressRef.current = 1;
+          targetHeader = 1;
+          carouselShownRef.current = false;
         }
       }
     };
@@ -127,7 +117,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      const delta = (touchStartY - e.touches[0].clientY) * 2;
+      const delta = (touchStartY - e.touches[0].clientY) * 1.5;
       touchStartY = e.touches[0].clientY;
       handleDelta(delta);
     };
