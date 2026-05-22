@@ -26,7 +26,7 @@ export default function ScrollIndicator() {
           color: "white", fontSize: "0.4rem",
           letterSpacing: "0.5em", fontFamily: "Georgia, serif",
           textTransform: "uppercase",
-        }}>SCROLL</span>
+        }}>DISCOVER</span>
         <div className="neon-line" style={{ width: "1px", background: "white", borderRadius: "1px" }} />
       </div>
     </>

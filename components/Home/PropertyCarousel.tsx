@@ -166,7 +166,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         </div>
 
         {/* Indicador scroll vertical — señala que hay más secciones abajo */}
-        <div style={{ position:"absolute", bottom:"1rem", left:"50%", transform:"translateX(-50%)", zIndex:10, pointerEvents:"none" }}>
+        <div style={{ position:"absolute", bottom:"3rem", left:"50%", transform:"translateX(-50%)", zIndex:10, pointerEvents:"none" }}>
           <ScrollIndicator />
         </div>
       </div>
@@ -299,7 +299,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
       </div>
 
       {/* Indicador scroll vertical — señala que hay más secciones abajo */}
-      <div style={{ position:"absolute", bottom:"1.5rem", left:"50%", transform:"translateX(-50%)", zIndex:10, pointerEvents:"none" }}>
+      <div style={{ position:"absolute", bottom:"3.5rem", left:"50%", transform:"translateX(-50%)", zIndex:10, pointerEvents:"none" }}>
         <ScrollIndicator />
       </div>
     </div>
