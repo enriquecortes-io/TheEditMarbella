@@ -99,9 +99,9 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                   style={{
                     position:"absolute", left:"50%", top:"50%",
                     width:"clamp(200px,26vw,320px)", height:"clamp(280px,36vw,440px)",
-                    marginLeft:`-${abs === 0 ? 160 : 120}px`,
+                    marginLeft:`-${abs === 0 ? 150 : 110}px`,
                     marginTop:`-${abs === 0 ? 220 : 170}px`,
-                    transform:`translateX(${diff * 48}%) translateZ(${abs === 0 ? 0 : -150}px) rotateY(${diff * 40}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.78 : 0.58})`,
+                    transform:`translateX(${diff * 45}%) translateZ(${abs === 0 ? 0 : -160}px) rotateY(${diff * 38}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.75 : 0.55})`,
                     opacity: abs === 0 ? 1 : abs === 1 ? 0.7 : abs === 2 ? 0.45 : 0.25,
                     zIndex: 10 - abs,
                     transition:"all 0.55s cubic-bezier(0.25,0.46,0.45,0.94)",
