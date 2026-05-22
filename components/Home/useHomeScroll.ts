@@ -179,7 +179,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
           targetProgressRef.current = 0;
         } else if (isSwipeUp) {
           setPhase("header");
-          targetHeader = 0.5;
+          targetHeader = 0;   // reset completo — header vuelve opaco
         }
       } else if (phaseRef.current === "filters") {
         if (isSwipeUp && targetProgressRef.current <= 0) {
