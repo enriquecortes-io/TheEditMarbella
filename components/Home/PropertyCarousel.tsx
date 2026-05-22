@@ -98,9 +98,9 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                 <div key={prop.slug}
                   style={{
                     position:"absolute", left:"50%", top:"50%",
-                    width:"clamp(140px,18vw,220px)", height:"clamp(200px,25vw,300px)",
-                    marginLeft:`-${abs === 0 ? 110 : 80}px`,
-                    marginTop:`-${abs === 0 ? 150 : 110}px`,
+                    width:"clamp(200px,26vw,320px)", height:"clamp(280px,36vw,440px)",
+                    marginLeft:`-${abs === 0 ? 160 : 120}px`,
+                    marginTop:`-${abs === 0 ? 220 : 170}px`,
                     transform:`translateX(${diff * 48}%) translateZ(${abs === 0 ? 0 : -150}px) rotateY(${diff * 40}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.78 : 0.58})`,
                     opacity: abs === 0 ? 1 : abs === 1 ? 0.7 : abs === 2 ? 0.45 : 0.25,
                     zIndex: 10 - abs,
