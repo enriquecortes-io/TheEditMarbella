@@ -288,7 +288,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                   display:"block",
                   textAlign:"center",
                   fontFamily:"'Montserrat',sans-serif",
-                  fontSize:"0.42rem",
+                  fontSize:"0.6rem",
                   letterSpacing:"0.45em",
                   textTransform:"uppercase",
                   color:"rgba(201,169,110,0.7)",
