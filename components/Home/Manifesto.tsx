@@ -115,17 +115,17 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
        gap:0, zIndex:10, pointerEvents:"none",
      }}>
        <style>{`
-         @keyframes neonBreathManifesto {
-           0%   { height: 2rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
-           50%  { height: 4rem; opacity: 1;   box-shadow: 0 0 12px 3px rgba(201,169,110,0.9), 0 0 24px 6px rgba(201,169,110,0.3); }
-           100% { height: 2rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
+       <style>{`
+         @keyframes neonTravelManifesto {
+           0%   { transform: translateY(-60px); opacity: 0; }
+           20%  { opacity: 1; }
+           80%  { opacity: 1; }
+           100% { transform: translateY(60px); opacity: 0; }
          }
-         .neon-manifesto { animation: neonBreathManifesto 2.4s ease-in-out infinite; }
+         .neon-manifesto { animation: neonTravelManifesto 2.2s cubic-bezier(0.45,0,0.55,1) infinite; box-shadow: 0 0 8px 2px rgba(201,169,110,0.7), 0 0 20px 4px rgba(201,169,110,0.3); }
        `}</style>
-       <div className="neon-manifesto" style={{ width:"1px", background:"#c9a96e", borderRadius:"1px" }}/>
+       <div className="neon-manifesto" style={{ width:"1px", height:"2.5rem", background:"linear-gradient(to bottom, transparent, #c9a96e, transparent)", borderRadius:"1px" }}/>
      </div>
-     </div>
-   </div>
  );
 });
 
