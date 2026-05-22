@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from("properties")
-      .select("slug,titulo,precio,ubicacion,m2_construidos,habitaciones,galeria_urls")
+      .select("slug,titulo,descripcion,precio,ubicacion,m2_construidos,m2_parcela,habitaciones,banos,galeria_urls")
       .eq("activa", true)
       .order("created_at", { ascending: false })
       .limit(5);
