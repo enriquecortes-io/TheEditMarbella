@@ -61,7 +61,21 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
 
       // Manifesto / Carousel / Filters — opacidad fase-target
       lerpOpacity(manifestoRef.current, phase === "manifesto" ? 1 : 0);
-      lerpOpacity(carouselRef?.current ?? null, phase === "carousel" ? 1 : 0);
+      // Carousel — fade + scale + blur reveal
+      const carEl2 = carouselRef?.current;
+      if (carEl2) {
+        const target = phase === "carousel" ? 1 : 0;
+        const cur = parseFloat(carEl2.style.opacity || "0");
+        const next = lerp(cur, target, 0.06);
+        carEl2.style.opacity = String(next);
+        carEl2.style.pointerEvents = next > 0.3 ? "auto" : "none";
+        // Scale: entra desde 0.88 hasta 1
+        const sc = 0.88 + next * 0.12;
+        // Blur: se despeja de 12px a 0
+        const bl = Math.max(0, (1 - next) * 12);
+        carEl2.style.transform = `scale(${sc})`;
+        carEl2.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "none";
+      }
       lerpOpacity(filtersRef.current,   phase === "filters" ? 1 : 0);
 
       // Panels Z-axis
