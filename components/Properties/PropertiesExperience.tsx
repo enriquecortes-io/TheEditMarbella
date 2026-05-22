@@ -95,9 +95,6 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
     </>
   );
 
-  return () => window.removeEventListener("resize", update);
-  }, []);
-
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
