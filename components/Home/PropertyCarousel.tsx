@@ -62,7 +62,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
 
         {/* Columna izquierda — Carrusel */}
         <div style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"3.5rem 1rem 2rem", borderRight:"1px solid rgba(201,169,110,0.12)" }}>
-          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(201,169,110,0.8)", letterSpacing:"0.65em", textTransform:"uppercase", margin:"0 0 0.8rem", alignSelf:"flex-start", paddingLeft:"1rem" }}>Últimos Listados</p>
+          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,0.9)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.8rem", alignSelf:"flex-start", paddingLeft:"1rem" }}>Últimos Listados</p>
           <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)", marginBottom:"1.5rem", alignSelf:"flex-start", marginLeft:"1rem" }}/>
 
           {/* Stage 3D */}
