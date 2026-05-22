@@ -39,6 +39,7 @@ export default function HomeExperience({ locale }: Props) {
         opacity:0, pointerEvents:"none",
         display:"flex", alignItems:"center", justifyContent:"center",
         padding:"clamp(0px,2vw,2rem) clamp(0px,5vw,4rem)",
+        transformOrigin:"center center",
       }}>
         <PropertyCarousel locale={locale} />
       </div>

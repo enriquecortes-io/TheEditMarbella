@@ -66,7 +66,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       if (carEl2) {
         const target = phase === "carousel" ? 1 : 0;
         const cur = parseFloat(carEl2.style.opacity || "0");
-        const next = lerp(cur, target, 0.06);
+        const next = lerp(cur, target, 0.035);
         carEl2.style.opacity = String(next);
         carEl2.style.pointerEvents = next > 0.3 ? "auto" : "none";
         // Scale: entra desde 0.88 hasta 1
