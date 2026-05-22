@@ -93,13 +93,13 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         {/* Cuerpo a dos columnas */}
         <div className="manifesto-columns" style={{
           fontFamily:"'Cormorant Garamond',serif",
-          fontSize:"clamp(0.95rem,1.15vw,1.15rem)",
+          fontSize:"clamp(1.1rem,1.4vw,1.35rem)",
           lineHeight:1.75,
           color:"rgba(255,255,255,0.82)",
           fontWeight:300,
         }}>
           <p>{m.paragraph1}</p>
-          <p style={{ fontStyle:"italic", color:"rgba(255,255,255,0.65)" }}>{m.paragraph2}</p>
+          <p>{m.paragraph2}</p>
         </div>
 
         {/* Línea dorada inferior */}
