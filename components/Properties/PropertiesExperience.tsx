@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Property } from "@/types/property";
 import Navbar from "@/components/Experience/Navbar";
+import MobileCarousel from "./MobileCarousel";
 
 interface Props {
   properties: Property[];
@@ -64,7 +65,34 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
     };
     update();
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  if (isMobile) return (
+    <>
+      <Navbar locale={urlLocale} />
+      <MobileCarousel properties={properties} locale={urlLocale} tp={tp} />
+      <button
+        onClick={() => router.push(`/${locale}`)}
+        style={{
+          position:"fixed", bottom:"1.5rem", left:"50%", transform:"translateX(-50%)",
+          zIndex:500, background:"rgba(4,3,2,0.7)",
+          border:"1px solid rgba(201,169,110,0.35)",
+          color:"rgba(201,169,110,0.8)",
+          fontFamily:"'Montserrat',sans-serif",
+          fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase",
+          padding:"0.7rem 2rem", cursor:"pointer",
+        }}
+      >{tp.search}</button>
+    </>
+  );
+
+  return () => window.removeEventListener("resize", update);
   }, []);
 
   useEffect(() => {
