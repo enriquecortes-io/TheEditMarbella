@@ -90,7 +90,7 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     };
 
     let carouselScrollAccum = 0;
-    const CAROUSEL_THRESHOLD = 800; // px necesarios para salir del carrusel
+    const CAROUSEL_THRESHOLD = 1800; // px necesarios para salir del carrusel
 
     const handleDelta = (delta: number) => {
       if (phaseRef.current === "header") {
