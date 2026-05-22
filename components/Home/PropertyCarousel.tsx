@@ -9,6 +9,7 @@ interface Property {
   ubicacion: string;
   m2_construidos: number;
   habitaciones: number;
+  banos: number;
   galeria_urls: string[];
 }
 
@@ -183,7 +184,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                 {[
                   { label:"Superficie", value: p.m2_construidos ? `${p.m2_construidos} m²` : null },
                   { label:"Habitaciones", value: p.habitaciones || null },
-                  { label:"Baños", value: (p as any).banos || null },
+                  { label:"Baños", value: p.banos || null },
                 ].filter(d => d.value).map(d => (
                   <div key={d.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", padding:"1rem 0", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
                     <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.42rem", color:"rgba(255,255,255,0.35)", letterSpacing:"0.3em", textTransform:"uppercase" }}>{d.label}</span>
