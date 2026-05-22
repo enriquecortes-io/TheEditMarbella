@@ -25,7 +25,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
       .then(data => {
         const props = (data.properties || []).slice(0, 5);
         setProperties(props);
-        setActive(Math.floor(props.length / 2));
+        setActive(Math.min(2, props.length - 1));
       })
       .catch(() => {});
   }, []);
@@ -91,7 +91,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
             {properties.map((prop, i) => {
               const diff = i - active;
               const abs = Math.abs(diff);
-              if (abs > 2) return null;
+              if (abs > 3) return null;
               return (
                 <div key={prop.slug}
                   style={{
@@ -100,7 +100,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                     marginLeft:`-${abs === 0 ? 110 : 80}px`,
                     marginTop:`-${abs === 0 ? 150 : 110}px`,
                     transform:`translateX(${diff * 48}%) translateZ(${abs === 0 ? 0 : -150}px) rotateY(${diff * 40}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.78 : 0.58})`,
-                    opacity: abs === 0 ? 1 : abs === 1 ? 0.65 : 0.35,
+                    opacity: abs === 0 ? 1 : abs === 1 ? 0.7 : abs === 2 ? 0.45 : 0.25,
                     zIndex: 10 - abs,
                     transition:"all 0.55s cubic-bezier(0.25,0.46,0.45,0.94)",
                     cursor: diff !== 0 ? "pointer" : "default",
