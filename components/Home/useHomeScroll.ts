@@ -100,24 +100,32 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
 
+    let carouselScrollAccum = 0;
+    const CAROUSEL_THRESHOLD = 300; // px necesarios para salir del carrusel
+
     const handleDelta = (delta: number) => {
       if (phaseRef.current === "header") {
         targetHeader = Math.max(0, Math.min(1, targetHeader + delta * 0.002));
         if (targetHeader >= 1) {
           targetHeader = 1;
           phaseRef.current = "carousel";
+          carouselScrollAccum = 0;
         }
       } else if (phaseRef.current === "carousel") {
-        if (delta < 0) {
+        carouselScrollAccum += delta;
+        if (carouselScrollAccum < -CAROUSEL_THRESHOLD) {
           phaseRef.current = "header";
           targetHeader = 0.5;
-        } else if (delta > 0) {
+          carouselScrollAccum = 0;
+        } else if (carouselScrollAccum > CAROUSEL_THRESHOLD) {
           phaseRef.current = "filters";
           targetProgressRef.current = 0;
+          carouselScrollAccum = 0;
         }
       } else if (phaseRef.current === "filters") {
         if (targetProgressRef.current <= 0 && delta < 0) {
           phaseRef.current = "carousel";
+          carouselScrollAccum = 0;
         }
       }
     };
