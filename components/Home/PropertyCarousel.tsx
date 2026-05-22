@@ -82,8 +82,9 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
     return (
       <div style={{
         width:"100%",
-        height:"100dvh",           // ocupa exactamente el viewport, sin desbordar
-        maxHeight:"100dvh",
+        height:"calc(100dvh - 4rem)",   // descuenta el navbar
+        maxHeight:"calc(100dvh - 4rem)",
+        marginTop:"4rem",
         display:"flex", flexDirection:"column",
         overflow:"hidden",
         background:"rgba(6,4,2,0.85)",
