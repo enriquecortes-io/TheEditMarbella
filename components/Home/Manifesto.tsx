@@ -22,10 +22,7 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
           column-gap: clamp(2rem, 4vw, 4rem);
           column-rule: 1px solid rgba(201,169,110,0.15);
         }
-        .manifesto-columns p {
-          break-inside: avoid;
-          margin: 0 0 1rem;
-        }
+        .manifesto-columns p { break-inside: avoid; margin: 0 0 1rem; }
         .manifesto-columns p:first-child::first-letter {
           font-family: 'Cormorant Garamond', serif;
           font-weight: 700;
@@ -38,9 +35,17 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         }
         @media (max-width: 768px) {
           .manifesto-columns { columns: 1; }
-          .manifesto-columns p:first-child::first-letter {
-            font-size: 3.2rem;
-          }
+          .manifesto-columns p:first-child::first-letter { font-size: 3.2rem; }
+        }
+        @keyframes neonTravelManifesto {
+          0%   { transform: translateY(-60px); opacity: 0; }
+          20%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { transform: translateY(60px); opacity: 0; }
+        }
+        .neon-manifesto {
+          animation: neonTravelManifesto 2.2s cubic-bezier(0.45,0,0.55,1) infinite;
+          box-shadow: 0 0 8px 2px rgba(201,169,110,0.7), 0 0 20px 4px rgba(201,169,110,0.3);
         }
       `}</style>
 
@@ -55,77 +60,29 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         boxSizing:"border-box",
       }}>
         {/* Línea dorada superior */}
-        <div style={{
-          position:"absolute", top:0, left:"15%", right:"15%", height:"1px",
-          background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)",
-        }}/>
+        <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)" }}/>
 
-        {/* Eyebrow */}
-        <p style={{
-          fontFamily:"'Montserrat',sans-serif",
-          fontSize:"0.6rem",
-          color:"rgba(201,169,110,0.9)",
-          letterSpacing:"0.5em",
-          textTransform:"uppercase",
-          textAlign:"center",
-          margin:"0 0 1rem",
-        }}>{m.subtitle}</p>
+        <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,0.9)", letterSpacing:"0.5em", textTransform:"uppercase", textAlign:"center", margin:"0 0 1rem" }}>{m.subtitle}</p>
 
-        {/* Title */}
-        <h2 style={{
-          fontFamily:"'Cormorant Garamond',serif",
-          fontSize:"clamp(2.5rem,5vw,4.5rem)",
-          fontWeight:600,
-          color:"white",
-          textAlign:"center",
-          margin:"0 0 0.5rem",
-          lineHeight:1,
-          fontStyle:"italic",
-        }}>{m.title}</h2>
+        <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.5rem,5vw,4.5rem)", fontWeight:600, color:"white", textAlign:"center", margin:"0 0 0.5rem", lineHeight:1, fontStyle:"italic" }}>{m.title}</h2>
 
-        {/* Divisor central */}
-        <div style={{
-          width:"3rem", height:"1px",
-          background:"rgba(201,169,110,0.5)",
-          margin:"1.5rem auto 2.5rem",
-        }}/>
+        <div style={{ width:"3rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"1.5rem auto 2.5rem" }}/>
 
-        {/* Cuerpo a dos columnas */}
-        <div className="manifesto-columns" style={{
-          fontFamily:"'Cormorant Garamond',serif",
-          fontSize:"clamp(1.1rem,1.4vw,1.35rem)",
-          lineHeight:1.75,
-          color:"rgba(255,255,255,0.82)",
-          fontWeight:300,
-        }}>
+        <div className="manifesto-columns" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.1rem,1.4vw,1.35rem)", lineHeight:1.75, color:"rgba(255,255,255,0.82)", fontWeight:300 }}>
           <p>{m.paragraph1}</p>
           <p>{m.paragraph2}</p>
         </div>
 
         {/* Línea dorada inferior */}
-        <div style={{
-          position:"absolute", bottom:0, left:"15%", right:"15%", height:"1px",
-          background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.4),transparent)",
-        }}/>
-      {/* Indicador discover — borde derecho */}
-     <div style={{
-       position:"absolute", top:"50%", right:"-0.5rem",
-       transform:"translateY(-50%)",
-       display:"flex", flexDirection:"column", alignItems:"center",
-       gap:0, zIndex:10, pointerEvents:"none",
-     }}>
-       <style>{`
-         @keyframes neonTravelManifesto {
-           0%   { transform: translateY(-60px); opacity: 0; }
-           20%  { opacity: 1; }
-           80%  { opacity: 1; }
-           100% { transform: translateY(60px); opacity: 0; }
-         }
-         .neon-manifesto { animation: neonTravelManifesto 2.2s cubic-bezier(0.45,0,0.55,1) infinite; box-shadow: 0 0 8px 2px rgba(201,169,110,0.7), 0 0 20px 4px rgba(201,169,110,0.3); }
-       `}</style>
-       <div className="neon-manifesto" style={{ width:"1px", height:"2.5rem", background:"linear-gradient(to bottom, transparent, #c9a96e, transparent)", borderRadius:"1px" }}/>
-     </div>
- );
+        <div style={{ position:"absolute", bottom:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.4),transparent)" }}/>
+
+        {/* Indicador discover — borde derecho */}
+        <div style={{ position:"absolute", top:"50%", right:"-0.5rem", transform:"translateY(-50%)", display:"flex", flexDirection:"column", alignItems:"center", zIndex:10, pointerEvents:"none" }}>
+          <div className="neon-manifesto" style={{ width:"1px", height:"2.5rem", background:"linear-gradient(to bottom, transparent, #c9a96e, transparent)", borderRadius:"1px" }}/>
+        </div>
+      </div>
+    </div>
+  );
 });
 
 Manifesto.displayName = "Manifesto";
