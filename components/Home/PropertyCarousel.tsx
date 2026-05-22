@@ -10,6 +10,8 @@ interface Property {
   m2_construidos: number;
   habitaciones: number;
   banos: number;
+  m2_parcela: number;
+  descripcion: Record<string, string> | string;
   galeria_urls: string[];
 }
 
@@ -153,6 +155,11 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
             ))}
           </div>
 
+          {(() => {
+            const desc = typeof p.descripcion === "object" ? (p.descripcion as any)["es"] || (p.descripcion as any)["en"] || "" : p.descripcion || "";
+            const first = desc.match(/^[^.!?]+[.!?]/)?.[0] || "";
+            return first ? <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.85rem,1.1vw,1rem)", fontStyle:"italic", color:"rgba(255,255,255,0.5)", lineHeight:1.7, margin:"0.5rem 0 1rem" }}>{first}</p> : null;
+          })()}
           {p.precio && (
             <div style={{ paddingTop:"1.5rem", borderTop:"1px solid rgba(201,169,110,0.2)" }}>
               <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.4rem" }}>Precio</p>
