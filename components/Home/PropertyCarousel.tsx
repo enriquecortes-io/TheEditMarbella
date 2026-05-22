@@ -61,7 +61,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         <div style={{ position:"absolute", top:0, left:"10%", right:"10%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)", zIndex:2 }}/>
 
         {/* Columna izquierda — Carrusel */}
-        <div style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"2rem 1rem", borderRight:"1px solid rgba(201,169,110,0.12)" }}>
+        <div style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"3.5rem 1rem 2rem", borderRight:"1px solid rgba(201,169,110,0.12)" }}>
           <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(201,169,110,0.8)", letterSpacing:"0.65em", textTransform:"uppercase", margin:"0 0 0.8rem", alignSelf:"flex-start", paddingLeft:"1rem" }}>Últimos Listados</p>
           <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)", marginBottom:"1.5rem", alignSelf:"flex-start", marginLeft:"1rem" }}/>
 
@@ -135,7 +135,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         </div>
 
         {/* Columna derecha — Info propiedad */}
-        <div style={{ display:"flex", flexDirection:"column", justifyContent:"space-between", padding:"3rem 2.5rem", background:"rgba(6,4,2,0.5)" }}>
+        <div style={{ display:"flex", flexDirection:"column", justifyContent:"space-between", padding:"3rem 2.5rem", background:"rgba(6,4,2,0.82)" }}>
           <div>
             <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"#c9a96e", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.8rem" }}>{p.ubicacion}</p>
             <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.5)", margin:"0 0 1.2rem" }}/>
