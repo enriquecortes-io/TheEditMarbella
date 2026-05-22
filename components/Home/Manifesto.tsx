@@ -107,9 +107,26 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
           position:"absolute", bottom:0, left:"15%", right:"15%", height:"1px",
           background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.4),transparent)",
         }}/>
-      </div>
-    </div>
-  );
+      {/* Indicador discover — borde derecho */}
+     <div style={{
+       position:"absolute", top:"50%", right:"-0.5rem",
+       transform:"translateY(-50%)",
+       display:"flex", flexDirection:"column", alignItems:"center",
+       gap:0, zIndex:10, pointerEvents:"none",
+     }}>
+       <style>{`
+         @keyframes neonBreathManifesto {
+           0%   { height: 2rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
+           50%  { height: 4rem; opacity: 1;   box-shadow: 0 0 12px 3px rgba(201,169,110,0.9), 0 0 24px 6px rgba(201,169,110,0.3); }
+           100% { height: 2rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
+         }
+         .neon-manifesto { animation: neonBreathManifesto 2.4s ease-in-out infinite; }
+       `}</style>
+       <div className="neon-manifesto" style={{ width:"1px", background:"#c9a96e", borderRadius:"1px" }}/>
+     </div>
+     </div>
+   </div>
+ );
 });
 
 Manifesto.displayName = "Manifesto";
