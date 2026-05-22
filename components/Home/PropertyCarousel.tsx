@@ -32,6 +32,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
   const dragStartX = useRef(0);
   const isDragging = useRef(false);
   const [slideDir, setSlideDir] = useState<"left"|"right"|null>(null);
+  const [prevActive, setPrevActive] = useState(0);
   const [displayActive, setDisplayActive] = useState(0);
   const imgRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +74,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
     );
   }
 
-  const p = properties[active];
+  const p = properties[displayActive !== undefined ? displayActive : active];
 
   const stats = [
     { label: t.surface,   value: p.m2_construidos ? `${p.m2_construidos} m²` : null },
@@ -109,8 +110,13 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
           const dir = diff > 0 ? "left" : "right";
           const next = Math.max(0, Math.min(properties.length-1, active + (diff > 0 ? 1 : -1)));
           if (next !== active) {
+            setPrevActive(active);
             setSlideDir(dir);
-            setTimeout(() => { setActive(next); setDisplayActive(next); setSlideDir(null); }, 350);
+            setActive(next);
+            setTimeout(() => {
+              setDisplayActive(next);
+              setSlideDir(null);
+            }, 380);
           }
         }
       }}
@@ -127,12 +133,29 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         {/* Imagen con swipe — altura fija 38% del viewport */}
         <div
           style={{ position:"relative", width:"100%", height:"38dvh", flexShrink:0, overflow:"hidden" }}
-          className={slideDir === "left" ? "slide-left" : slideDir === "right" ? "slide-right" : ""}
         >
-          {p.galeria_urls?.[0]
-            ? <img src={p.galeria_urls[0]} alt={getTitle(p)} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }}/>
-            : <div style={{ width:"100%", height:"100%", background:"#111" }}/>
-          }
+          {/* Imagen saliente — se queda estática */}
+          {properties[prevActive]?.galeria_urls?.[0] && slideDir && (
+            <img
+              src={properties[prevActive].galeria_urls[0]}
+              alt=""
+              style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", zIndex:1 }}
+            />
+          )}
+          {/* Imagen entrante — anima encima */}
+          <img
+            key={active}
+            src={properties[active]?.galeria_urls?.[0] || ""}
+            alt={getTitle(p)}
+            style={{
+              position:"absolute", inset:0,
+              width:"100%", height:"100%", objectFit:"cover",
+              zIndex:2,
+              animation: slideDir
+                ? `${slideDir === "left" ? "slideInLeft" : "slideInRight"} 0.38s cubic-bezier(0.25,0.46,0.45,0.94) forwards`
+                : "none",
+            }}
+          />
           <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 50%, rgba(6,4,2,0.95) 100%)" }}/>
 
           {/* Infografía esquina superior izquierda */}
