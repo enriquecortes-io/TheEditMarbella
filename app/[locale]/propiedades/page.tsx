@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+export const dynamic = "force-dynamic";
 import { headers } from "next/headers";
 import { Property } from "@/types/property";
 import PropertiesExperience from "@/components/Properties/PropertiesExperience";
