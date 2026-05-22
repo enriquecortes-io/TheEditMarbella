@@ -100,7 +100,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
                     position:"absolute", left:"50%", top:"50%",
                     width:"clamp(200px,26vw,320px)", height:"clamp(280px,36vw,440px)",
                     marginLeft:`-${abs === 0 ? 150 : 110}px`,
-                    marginTop:`-${abs === 0 ? 220 : 170}px`,
+                    marginTop:`-220px`,
                     transform:`translateX(${diff * 45}%) translateZ(${abs === 0 ? 0 : -160}px) rotateY(${diff * 38}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.75 : 0.55})`,
                     opacity: abs === 0 ? 1 : abs === 1 ? 0.7 : abs === 2 ? 0.45 : 0.25,
                     zIndex: 10 - abs,
