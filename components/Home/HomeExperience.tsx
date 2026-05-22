@@ -1,24 +1,25 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import PropertyCarousel from "./PropertyCarousel";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
 import FilterPanels from "./FilterPanels";
 
 interface Props { locale: string; }
-
 const TOTAL_PANELS = 3;
 
 export default function HomeExperience({ locale }: Props) {
   const headerRef = useRef<HTMLDivElement>(null);
   const filtersRef = useRef<HTMLDivElement>(null);
-  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels: TOTAL_PANELS });
 
   return (
-    <div style={{position:"absolute",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
+    <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
 
+      {/* Header */}
       <div ref={headerRef} style={{
         position:"absolute", inset:0, zIndex:20,
         willChange:"opacity,transform",
@@ -27,7 +28,7 @@ export default function HomeExperience({ locale }: Props) {
         <SkyHeader locale={locale} />
       </div>
 
-      {/* Carrusel — siempre en DOM, opacidad gestionada por RAF */}
+      {/* Carrusel */}
       <div ref={carouselRef} style={{
         position:"absolute", inset:0, zIndex:25,
         opacity:0, pointerEvents:"none",
@@ -37,6 +38,7 @@ export default function HomeExperience({ locale }: Props) {
         <PropertyCarousel locale={locale} />
       </div>
 
+      {/* Filtros */}
       <div ref={filtersRef} style={{
         position:"absolute", inset:0, zIndex:10,
         opacity:0, pointerEvents:"none",

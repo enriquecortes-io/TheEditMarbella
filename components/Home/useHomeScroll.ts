@@ -11,14 +11,12 @@ interface Props {
 
 export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, totalPanels }: Props) {
   const phaseRef = useRef<"header" | "carousel" | "filters">("header");
-  const carouselElRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef(0);
   const targetProgressRef = useRef(0);
 
   useEffect(() => {
-    // Permitir scroll nativo para el carrusel
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     let rafId: number;
     let smoothHeader = 0;
@@ -27,12 +25,8 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
 
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
-
-      // Actualizar ref al elemento del carrusel
-      if (carouselRef?.current) carouselElRef.current = carouselRef.current;
-      const carEl = carouselElRef.current;
       const phase = phaseRef.current;
-      
+
       // Header
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
@@ -40,24 +34,27 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Carousel
+      // Carousel — acceder al ref directamente en cada tick
+      const carEl = carouselRef?.current;
       if (carEl) {
-        const show = phase === "carousel";
+        const target = phase === "carousel" ? 1 : 0;
         const cur = parseFloat(carEl.style.opacity || "0");
-        const next = lerp(cur, show ? 1 : 0, 0.06);
+        const next = lerp(cur, target, 0.08);
         carEl.style.opacity = String(next);
         carEl.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
       // Filters
-      if (filtersRef.current) {
-        const show = phaseRef.current === "filters";
-        const cur = parseFloat(filtersRef.current.style.opacity || "0");
-        filtersRef.current.style.opacity = String(lerp(cur, show ? 1 : 0, 0.06));
-        filtersRef.current.style.pointerEvents = cur > 0.3 ? "auto" : "none";
+      const filEl = filtersRef.current;
+      if (filEl) {
+        const target = phase === "filters" ? 1 : 0;
+        const cur = parseFloat(filEl.style.opacity || "0");
+        const next = lerp(cur, target, 0.08);
+        filEl.style.opacity = String(next);
+        filEl.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Panels
+      // Panels Z-axis
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
@@ -84,7 +81,6 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         el.style.pointerEvents = Math.abs(diff) < 0.4 ? "auto" : "none";
       }
 
-      (window as any).__phase = phaseRef.current;
       rafId = requestAnimationFrame(tick);
     };
     rafId = requestAnimationFrame(tick);
@@ -103,13 +99,9 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       } else if (phaseRef.current === "carousel") {
         if (delta < 0) {
           phaseRef.current = "header";
-          const dh = document.getElementById("phase-debug");
-          if (dh) dh.textContent = "header";
           targetHeader = 0.5;
         } else if (delta > 0) {
           phaseRef.current = "filters";
-          const df = document.getElementById("phase-debug");
-          if (df) df.textContent = "filters";
           targetProgressRef.current = 0;
         }
       } else if (phaseRef.current === "filters") {
@@ -138,8 +130,8 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       cancelAnimationFrame(rafId);
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
-  }, []);
+  }, [headerRef, filtersRef, carouselRef, panelRefs, totalPanels]);
 }
