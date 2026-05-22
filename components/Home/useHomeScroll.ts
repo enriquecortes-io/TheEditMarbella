@@ -23,6 +23,10 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
     let targetHeader = 0;
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+    // Cooldown entre cambios de sección — evita doble-disparo
+    let lastPhaseChange = 0;
+    const PHASE_COOLDOWN = 800; // ms
+
     const emitPhase = (phase: string) => {
       window.dispatchEvent(new CustomEvent("scrollphase", { detail: phase }));
     };
@@ -38,14 +42,12 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
       const phase = phaseRef.current;
 
-      // Header
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Carousel
       const carEl = carouselRef?.current;
       if (carEl) {
         const target = phase === "carousel" ? 1 : 0;
@@ -55,7 +57,6 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         carEl.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Filters
       const filEl = filtersRef.current;
       if (filEl) {
         const target = phase === "filters" ? 1 : 0;
@@ -65,7 +66,6 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
         filEl.style.pointerEvents = next > 0.3 ? "auto" : "none";
       }
 
-      // Panels Z-axis
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
@@ -100,54 +100,107 @@ export function useHomeScroll({ headerRef, filtersRef, carouselRef, panelRefs, t
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
 
-    let carouselScrollAccum = 0;
-    const CAROUSEL_THRESHOLD = 1800;
+    // ── WHEEL — acumulación con snap ──────────────────────────────────────
+    let wheelAccum = 0;
+    let wheelTimer: ReturnType<typeof setTimeout> | null = null;
+    const WHEEL_SNAP = 300; // px acumulados para cambiar sección
 
-    const handleDelta = (delta: number) => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const now = Date.now();
+      if (now - lastPhaseChange < PHASE_COOLDOWN) return;
+
       if (phaseRef.current === "header") {
-        targetHeader = Math.max(0, Math.min(1, targetHeader + delta * 0.002));
+        targetHeader = Math.max(0, Math.min(1, targetHeader + e.deltaY * 0.002));
         if (targetHeader >= 1) {
           targetHeader = 1;
+          lastPhaseChange = now;
           setPhase("carousel");
-          carouselScrollAccum = 0;
         }
-      } else if (phaseRef.current === "carousel") {
-        carouselScrollAccum += delta;
-        if (carouselScrollAccum < -CAROUSEL_THRESHOLD) {
-          setPhase("header");
-          targetHeader = 0.5;
-          carouselScrollAccum = 0;
-        } else if (carouselScrollAccum > CAROUSEL_THRESHOLD) {
-          setPhase("filters");
-          targetProgressRef.current = 0;
-          carouselScrollAccum = 0;
-        }
-      } else if (phaseRef.current === "filters") {
-        if (targetProgressRef.current <= 0 && delta < 0) {
-          setPhase("carousel");
-          carouselScrollAccum = 0;
+        return;
+      }
+
+      wheelAccum += e.deltaY;
+      if (wheelTimer) clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => { wheelAccum = 0; }, 300);
+
+      if (Math.abs(wheelAccum) >= WHEEL_SNAP) {
+        const dir = wheelAccum > 0 ? 1 : -1;
+        wheelAccum = 0;
+        lastPhaseChange = now;
+
+        if (phaseRef.current === "carousel") {
+          if (dir > 0) {
+            setPhase("filters");
+            targetProgressRef.current = 0;
+          } else {
+            setPhase("header");
+            targetHeader = 0.5;
+          }
+        } else if (phaseRef.current === "filters") {
+          if (dir < 0 && targetProgressRef.current <= 0) {
+            setPhase("carousel");
+          }
         }
       }
     };
 
-    const handleWheel = (e: WheelEvent) => { e.preventDefault(); handleDelta(e.deltaY); };
+    // ── TOUCH — snap por gesto completo ──────────────────────────────────
     let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
-    const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const delta = (touchStartY - e.touches[0].clientY) * 2;
+    let touchStartTime = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
-      handleDelta(delta);
+      touchStartTime = Date.now();
     };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const now = Date.now();
+      if (now - lastPhaseChange < PHASE_COOLDOWN) return;
+
+      const deltaY = touchStartY - e.changedTouches[0].clientY;
+      const elapsed = now - touchStartTime;
+      const velocity = Math.abs(deltaY) / elapsed; // px/ms
+
+      // Umbral: distancia mínima 60px O velocidad rápida > 0.3px/ms
+      const isSwipeDown = deltaY > 60 || (deltaY > 30 && velocity > 0.3);
+      const isSwipeUp   = deltaY < -60 || (deltaY < -30 && velocity > 0.3);
+
+      if (!isSwipeDown && !isSwipeUp) return;
+
+      lastPhaseChange = now;
+
+      if (phaseRef.current === "header" && isSwipeDown) {
+        targetHeader = 1;
+        setPhase("carousel");
+      } else if (phaseRef.current === "carousel") {
+        if (isSwipeDown) {
+          setPhase("filters");
+          targetProgressRef.current = 0;
+        } else if (isSwipeUp) {
+          setPhase("header");
+          targetHeader = 0.5;
+        }
+      } else if (phaseRef.current === "filters") {
+        if (isSwipeUp && targetProgressRef.current <= 0) {
+          setPhase("carousel");
+        }
+      }
+    };
+
+    // touchmove solo para prevenir scroll nativo
+    const handleTouchMove = (e: TouchEvent) => { e.preventDefault(); };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(rafId);
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
