@@ -45,6 +45,10 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
 
   const p = properties[active];
 
+  // Dimensiones base del card activo — constantes para centrado consistente
+  const CARD_W = 280;
+  const CARD_H = 380;
+
   return (
     <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", padding:"0 clamp(1rem,3vw,3rem)" }}>
       <div style={{
@@ -57,17 +61,34 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         backdropFilter:"blur(50px)",
         overflow:"hidden", position:"relative",
       }}>
-        {/* Línea dorada */}
+        {/* Línea dorada superior */}
         <div style={{ position:"absolute", top:0, left:"10%", right:"10%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)", zIndex:2 }}/>
 
         {/* Columna izquierda — Carrusel */}
-        <div style={{ position:"relative", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"3.5rem 1rem 2rem", borderRight:"1px solid rgba(201,169,110,0.12)" }}>
+        <div style={{
+          position:"relative",
+          display:"flex",
+          flexDirection:"column",
+          alignItems:"center",
+          justifyContent:"flex-start",
+          padding:"3.5rem 1rem 2rem",
+          borderRight:"1px solid rgba(201,169,110,0.12)",
+          height:"100%",
+          boxSizing:"border-box",
+        }}>
           <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,0.9)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.8rem", alignSelf:"flex-start", paddingLeft:"1rem" }}>Últimos Listados</p>
           <div style={{ width:"1.5rem", height:"1px", background:"rgba(201,169,110,0.4)", marginBottom:"1.5rem", alignSelf:"flex-start", marginLeft:"1rem" }}/>
 
-          {/* Stage 3D */}
+          {/* Stage 3D — overflow hidden para contener transforms */}
           <div
-            style={{ position:"relative", width:"100%", flex:1, perspective:"1000px", perspectiveOrigin:"50% 50%", transformStyle:"preserve-3d" }}
+            style={{
+              position:"relative",
+              width:"100%",
+              flex:1,
+              overflow:"hidden",          // ← KEY FIX: evita que cards se salgan
+              perspective:"1000px",
+              perspectiveOrigin:"50% 50%",
+            }}
             onMouseDown={e => { isDragging.current = true; dragStartX.current = e.clientX; }}
             onMouseUp={e => {
               if (!isDragging.current) return;
@@ -94,18 +115,31 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
               const diff = i - active;
               const abs = Math.abs(diff);
               if (abs > 3) return null;
+
+              const scale = abs === 0 ? 1 : abs === 1 ? 0.75 : 0.55;
+
               return (
                 <div key={prop.slug}
                   style={{
-                    position:"absolute", left:"50%", top:"50%",
-                    width:"clamp(200px,26vw,320px)", height:"clamp(280px,36vw,440px)",
-                    marginLeft:`-${abs === 0 ? 150 : 110}px`,
-                    marginTop:`-220px`,
-                    transform:`translateX(${diff * 45}%) translateZ(${abs === 0 ? 0 : -160}px) rotateY(${diff * 38}deg) scale(${abs === 0 ? 1 : abs === 1 ? 0.75 : 0.55})`,
+                    // ← FIX CENTRAL: centrado con translate(-50%,-50%) desde el punto 50%/50%
+                    // así todos los cards comparten el mismo eje vertical independientemente de su tamaño
+                    position:"absolute",
+                    left:"50%",
+                    top:"50%",
+                    width:`${CARD_W}px`,
+                    height:`${CARD_H}px`,
+                    transform:[
+                      `translate(-50%, -50%)`,           // centro geométrico exacto
+                      `translateX(${diff * 55}%)`,        // separación horizontal entre cards
+                      `translateZ(${abs === 0 ? 0 : -160}px)`,
+                      `rotateY(${diff * 38}deg)`,
+                      `scale(${scale})`,
+                    ].join(" "),
                     opacity: abs === 0 ? 1 : abs === 1 ? 0.7 : abs === 2 ? 0.45 : 0.25,
                     zIndex: 10 - abs,
                     transition:"all 0.55s cubic-bezier(0.25,0.46,0.45,0.94)",
                     cursor: diff !== 0 ? "pointer" : "default",
+                    transformOrigin: "center center",
                   }}
                   onClick={() => diff !== 0 && setActive(i)}
                 >
@@ -126,10 +160,24 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
             })}
           </div>
 
-          {/* Dots */}
-          <div style={{ display:"flex", gap:"0.4rem", marginTop:"1rem" }}>
+          {/* Dots — siempre visibles, fuera del stage overflow:hidden */}
+          <div style={{ display:"flex", gap:"0.4rem", marginTop:"1rem", flexShrink:0, paddingBottom:"0.5rem" }}>
             {properties.map((_, i) => (
-              <button key={i} onClick={() => setActive(i)} style={{ width: i === active ? "1.2rem" : "0.3rem", height:"0.3rem", borderRadius:"2px", border:"none", cursor:"pointer", background: i === active ? "#c9a96e" : "rgba(255,255,255,0.2)", transition:"all 0.3s", padding:0 }}/>
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                style={{
+                  width: i === active ? "1.2rem" : "0.3rem",
+                  height:"0.3rem",
+                  borderRadius:"2px",
+                  border:"none",
+                  cursor:"pointer",
+                  background: i === active ? "#c9a96e" : "rgba(255,255,255,0.2)",
+                  transition:"all 0.3s",
+                  padding:0,
+                  flexShrink:0,
+                }}
+              />
             ))}
           </div>
         </div>
@@ -160,17 +208,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
             const first = desc.match(/^[^.!?]+[.!?]/)?.[0] || "";
             return first ? <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.85rem,1.1vw,1rem)", fontStyle:"italic", color:"rgba(255,255,255,0.75)", lineHeight:1.7, margin:"1rem 0 1.5rem" }}>{first}</p> : null;
           })()}
-          {(() => {
-            const desc = typeof p.descripcion === "object"
-              ? (p.descripcion as any)["es"] || (p.descripcion as any)["en"] || ""
-              : p.descripcion || "";
-            const first = desc.match(/^[^.!?]+[.!?]/)?.[0] || "";
-            return first ? (
-              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.85rem,1.1vw,1rem)", fontStyle:"italic", color:"rgba(255,255,255,0.5)", lineHeight:1.7, margin:"1rem 0" }}>
-                {first}
-              </p>
-            ) : null;
-          })()}
+
           {p.precio && (
             <div style={{ paddingTop:"1.5rem", borderTop:"1px solid rgba(201,169,110,0.2)" }}>
               <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(201,169,110,0.5)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.4rem" }}>Precio</p>
