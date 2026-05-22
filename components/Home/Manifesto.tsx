@@ -37,16 +37,12 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
           .manifesto-columns { columns: 1; }
           .manifesto-columns p:first-child::first-letter { font-size: 3.2rem; }
         }
-        @keyframes neonTravelManifesto {
-          0%   { transform: translateY(-60px); opacity: 0; }
-          20%  { opacity: 1; }
-          80%  { opacity: 1; }
-          100% { transform: translateY(60px); opacity: 0; }
+        @keyframes neonBreathGold {
+          0%   { height: 1.5rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
+          50%  { height: 3.5rem; opacity: 1;   box-shadow: 0 0 12px 3px rgba(201,169,110,0.9), 0 0 24px 6px rgba(201,169,110,0.3); }
+          100% { height: 1.5rem; opacity: 0.3; box-shadow: 0 0 4px 1px rgba(201,169,110,0.3); }
         }
-        .neon-manifesto {
-          animation: neonTravelManifesto 2.2s cubic-bezier(0.45,0,0.55,1) infinite;
-          box-shadow: 0 0 8px 2px rgba(201,169,110,0.7), 0 0 20px 4px rgba(201,169,110,0.3);
-        }
+        .neon-manifesto { animation: neonBreathGold 2.4s ease-in-out infinite; }
       `}</style>
 
       <div style={{
@@ -78,7 +74,7 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
         {/* Indicador discover — borde derecho */}
         <div style={{ position:"absolute", top:"50%", right:"-0.5rem", transform:"translateY(-50%)", display:"flex", flexDirection:"column", alignItems:"center", zIndex:10, pointerEvents:"none" }}>
-          <div className="neon-manifesto" style={{ width:"1px", height:"2.5rem", background:"linear-gradient(to bottom, transparent, #c9a96e, transparent)", borderRadius:"1px" }}/>
+          <div className="neon-manifesto" style={{ width:"1px", background:"#c9a96e", borderRadius:"1px" }}/>
         </div>
       </div>
     </div>
