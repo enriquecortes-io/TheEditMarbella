@@ -48,7 +48,24 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
   const SCROLL_THRESHOLD = 180;
   const n = properties.length;
   const STEP = 360 / n;               // grados entre paneles
-  const RADIUS = 600;                 // radio de la rueda en px
+  const [RADIUS, setRADIUS] = useState(600);
+  const [PERSPECTIVE, setPERSPECTIVE] = useState(800);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 768) {
+        setRADIUS(Math.min(w * 0.55, 320));
+        setPERSPECTIVE(Math.min(w * 0.9, 600));
+      } else {
+        setRADIUS(600);
+        setPERSPECTIVE(800);
+      }
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -217,7 +234,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
       {/* RUEDA — escena 3D */}
       <div style={{
         position:"absolute", inset:0,
-        perspective:"800px",
+        perspective:`${PERSPECTIVE}px`,
         perspectiveOrigin:"50% 50%",
       }}>
         <div style={{
@@ -233,7 +250,7 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
               id={`prop-card-${i}`}
               style={{
                 position:"absolute",
-                width:"clamp(280px,72vw,900px)", height:"83vh",
+                width:"clamp(220px,72vw,900px)", height:"clamp(400px,75vh,900px)",
                 marginLeft:"calc(clamp(280px,72vw,900px) / -2)", marginTop:"-48vh",
                 willChange:"transform,opacity,filter",
                 cursor:"pointer",
@@ -298,8 +315,8 @@ export default function PropertiesExperience({ properties, locale, filters }: Pr
         style={{
           position:"absolute",
           top:"50%", left:"50%",
-          width:"72vw", height:"83vh",
-          marginLeft:"-36vw", marginTop:"-48vh",
+          width:"clamp(220px,72vw,900px)", height:"clamp(400px,75vh,900px)",
+          marginLeft:"calc(clamp(220px,72vw,900px) / -2)", marginTop:"calc(clamp(400px,75vh,900px) / -2)",
           zIndex:200,
           cursor:"pointer",
         }}
