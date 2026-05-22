@@ -115,7 +115,6 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
        gap:0, zIndex:10, pointerEvents:"none",
      }}>
        <style>{`
-       <style>{`
          @keyframes neonTravelManifesto {
            0%   { transform: translateY(-60px); opacity: 0; }
            20%  { opacity: 1; }
