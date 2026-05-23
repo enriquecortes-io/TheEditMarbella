@@ -58,7 +58,7 @@ export default function NotFound() {
         {/* 404 */}
         <div className="fade-in" style={{ animationDelay:"0.2s", textAlign:"center" }}>
           <p style={{
-            fontFamily:"'Fraunces',serif",
+            fontFamily:"'Cormorant Garamond',serif",
             fontSize:"clamp(6rem,20vw,16rem)",
             fontWeight:900,
             color:"transparent",
