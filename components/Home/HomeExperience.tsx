@@ -1,10 +1,11 @@
 "use client";
 import { useRef } from "react";
-import PropertyCarousel from "./PropertyCarousel";
+import dynamic from "next/dynamic";
 import { useHomeScroll } from "./useHomeScroll";
 import SkyHeader from "./SkyHeader";
-import FilterPanels from "./FilterPanels";
-import Manifesto from "./Manifesto";
+const PropertyCarousel = dynamic(() => import("./PropertyCarousel"), { ssr: false });
+const FilterPanels     = dynamic(() => import("./FilterPanels"),     { ssr: false });
+const Manifesto        = dynamic(() => import("./Manifesto"),        { ssr: false });
 
 interface Props { locale: string; }
 const TOTAL_PANELS = 3;
