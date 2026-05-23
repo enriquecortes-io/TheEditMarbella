@@ -115,8 +115,8 @@ const INP: React.CSSProperties = {
   width:"100%", background:"rgba(255,255,255,0.04)",
   border:"1px solid rgba(201,169,110,0.2)",
   color:"white", padding:"0.9rem 1rem",
-  fontFamily:"'Montserrat',sans-serif", fontSize:"0.55rem",
-  letterSpacing:"0.1em", outline:"none", boxSizing:"border-box",
+  fontFamily:"'Montserrat',sans-serif", fontSize:"0.7rem",
+  letterSpacing:"0.05em", outline:"none", boxSizing:"border-box",
   transition:"border-color 0.3s",
 };
 
@@ -168,8 +168,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         <div style={{ display:"flex", flexDirection:"column", gap:"2rem" }}>
           <div>
             <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 1rem" }}>{t.eyebrow}</p>
-            <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,3vw,3rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:"0 0 1rem", fontStyle:"italic" }}>{t.title}</h2>
-            <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.2vw,1.1rem)", color:"rgba(255,255,255,0.6)", lineHeight:1.7, margin:0, fontStyle:"italic" }}>{t.subtitle}</p>
+            <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,3.5vw,3.5rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:"0 0 1rem", fontStyle:"italic" }}>{t.title}</h2>
+            <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.2vw,1.1rem)", color:"rgba(255,255,255,0.85)", lineHeight:1.7, margin:0, fontStyle:"italic" }}>{t.subtitle}</p>
           </div>
 
           <div style={{ width:"2rem", height:"1px", background:"rgba(201,169,110,0.4)" }}/>
@@ -180,8 +180,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
               <div key={i} style={{ display:"flex", gap:"1rem", alignItems:"flex-start" }}>
                 <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.2rem", color:"rgba(201,169,110,0.6)", flexShrink:0, marginTop:"0.1rem" }}>{s.icon}</span>
                 <div>
-                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.9)", letterSpacing:"0.3em", textTransform:"uppercase", margin:"0 0 0.3rem" }}>{s.title}</p>
-                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.85rem,1vw,1rem)", color:"rgba(255,255,255,0.55)", lineHeight:1.6, margin:0 }}>{s.desc}</p>
+                  <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,1)", letterSpacing:"0.3em", textTransform:"uppercase", margin:"0 0 0.3rem" }}>{s.title}</p>
+                  <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1.05rem)", color:"rgba(255,255,255,0.8)", lineHeight:1.6, margin:0 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -190,7 +190,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
         {/* Columna derecha — Formulario */}
         <div style={{ display:"flex", flexDirection:"column", gap:"1rem", borderLeft:"1px solid rgba(201,169,110,0.1)", paddingLeft:"clamp(1.5rem,3vw,3rem)" }}>
-          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.5rem" }}>{t.formTitle}</p>
+          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,0.9)", letterSpacing:"0.4em", textTransform:"uppercase", margin:"0 0 0.5rem" }}>{t.formTitle}</p>
 
           {status === "sent" ? (
             <div style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center" }}>
@@ -252,7 +252,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                 onClick={handleSubmit}
                 disabled={status === "sending"}
                 style={{
-                  fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem",
+                  fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
                   letterSpacing:"0.45em", textTransform:"uppercase",
                   color:"rgba(201,169,110,0.9)", background:"transparent",
                   border:"1px solid rgba(201,169,110,0.4)",
