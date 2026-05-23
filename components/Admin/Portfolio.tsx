@@ -7,6 +7,7 @@ interface Property {
   habitaciones: number; banos: number; m2_construidos: number; m2_parcela: number;
   ubicacion: string; tipo: string; zona: string;
   activa: boolean; destacada: boolean; video_url: string; galeria_urls: string[];
+  referencia?: string;
 }
 
 interface Props { password: string; onEdit: (slug: string) => void; }
@@ -134,7 +135,7 @@ export default function Portfolio({ password, onEdit }: Props) {
 
   const filtered = properties.filter(p => {
     const title = typeof p.titulo==="object" ? (p.titulo.es||p.titulo.en||"") : p.titulo;
-    if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search)) return false;
+    if (filters.search && !title.toLowerCase().includes(filters.search.toLowerCase()) && !p.slug.includes(filters.search) && !(p.referencia||"").toLowerCase().includes(filters.search.toLowerCase())) return false;
     if (filters.tipo && p.tipo!==filters.tipo) return false;
     if (filters.zona && p.zona!==filters.zona) return false;
     if (filters.activa==="activa" && !p.activa) return false;
@@ -212,6 +213,7 @@ export default function Portfolio({ password, onEdit }: Props) {
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ref</th>
                 <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Propiedad</th>
                 <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Tipo</th>
                 <th onClick={()=>toggleSort("zona")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
@@ -231,6 +233,9 @@ export default function Portfolio({ password, onEdit }: Props) {
                 const title = typeof p.titulo==="object" ? (p.titulo.es||p.titulo.en||p.slug) : p.titulo;
                 return (
                   <tr key={p.slug} style={{ borderBottom:"1px solid #f3f4f6", background:i%2===0?"white":"#fafafa" }}>
+                    <td style={{ padding:"14px 16px" }}>
+                      <span style={{ fontFamily:"monospace", fontSize:"12px", fontWeight:700, color:"#7c3aed", background:"#f5f3ff", padding:"3px 8px", borderRadius:"4px", whiteSpace:"nowrap" }}>{p.referencia||"—"}</span>
+                    </td>
                     <td style={{ padding:"14px 16px" }}>
                       <div style={{ fontWeight:600, fontSize:"14px", color:"#111" }}>{title}</div>
                       <div style={{ fontSize:"12px", color:"#9ca3af", marginTop:"2px" }}>{p.slug}</div>
