@@ -3,7 +3,7 @@ import { forwardRef, useState } from "react";
 
 interface Props { locale: string; }
 
-const TRANSLATIONS: Record<string, Record<string, string>> = {
+const TRANSLATIONS: Record<string, Record<string, string | string[]>> = {
   es: {
     eyebrow: "Propietarios",
     title: "Confíanos tu Legado",
