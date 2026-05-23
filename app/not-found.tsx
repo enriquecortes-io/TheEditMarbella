@@ -9,7 +9,6 @@ export default function NotFound() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,900&family=Montserrat:wght@200;300&display=swap');
         @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
         @keyframes neonBreath {
           0%,100%{height:2rem;opacity:0.3;}

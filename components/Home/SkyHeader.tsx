@@ -52,7 +52,6 @@ export default function SkyHeader({ locale }: Props) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@200;300&display=swap');
 
         @keyframes wordIn {
           0%   { opacity:0; transform:translateY(40px) scaleY(0.8); filter:blur(10px); }
