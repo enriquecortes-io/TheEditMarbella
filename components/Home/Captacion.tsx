@@ -177,14 +177,13 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
     <div ref={ref} style={{
       position:"absolute", inset:0, zIndex:23,
       opacity:0, pointerEvents:"none",
-      display:"flex", alignItems:"center", justifyContent:"center",
+      display:"flex", alignItems:"flex-start", justifyContent:"center",
       padding:"clamp(1rem,3vw,3rem)",
       overflowY:"auto",
       willChange:"opacity",
     }}>
       <div style={{
         width:"100%", maxWidth:"1000px",
-        maxHeight:"88vh",
         display:"flex", flexDirection:"column",
         gap:"clamp(1.5rem,2.5vw,2.5rem)",
         background:"rgba(6,4,2,0.6)",
@@ -193,7 +192,6 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         padding:"clamp(1.5rem,3vw,3rem)",
         boxSizing:"border-box",
         position:"relative",
-        overflowY:"auto",
       }}>
         {/* Línea dorada superior */}
         <div style={{ position:"absolute", top:0, left:"10%", right:"10%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)" }}/>
@@ -218,8 +216,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                   </span>
                   <div style={{ flex:1, height:"1px", background:"linear-gradient(90deg,rgba(201,169,110,0.4),transparent)" }}/>
                 </div>
-                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", color:"rgba(201,169,110,1)", letterSpacing:"0.2em", textTransform:"uppercase", margin:0, lineHeight:1.4 }}>{s.title}</p>
-                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.95rem,1.1vw,1.05rem)", color:"rgba(255,255,255,0.85)", lineHeight:1.6, margin:0 }}>{s.desc}</p>
+                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.7rem", color:"rgba(201,169,110,1)", letterSpacing:"0.2em", textTransform:"uppercase", margin:0, lineHeight:1.4 }}>{s.title}</p>
+                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1rem,1.2vw,1.15rem)", color:"rgba(255,255,255,0.85)", lineHeight:1.6, margin:0 }}>{s.desc}</p>
               </div>
             ))}
           </div>
