@@ -6,7 +6,7 @@ import SkyHeader from "./SkyHeader";
 const PropertyCarousel = dynamic(() => import("./PropertyCarousel"), { ssr: false });
 const FilterPanels     = dynamic(() => import("./FilterPanels"),     { ssr: false });
 const Manifesto        = dynamic(() => import("./Manifesto"),        { ssr: false });
-const Captacion        = dynamic(() => import("./Captacion"),        { ssr: false });
+const Captacion        = dynamic(() => import("./Captacion"),        { ssr: false }) as any;
 
 interface Props { locale: string; }
 const TOTAL_PANELS = 3;
