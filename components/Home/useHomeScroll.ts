@@ -1,18 +1,19 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Phase = "header" | "manifesto" | "carousel" | "filters";
+type Phase = "header" | "manifesto" | "carousel" | "filters" | "captacion";
 
 interface Props {
   headerRef: React.RefObject<HTMLDivElement | null>;
   manifestoRef: React.RefObject<HTMLDivElement | null>;
   filtersRef: React.RefObject<HTMLDivElement | null>;
   carouselRef?: React.RefObject<HTMLDivElement | null>;
+  captacionRef?: React.RefObject<HTMLDivElement | null>;
   panelRefs: React.RefObject<(HTMLDivElement | null)[]>;
   totalPanels: number;
 }
 
-export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef, panelRefs, totalPanels }: Props) {
+export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef, captacionRef, panelRefs, totalPanels }: Props) {
   const phaseRef = useRef<Phase>("header");
   const progressRef = useRef(0);
   const targetProgressRef = useRef(0);
@@ -123,7 +124,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
     };
 
     // ── Transición direccional entre fases ───────────────────────────────
-    const PHASE_ORDER: Phase[] = ["header", "manifesto", "carousel", "filters"];
+    const PHASE_ORDER: Phase[] = ["header", "manifesto", "carousel", "filters", "captacion"];
 
     const goNext = () => {
       const idx = PHASE_ORDER.indexOf(phaseRef.current);

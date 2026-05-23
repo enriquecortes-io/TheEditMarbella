@@ -6,6 +6,7 @@ import SkyHeader from "./SkyHeader";
 const PropertyCarousel = dynamic(() => import("./PropertyCarousel"), { ssr: false });
 const FilterPanels     = dynamic(() => import("./FilterPanels"),     { ssr: false });
 const Manifesto        = dynamic(() => import("./Manifesto"),        { ssr: false });
+const Captacion        = dynamic(() => import("./Captacion"),        { ssr: false });
 
 interface Props { locale: string; }
 const TOTAL_PANELS = 3;
@@ -15,9 +16,10 @@ export default function HomeExperience({ locale }: Props) {
   const manifestoRef = useRef<HTMLDivElement>(null);
   const filtersRef   = useRef<HTMLDivElement>(null);
   const carouselRef  = useRef<HTMLDivElement>(null);
+  const captacionRef = useRef<HTMLDivElement>(null);
   const panelRefs    = useRef<(HTMLDivElement | null)[]>([]);
 
-  useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef, panelRefs, totalPanels: TOTAL_PANELS });
+  useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef, captacionRef, panelRefs, totalPanels: TOTAL_PANELS });
 
   return (
     <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
@@ -55,6 +57,9 @@ export default function HomeExperience({ locale }: Props) {
           <FilterPanels locale={locale} panelRefs={panelRefs} />
         </div>
       </div>
+
+      {/* Captación */}
+      <Captacion ref={captacionRef} locale={locale} />
 
     </div>
   );
