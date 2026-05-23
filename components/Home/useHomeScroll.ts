@@ -44,9 +44,18 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       if (!el) return;
       const cur = parseFloat(el.style.opacity || "0");
       const next = lerp(cur, target, 0.08);
+      // Batch writes — no reads after writes
       el.style.opacity = String(next);
       el.style.pointerEvents = next > 0.3 ? "auto" : "none";
     };
+
+    // Preparar will-change en todos los elementos animados
+    const prepareElements = () => {
+      [headerRef.current, manifestoRef.current, carouselRef?.current, filtersRef.current].forEach(el => {
+        if (el) el.style.willChange = "opacity, transform";
+      });
+    };
+    prepareElements();
 
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);

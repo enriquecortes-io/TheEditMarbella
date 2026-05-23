@@ -258,7 +258,7 @@ export default function PropertiesExperience({ properties, locale, filters, isMo
                 position:"absolute",
                 width:"clamp(220px,72vw,900px)", height:"clamp(400px,75vh,900px)",
                 marginLeft:"calc(clamp(220px,72vw,900px) / -2)", marginTop:"calc(clamp(400px,75vh,900px) / -2)",
-                willChange:"transform,opacity,filter",
+                willChange:"transform, opacity, filter",
                 cursor:"pointer",
                 transformStyle:"preserve-3d",
               }}
