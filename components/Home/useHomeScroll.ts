@@ -87,6 +87,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
         carEl2.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "none";
       }
       lerpOpacity(filtersRef.current,   phase === "filters" ? 1 : 0);
+      lerpOpacity(captacionRef?.current ?? null, phase === "captacion" ? 1 : 0);
 
       // Panels Z-axis
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
