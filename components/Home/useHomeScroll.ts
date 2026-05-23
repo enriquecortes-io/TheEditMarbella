@@ -208,21 +208,44 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      // En captacion permitir scroll interno
-      if (phaseRef.current === "captacion") return;
-      e.preventDefault();
+      if (phaseRef.current !== "captacion") e.preventDefault();
     };
+
+    // En captacion necesitamos passive:true para permitir scroll nativo
+    // Re-registramos cuando cambia la fase
+    let touchMovePassive = false;
+
+    const registerListeners = (passive: boolean) => {
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.addEventListener("touchmove", handleTouchMove, { passive });
+      touchMovePassive = passive;
+    };
+
+    // Override setPhase para re-registrar listeners
+    const originalSetPhase = setPhase;
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd, { passive: false });
 
+    // Escuchar cambios de fase para toggle passive
+    const handlePhaseChange = (e: Event) => {
+      const phase = (e as CustomEvent).detail;
+      if (phase === "captacion") {
+        registerListeners(true);
+      } else if (touchMovePassive) {
+        registerListeners(false);
+      }
+    };
+    window.addEventListener("scrollphase", handlePhaseChange);
+
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("scrollphase", handlePhaseChange);
       cancelAnimationFrame(rafId);
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
