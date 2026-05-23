@@ -1,21 +1,30 @@
-
-// Convierte URL de Google Drive a URL del proxy interno
-export function convertGDriveUrl(url: string): string {
+// Convierte URL de Google Drive a URL del proxy de imagen optimizada
+export function convertGDriveUrl(url: string, width = 1200, quality = 80): string {
   if (!url) return url;
-  if (url.startsWith("/api/drive")) return url; // ya convertida
-  
+  if (url.startsWith("/api/image")) return url; // ya convertida
+  if (url.startsWith("/api/drive")) {
+    // Migrar de proxy antiguo a nuevo
+    const id = url.split("id=")[1];
+    return id ? `/api/image?id=${id}&w=${width}&q=${quality}` : url;
+  }
+
   const patterns = [
     /\/file\/d\/([a-zA-Z0-9_-]+)/,
     /id=([a-zA-Z0-9_-]+)/,
     /\/d\/([a-zA-Z0-9_-]+)/,
   ];
-  
+
   for (const pattern of patterns) {
     const match = url.match(pattern);
     if (match) {
-      return `/api/drive?id=${match[1]}`;
+      return `/api/image?id=${match[1]}&w=${width}&q=${quality}`;
     }
   }
-  
+
   return url;
+}
+
+// Versión para thumbnails pequeños — carrusel mobile
+export function convertGDriveThumb(url: string): string {
+  return convertGDriveUrl(url, 640, 75);
 }
