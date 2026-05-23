@@ -29,4 +29,5 @@ export interface Property {
   infografias: Infografia[];
   destacada: boolean;
   activa: boolean;
+  referencia?: string;
 }

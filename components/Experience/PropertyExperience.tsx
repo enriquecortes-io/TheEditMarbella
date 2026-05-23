@@ -24,6 +24,7 @@ export default function PropertyExperience({ property, locale }: Props) {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const images = property.galeria_urls || [];
+  const ref = property.referencia || "";
   const galleryTrackRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
