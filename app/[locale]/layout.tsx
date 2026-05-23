@@ -60,7 +60,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <link rel="preload" href="/videos/HeroHeader.mp4" as="fetch" crossOrigin="anonymous"/>
+      
       <link rel="preload" href="/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
       <link rel="preload" href="/fonts/montserrat-300.woff2" as="font" type="font/woff2" crossOrigin="anonymous"/>
       <link rel="stylesheet" href="/fonts/fonts.css"/>
