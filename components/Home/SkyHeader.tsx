@@ -93,6 +93,7 @@ export default function SkyHeader({ locale }: Props) {
       <video
         ref={videoRef}
         src="/videos/HeroHeader.mp4"
+        poster="/videos/hero-poster.jpg"
         muted playsInline loop autoPlay
         preload="auto"
         onCanPlay={()=>setVideoReady(true)}
