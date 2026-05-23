@@ -146,7 +146,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
           {/* Imagen entrante — anima encima */}
           <img
             key={active}
-            src={properties[active]?.galeria_urls?.[0] || ""}
+            src={convertGDriveUrl(properties[active]?.galeria_urls?.[0] || "")}
             alt={getTitle(p)}
             style={{
               position:"absolute", inset:0,
