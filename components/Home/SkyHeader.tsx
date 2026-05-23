@@ -95,7 +95,7 @@ export default function SkyHeader({ locale }: Props) {
         src="/videos/HeroHeader.mp4"
         poster="/videos/hero-poster.jpg"
         muted playsInline loop autoPlay
-        preload="auto"
+        preload="metadata"
         onCanPlay={()=>setVideoReady(true)}
         style={{
           position:"absolute", inset:0,
