@@ -58,7 +58,7 @@ export default function PropertyExperience({ property, locale }: Props) {
   };
 
   const desc = property.descripcion;
-  const descText = typeof desc === "object"
+  const descText = desc && typeof desc === "object"
     ? (desc as any)[lang] || (desc as any)["es"] || (desc as any)["en"] || ""
     : desc || "";
 
