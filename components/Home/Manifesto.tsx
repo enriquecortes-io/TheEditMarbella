@@ -49,7 +49,6 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         width:"100%", maxWidth:"900px",
         minHeight:"70vh",
         background:"url(/textures/pizarra.jpg) center/cover no-repeat",
-        ,
         border:"none",
         boxShadow:"0 30px 80px rgba(0,0,0,0.8)",
         padding:"clamp(4rem,9vw,8rem) clamp(1.5rem,4vw,3rem)",
