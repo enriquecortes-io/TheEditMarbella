@@ -48,8 +48,8 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
       <div style={{
         width:"100%", maxWidth:"900px",
         minHeight:"70vh",
-        background:"#0a0806 url(/textures/slate.png) repeat",
-        backgroundBlendMode:"soft-light",
+        background:"#0a0806 url(/textures/pizarra.jpg) center/cover no-repeat",
+        backgroundBlendMode:"multiply",
         border:"none",
         boxShadow:"0 30px 80px rgba(0,0,0,0.8)",
         padding:"clamp(4rem,9vw,8rem) clamp(1.5rem,4vw,3rem)",
