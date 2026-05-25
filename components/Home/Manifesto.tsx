@@ -47,16 +47,16 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
       <div style={{
         width:"100%", maxWidth:"900px",
-        background:"rgba(6,4,2,0.92) url(/textures/slate.png) repeat", backgroundBlendMode:"multiply",
-        border:"1px solid rgba(201,169,110,0.35)",
+        background:"rgba(10,8,6,0.88) url(/textures/slate.png) repeat",
+        border:"none",
         backdropFilter:"blur(20px)",
         boxShadow:"0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px rgba(0,0,0,0.6)",
-        padding:"clamp(2.5rem,6vw,5rem) clamp(1.5rem,4vw,3rem)",
+        padding:"clamp(4rem,9vw,8rem) clamp(1.5rem,4vw,3rem)",
         position:"relative",
         boxSizing:"border-box",
       }}>
         {/* Línea dorada superior */}
-        <div style={{ position:"absolute", top:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.8),transparent)" }}/>
+        
 
         <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem", color:"rgba(201,169,110,0.6)", letterSpacing:"0.6em", textTransform:"uppercase", textAlign:"center", margin:"0 0 2rem" }}>{m.title}</p>
 
@@ -66,7 +66,7 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         </div>
 
         {/* Línea dorada inferior */}
-        <div style={{ position:"absolute", bottom:0, left:"15%", right:"15%", height:"1px", background:"linear-gradient(90deg,transparent,rgba(201,169,110,0.4),transparent)" }}/>
+        
 
         {/* Indicador discover — borde derecho */}
         <div style={{ position:"absolute", top:"50%", right:"-0.5rem", transform:"translateY(-50%)", display:"flex", flexDirection:"column", alignItems:"center", zIndex:10, pointerEvents:"none" }}>
