@@ -47,13 +47,17 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
       <div style={{
         width:"100%", maxWidth:"900px",
-        background:"rgba(10,8,6,0.88) url(/textures/slate.png) repeat",
+        minHeight:"70vh",
+        background:"#0a0806 url(/textures/slate.png) repeat",
+        backgroundBlendMode:"soft-light",
         border:"none",
-        backdropFilter:"blur(20px)",
-        boxShadow:"0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px rgba(0,0,0,0.6)",
+        boxShadow:"0 30px 80px rgba(0,0,0,0.8)",
         padding:"clamp(4rem,9vw,8rem) clamp(1.5rem,4vw,3rem)",
         position:"relative",
         boxSizing:"border-box",
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"center",
       }}>
         {/* Línea dorada superior */}
         
