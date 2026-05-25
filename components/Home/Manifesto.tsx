@@ -47,11 +47,11 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
       <div style={{
         width:"100%", maxWidth:"900px",
-        background:"rgba(6,4,2,0.55)",
+        background:"rgba(6,4,2,0.92) url(/textures/slate.png) repeat", backgroundBlendMode:"multiply",
         border:"1px solid rgba(201,169,110,0.35)",
         backdropFilter:"blur(20px)",
         boxShadow:"0 0 0 1px rgba(255,255,255,0.04), 0 30px 80px rgba(0,0,0,0.6)",
-        padding:"clamp(1.5rem,4vw,3rem)",
+        padding:"clamp(2.5rem,6vw,5rem) clamp(1.5rem,4vw,3rem)",
         position:"relative",
         boxSizing:"border-box",
       }}>
