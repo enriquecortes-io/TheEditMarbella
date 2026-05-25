@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? property.titulo[locale] || property.titulo.es || property.titulo.en || ""
     : property.titulo || "";
 
-  const desc = typeof property.descripcion === "object"
+  const desc = property.descripcion && typeof property.descripcion === "object"
     ? property.descripcion[locale] || property.descripcion.es || property.descripcion.en || ""
     : property.descripcion || "";
 
@@ -112,7 +112,7 @@ export default async function PropertyPage({ params }: Props) {
     ? property.titulo[locale] || property.titulo.es || property.titulo.en || ""
     : property.titulo || "";
 
-  const desc = typeof property.descripcion === "object"
+  const desc = property.descripcion && typeof property.descripcion === "object"
     ? property.descripcion[locale] || property.descripcion.es || property.descripcion.en || ""
     : property.descripcion || "";
 
