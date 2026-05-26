@@ -9,7 +9,6 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
     <div ref={ref} style={{
       position:"absolute", inset:0, zIndex:12,
       opacity:0, pointerEvents:"none",
-      overflowY:"auto",
       willChange:"opacity",
     }}>
       <ManifestoFlow locale={locale} />

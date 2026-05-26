@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Phase = "header" | "manifesto" | "carousel" | "filters" | "captacion";
+type Phase = "header" | "manifesto1" | "manifesto2" | "manifesto3" | "carousel" | "filters" | "captacion";
 
 interface Props {
   headerRef: React.RefObject<HTMLDivElement | null>;
@@ -28,7 +28,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
     let lastPhaseChange = 0;
-    const PHASE_COOLDOWN = 800;
+    const PHASE_COOLDOWN = 900;
 
     const emitPhase = (phase: Phase) => {
       window.dispatchEvent(new CustomEvent("scrollphase", { detail: phase }));
@@ -45,12 +45,10 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       if (!el) return;
       const cur = parseFloat(el.style.opacity || "0");
       const next = lerp(cur, target, 0.08);
-      // Batch writes — no reads after writes
       el.style.opacity = String(next);
       el.style.pointerEvents = next > 0.3 ? "auto" : "none";
     };
 
-    // Preparar will-change en todos los elementos animados
     const prepareElements = () => {
       [headerRef.current, manifestoRef.current, carouselRef?.current, filtersRef.current].forEach(el => {
         if (el) el.style.willChange = "opacity, transform";
@@ -61,17 +59,19 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
     const tick = () => {
       smoothHeader = lerp(smoothHeader, targetHeader, 0.055);
       const phase = phaseRef.current;
+      const isManifesto = phase === "manifesto1" || phase === "manifesto2" || phase === "manifesto3";
 
-      // Header (controlado por smoothHeader/targetHeader)
       if (headerRef.current) {
         headerRef.current.style.opacity = String(1 - smoothHeader);
         headerRef.current.style.transform = `translate3d(0,${-smoothHeader * 80}px,0) scale(${1 - smoothHeader * 0.03})`;
         headerRef.current.style.pointerEvents = smoothHeader > 0.85 ? "none" : "auto";
       }
 
-      // Manifesto / Carousel / Filters — opacidad fase-target
-      lerpOpacity(manifestoRef.current, phase === "manifesto" ? 1 : 0);
-      // Carousel — fade + scale + blur reveal
+      lerpOpacity(manifestoRef.current, isManifesto ? 1 : 0);
+      if (isManifesto) {
+        window.dispatchEvent(new CustomEvent("manifestophase", { detail: phase }));
+      }
+
       const carEl2 = carouselRef?.current;
       if (carEl2) {
         const target = phase === "carousel" ? 1 : 0;
@@ -79,17 +79,15 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
         const next = lerp(cur, target, 0.035);
         carEl2.style.opacity = String(next);
         carEl2.style.pointerEvents = next > 0.3 ? "auto" : "none";
-        // Scale: entra desde 0.88 hasta 1
         const sc = 0.88 + next * 0.12;
-        // Blur: se despeja de 12px a 0
         const bl = Math.max(0, (1 - next) * 12);
         carEl2.style.transform = `scale(${sc})`;
         carEl2.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "none";
       }
-      lerpOpacity(filtersRef.current,   phase === "filters" ? 1 : 0);
+
+      lerpOpacity(filtersRef.current, phase === "filters" ? 1 : 0);
       lerpOpacity(captacionRef?.current ?? null, phase === "captacion" ? 1 : 0);
 
-      // Panels Z-axis
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
       for (let i = 0; i < totalPanels; i++) {
         const el = panelRefs.current[i];
@@ -124,8 +122,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
 
-    // ── Transición direccional entre fases ───────────────────────────────
-    const PHASE_ORDER: Phase[] = ["header", "manifesto", "carousel", "filters", "captacion"];
+    const PHASE_ORDER: Phase[] = ["header", "manifesto1", "manifesto2", "manifesto3", "carousel", "filters", "captacion"];
 
     const goNext = () => {
       const idx = PHASE_ORDER.indexOf(phaseRef.current);
@@ -142,7 +139,6 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       setPhase(next);
     };
 
-    // ── WHEEL — snap acumulado ──────────────────────────────────────────
     let wheelAccum = 0;
     let wheelTimer: ReturnType<typeof setTimeout> | null = null;
     const WHEEL_SNAP = 300;
@@ -151,92 +147,58 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       e.preventDefault();
       const now = Date.now();
       if (now - lastPhaseChange < PHASE_COOLDOWN) return;
-
-      // En header, scroll progresivo hasta el final
       if (phaseRef.current === "header") {
         targetHeader = Math.max(0, Math.min(1, targetHeader + e.deltaY * 0.002));
-        if (targetHeader >= 1) {
-          targetHeader = 1;
-          lastPhaseChange = now;
-          setPhase("manifesto");
-        }
+        if (targetHeader >= 1) { targetHeader = 1; lastPhaseChange = now; setPhase("manifesto1"); }
         return;
       }
-
-      // En filters, manejar paneles internos primero
-      if (phaseRef.current === "filters" && e.deltaY < 0 && targetProgressRef.current > 0) {
-        return; // dejar que FilterPanels gestione paneles internos
-      }
-
+      if (phaseRef.current === "filters" && e.deltaY < 0 && targetProgressRef.current > 0) return;
       wheelAccum += e.deltaY;
       if (wheelTimer) clearTimeout(wheelTimer);
       wheelTimer = setTimeout(() => { wheelAccum = 0; }, 300);
-
       if (Math.abs(wheelAccum) >= WHEEL_SNAP) {
         const dir = wheelAccum > 0 ? 1 : -1;
-        wheelAccum = 0;
-        lastPhaseChange = now;
+        wheelAccum = 0; lastPhaseChange = now;
         if (dir > 0) goNext(); else goPrev();
       }
     };
 
-    // ── TOUCH — snap por gesto completo ─────────────────────────────────
     let touchStartY = 0;
     let touchStartTime = 0;
 
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-    };
+    const handleTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; touchStartTime = Date.now(); };
 
     const handleTouchEnd = (e: TouchEvent) => {
       const now = Date.now();
       if (now - lastPhaseChange < PHASE_COOLDOWN) return;
-
       const deltaY = touchStartY - e.changedTouches[0].clientY;
       const elapsed = now - touchStartTime;
       const velocity = Math.abs(deltaY) / elapsed;
-
       const isSwipeDown = deltaY > 60 || (deltaY > 30 && velocity > 0.3);
       const isSwipeUp   = deltaY < -60 || (deltaY < -30 && velocity > 0.3);
-
       if (!isSwipeDown && !isSwipeUp) return;
-
       lastPhaseChange = now;
-      if (isSwipeDown) goNext();
-      else if (isSwipeUp) goPrev();
+      if (isSwipeDown) goNext(); else goPrev();
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (phaseRef.current !== "captacion") e.preventDefault();
-    };
+    const handleTouchMove = (e: TouchEvent) => { if (phaseRef.current !== "captacion") e.preventDefault(); };
 
-    // En captacion necesitamos passive:true para permitir scroll nativo
-    // Re-registramos cuando cambia la fase
     let touchMovePassive = false;
-
     const registerListeners = (passive: boolean) => {
       window.removeEventListener("touchmove", handleTouchMove);
       window.addEventListener("touchmove", handleTouchMove, { passive });
       touchMovePassive = passive;
     };
 
-    // Override setPhase para re-registrar listeners
-    const originalSetPhase = setPhase;
-
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd, { passive: false });
 
-    // Escuchar cambios de fase para toggle passive
     const handlePhaseChange = (e: Event) => {
       const phase = (e as CustomEvent).detail;
-      if (phase === "captacion") {
-        registerListeners(true);
-      } else if (touchMovePassive) {
-        registerListeners(false);
-      }
+      if (phase === "captacion") registerListeners(true);
+      else if (touchMovePassive) registerListeners(false);
     };
     window.addEventListener("scrollphase", handlePhaseChange);
 
