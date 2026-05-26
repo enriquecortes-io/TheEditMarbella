@@ -198,13 +198,12 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
       {/* Barra filtros */}
       <div style={{
         flexShrink:0,
-        padding:"clamp(3.5rem,6vw,5rem) clamp(2rem,4vw,3rem) 0",
-        display:"flex", alignItems:"center", gap:"clamp(0.5rem,2vw,1.5rem)",
+        padding:"clamp(3.5rem,6vw,4.5rem) clamp(1rem,3vw,2rem) 0.8rem",
+        display:"flex", alignItems:"center", gap:"0.5rem",
         flexWrap:"wrap",
         borderBottom:"1px solid rgba(201,169,110,0.1)",
-        paddingBottom:"1rem",
       }}>
-        <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase", color:GOLD_DIM, margin:0, marginRight:"auto" }}>
+        <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase", color:GOLD_DIM, margin:0, marginRight:"auto", whiteSpace:"nowrap" }}>
           SELECCIÓN · {filtered.length} {filtered.length === 1 ? "propiedad" : "propiedades"}
         </p>
 
@@ -262,7 +261,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
 
       {/* Grid masonry */}
       <div style={{
-        flex:1, overflowY:"auto", padding:"clamp(1rem,2vw,1.5rem) clamp(2rem,4vw,3rem)",
+        flex:1, overflowY:"auto", padding:"clamp(0.8rem,2vw,1.5rem) clamp(0.8rem,3vw,2rem)",
         display:"grid",
         gridTemplateColumns:"repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
         gap:"clamp(0.8rem,1.5vw,1.2rem)",

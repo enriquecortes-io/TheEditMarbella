@@ -165,7 +165,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       lastPhaseChange = now;
       if (isSwipeDown) goNext(); else goPrev();
     };
-    const handleTouchMove = (e: TouchEvent) => { if (phaseRef.current !== "captacion") e.preventDefault(); };
+    const handleTouchMove = (e: TouchEvent) => { if (phaseRef.current !== "captacion" && phaseRef.current !== "masonry") e.preventDefault(); };
 
     let touchMovePassive = false;
     const registerListeners = (passive: boolean) => {
@@ -181,7 +181,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
 
     const handlePhaseChange = (e: Event) => {
       const phase = (e as CustomEvent).detail;
-      if (phase === "captacion") registerListeners(true);
+      if (phase === "captacion" || phase === "masonry") registerListeners(true);
       else if (touchMovePassive) registerListeners(false);
     };
     window.addEventListener("scrollphase", handlePhaseChange);
