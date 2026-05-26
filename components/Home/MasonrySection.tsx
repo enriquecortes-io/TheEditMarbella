@@ -264,14 +264,14 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
       <div style={{
         flex:1, overflowY:"auto", padding:"clamp(1rem,2vw,1.5rem) clamp(2rem,4vw,3rem)",
         display:"grid",
-        gridTemplateColumns:"repeat(auto-fill, minmax(280px, 1fr))",
+        gridTemplateColumns:"repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
         gap:"clamp(0.8rem,1.5vw,1.2rem)",
         alignContent:"start",
       }}>
         {filtered.map((p, idx) => {
           const img = p.galeria_urls?.[0] ? convertGDriveUrl(p.galeria_urls[0]) : "";
           const title = getTitle(p, locale);
-          const h = "260px";
+          const h = typeof window !== 'undefined' && window.innerWidth < 600 ? '220px' : '260px';
 
           return (
             <div
