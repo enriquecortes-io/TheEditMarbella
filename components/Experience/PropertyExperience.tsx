@@ -285,23 +285,25 @@ export default function PropertyExperience({ property, locale }: Props) {
 
       {/* Modal formulario */}
       {showForm && (
-        <div style={{
-          position:"fixed", inset:0, zIndex:200,
-          background:"linear-gradient(135deg, #0d0a08 0%, #1a1008 40%, #0a0d1a 100%)",
-          backdropFilter:"blur(4px)",
-          display:"flex", alignItems:"flex-start", justifyContent:"center",
-          padding:"0",
-
-        }}
+        <div
           onClick={e => { if(e.target===e.currentTarget) setShowForm(false); }}
+          style={{
+            position:"fixed", inset:0, zIndex:200,
+            background:"linear-gradient(135deg, #0d0a08 0%, #1a1008 40%, #0a0d1a 100%)",
+            backdropFilter:"blur(4px)",
+            overflowY:"auto",
+            WebkitOverflowScrolling:"touch",
+          } as React.CSSProperties}
         >
           <div style={{
             width:"100%", maxWidth:"680px",
+            margin:"0 auto",
             background:"rgba(8,6,4,0.95)",
             border:"1px solid rgba(201,169,110,0.2)",
             padding:"clamp(2rem,5vw,4rem)",
             position:"relative",
-            maxHeight:"100vh", overflowY:"scroll",
+            minHeight:"100%",
+            boxSizing:"border-box",
           }}>
             <button
               onClick={() => setShowForm(false)}
