@@ -81,7 +81,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
          <hr style={HR_S}/>
          <div>{c.s2.h.map((l:string,i:number)=><h2 key={i} style={{...H_S,color:i===2?GOLD:WHITE}}>{l}</h2>)}</div>
        </div>
-       <div style={{display:'flex',flexDirection:'column',gap:'clamp(0.6rem,1.2vw,1rem)',justifyContent:'flex-start', paddingTop:'clamp(6rem,14vw,16rem)'}}>
+       <div style={{display:'flex',flexDirection:'column',gap:'clamp(0.6rem,1.2vw,1rem)',justifyContent:'flex-start', paddingTop:'clamp(3rem,7vw,8rem)'}}>
          <p style={BODY_S}>{c.s2.body}</p>
          <hr style={HR_S}/>
          {c.s2.cols.map((col:any,i:number)=>(
