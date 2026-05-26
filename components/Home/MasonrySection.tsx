@@ -1,4 +1,5 @@
 "use client";
+import NeonButton from "@/components/ui/NeonButton";
 import { useState, useEffect, useRef } from "react";
 import { convertGDriveUrl } from "@/lib/gdrive";
 
@@ -153,17 +154,9 @@ function PropertyPreview({ property: p, locale, onClose }: PreviewProps) {
             ))}
           </div>
           <hr style={{ border:"none", borderTop:"1px solid rgba(201,169,110,0.15)", margin:"0.5rem 0" }}/>
-          <a href={`/${locale}/propiedades/${p.slug}`} style={{
-            display:"inline-block",
-            fontFamily:"'Montserrat',sans-serif", fontSize:"0.55rem",
-            letterSpacing:"0.3em", textTransform:"uppercase",
-            color:GOLD, textDecoration:"none",
-            border:"1px solid rgba(201,169,110,0.4)",
-            padding:"0.8rem 1.5rem",
-            transition:"all 0.3s",
-          }}>
+          <NeonButton onClick={() => { window.location.href = `/${locale}/propiedades/${p.slug}`; }}>
             {t.viewProperty} →
-          </a>
+          </NeonButton>
         </div>
       </div>
     </div>

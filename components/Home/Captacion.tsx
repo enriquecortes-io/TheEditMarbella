@@ -1,4 +1,5 @@
 "use client";
+import NeonButton from "@/components/ui/NeonButton";
 import { forwardRef, useState } from "react";
 
 interface Props { locale: string; }
@@ -284,20 +285,9 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                   onBlur={e => e.target.style.borderColor = "rgba(201,169,110,0.2)"}
                 />
                 {status === "error" && <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(255,100,100,0.8)" }}>{t.error}</p>}
-                <button onClick={handleSubmit} disabled={status === "sending"}
-                  style={{
-                    fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
-                    letterSpacing:"0.45em", textTransform:"uppercase",
-                    color:"rgba(201,169,110,0.9)", background:"transparent",
-                    border:"1px solid rgba(201,169,110,0.4)",
-                    padding:"1rem", cursor:"pointer", transition:"all 0.3s",
-                    opacity: status === "sending" ? 0.6 : 1,
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background="rgba(201,169,110,0.08)"; e.currentTarget.style.borderColor="rgba(201,169,110,0.8)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="rgba(201,169,110,0.4)"; }}
-                >
-                  {status === "sending" ? t.sending : t.send}
-                </button>
+                <NeonButton onClick={handleSubmit} disabled={status === "sending"} variant="solid" size="lg" style={{width:"100%",marginTop:"0.5rem"}}>
+                  {status === "sending" ? "..." : status === "ok" ? "✓" : (tf as any).cta || "Solicitar valoración"}
+                </NeonButton>
               </>
             )}
           </div>
