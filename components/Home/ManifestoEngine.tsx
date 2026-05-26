@@ -21,9 +21,9 @@ const BODY_TEXT_RU = `Мы отвергаем то, что лишь прибли
 const TEXTS: Record<string, string> = { es: BODY_TEXT_ES, en: BODY_TEXT_EN, fr: BODY_TEXT_FR, ru: BODY_TEXT_RU };
 
 const ORB_DEFS = [
-  { fx: 0.75, fy: 0.3,  r: 90,  vx: 18,  vy: 12,  color: [201, 169, 110] as [number,number,number] },
-  { fx: 0.2,  fy: 0.65, r: 70,  vx: -14, vy: 20,  color: [201, 169, 110] as [number,number,number] },
-  { fx: 0.5,  fy: 0.15, r: 55,  vx: 10,  vy: -16, color: [255, 255, 255] as [number,number,number] },
+  { fx: 0.75, fy: 0.35, r: 65,  vx: 18,  vy: 12,  color: [201, 169, 110] as [number,number,number] },
+  { fx: 0.2,  fy: 0.6,  r: 50,  vx: -14, vy: 20,  color: [201, 169, 110] as [number,number,number] },
+  { fx: 0.55, fy: 0.75, r: 45,  vx: 10,  vy: -16, color: [255, 255, 255] as [number,number,number] },
 ];
 
 type Orb = { x: number; y: number; r: number; vx: number; vy: number; paused: boolean };
@@ -87,8 +87,8 @@ export default function ManifestoEngine({ locale }: Props) {
     const orbEls = ORB_DEFS.map((d, i) => {
       const el = document.createElement("div");
       el.style.cssText = `position:absolute;border-radius:50%;pointer-events:none;transition:opacity .3s;`;
-      el.style.background = `radial-gradient(circle at 35% 35%, rgba(${d.color.join(",")},0.25), rgba(${d.color.join(",")},0.08) 55%, transparent 72%)`;
-      el.style.boxShadow = `0 0 60px 20px rgba(${d.color.join(",")},0.15)`;
+      el.style.background = `radial-gradient(circle at 35% 35%, rgba(${d.color.join(",")},0.5), rgba(${d.color.join(",")},0.2) 55%, transparent 72%)`;
+      el.style.boxShadow = `0 0 60px 20px rgba(${d.color.join(",")},0.35)`;
       stage!.appendChild(el);
       return el;
     });
@@ -132,12 +132,12 @@ export default function ManifestoEngine({ locale }: Props) {
       }
 
       // Layout texto
-      const topY = PAD * 6;
+      const topY = PAD * 4;
       const lines: Line[] = [];
       let lineY = topY;
 
       // Reset cursor
-      let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+      let cursor: any = prepareWithSegments ? { segmentIndex: 0, graphemeIndex: 0 } : { segmentIndex: 0, graphemeIndex: 0 };
       let exhausted = false;
 
       while (lineY + LINE_H <= H - PAD * 2 && !exhausted) {
