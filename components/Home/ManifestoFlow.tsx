@@ -31,8 +31,8 @@ const CONTENT: Record<string, any> = {
 };
 
 const TAG_S: React.CSSProperties = { fontFamily:"'Montserrat',sans-serif", fontSize:'0.5rem', fontWeight:600, letterSpacing:'0.35em', textTransform:'uppercase', color:GOLD_DIM, margin:0 };
-const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid rgba(201,169,110,0.15)', margin:'clamp(0.8rem,2vw,1.2rem) 0' };
-const H_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2.8rem,8vw,9rem)', fontWeight:600, lineHeight:0.88, textTransform:'uppercase', color:WHITE, margin:0 };
+const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid rgba(201,169,110,0.15)', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
+const H_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2rem,7vw,8rem)', fontWeight:600, lineHeight:0.88, textTransform:'uppercase', color:WHITE, margin:0 };
 const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1rem,1.6vw,1.3rem)', fontWeight:300, lineHeight:1.75, color:WHITE_DIM, maxWidth:'52ch', margin:0 };
 
 type SubPhase = 'manifesto1'|'manifesto2'|'manifesto3';
@@ -66,7 +66,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
     <div style={{ position:'relative', width:'100%', height:'100%', overflow:'hidden', background:'#070503' }}>
 
       {/* S1 */}
-      <div ref={refs.manifesto1} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(2rem,6vw,5rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left' }}>
+      <div ref={refs.manifesto1} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(1.2rem,3vw,3rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left' }}>
         <p style={TAG_S}>{c.s1.tag}</p>
         <hr style={HR_S}/>
         <div>{c.s1.h.map((l:string,i:number)=><h2 key={i} style={{...H_S,color:i===2?GOLD:WHITE}}>{l}</h2>)}</div>
@@ -75,7 +75,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
       </div>
 
       {/* S2 */}
-      <div ref={refs.manifesto2} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(2rem,6vw,5rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left', opacity:0 }}>
+      <div ref={refs.manifesto2} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(1.2rem,3vw,3rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left', opacity:0 }}>
         <p style={TAG_S}>{c.s2.tag}</p>
         <hr style={HR_S}/>
         <div>{c.s2.h.map((l:string,i:number)=><h2 key={i} style={{...H_S,color:i===2?GOLD:WHITE}}>{l}</h2>)}</div>
@@ -93,7 +93,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
       </div>
 
       {/* S3 */}
-      <div ref={refs.manifesto3} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(2rem,6vw,5rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left', opacity:0 }}>
+      <div ref={refs.manifesto3} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'space-between', padding:'clamp(1.2rem,3vw,3rem) clamp(2rem,5vw,4rem)', boxSizing:'border-box', transformOrigin:'bottom left', opacity:0 }}>
         <p style={TAG_S}>{c.s3.tag}</p>
         <hr style={HR_S}/>
         <div>{c.s3.h.map((l:string,i:number)=><h2 key={i} style={{...H_S,color:i===2?GOLD:WHITE}}>{l}</h2>)}</div>
