@@ -286,7 +286,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                 />
                 {status === "error" && <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(255,100,100,0.8)" }}>{t.error}</p>}
                 <NeonButton onClick={handleSubmit} disabled={status === "sending"} variant="solid" size="lg" style={{width:"100%",marginTop:"0.5rem"}}>
-                  {status === "sending" ? "..." : status === "sent" ? "✓" : (tf as any).cta || "Solicitar valoración"}
+                  {(tf as any).cta || "Solicitar valoración"}
                 </NeonButton>
               </>
             )}
