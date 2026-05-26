@@ -290,10 +290,10 @@ export default function PropertyExperience({ property, locale }: Props) {
           onWheel={e => e.stopPropagation()}
           onTouchMove={e => e.stopPropagation()}
           style={{
-            position:"fixed", inset:0, zIndex:200,
-            background:"linear-gradient(135deg, #0d0a08 0%, #1a1008 40%, #0a0d1a 100%)",
-            backdropFilter:"blur(4px)",
+            position:"fixed", top:0, left:0, right:0, bottom:0, zIndex:9999,
+            background:"#0d0a08",
             overflowY:"auto",
+            overflowX:"hidden",
             WebkitOverflowScrolling:"touch",
           } as React.CSSProperties}
         >
