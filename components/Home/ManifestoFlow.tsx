@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
 const GOLD = '#c9a96e';
-const GOLD_DIM = 'rgba(201,169,110,0.55)';
-const WHITE = 'rgba(255,255,255,0.92)';
-const WHITE_DIM = 'rgba(255,255,255,0.6)';
+const GOLD_DIM = 'rgba(201,169,110,0.8)';
+const WHITE = '#ffffff';
+const WHITE_DIM = 'rgba(255,255,255,0.85)';
 
 const CONTENT: Record<string, any> = {
   es: {
