@@ -290,8 +290,8 @@ export default function PropertyExperience({ property, locale }: Props) {
           background:"linear-gradient(135deg, #0d0a08 0%, #1a1008 40%, #0a0d1a 100%)",
           backdropFilter:"blur(4px)",
           display:"flex", alignItems:"flex-start", justifyContent:"center",
-          padding:"1rem",
-          overflowY:"auto",
+          padding:"0",
+
         }}
           onClick={e => { if(e.target===e.currentTarget) setShowForm(false); }}
         >
