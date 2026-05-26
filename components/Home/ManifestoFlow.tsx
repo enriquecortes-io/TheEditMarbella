@@ -30,10 +30,10 @@ const CONTENT: Record<string, any> = {
   },
 };
 
-const TAG_S: React.CSSProperties = { fontFamily:"'Montserrat',sans-serif", fontSize:'0.5rem', fontWeight:600, letterSpacing:'0.35em', textTransform:'uppercase', color:GOLD_DIM, margin:0 };
+const TAG_S: React.CSSProperties = { fontFamily:"'Montserrat',sans-serif", fontSize:'0.65rem', fontWeight:600, letterSpacing:'0.3em', textTransform:'uppercase', color:GOLD_DIM, margin:0 };
 const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid rgba(201,169,110,0.15)', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
 const H_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2rem,7vw,8rem)', fontWeight:600, lineHeight:0.88, textTransform:'uppercase', color:WHITE, margin:0 };
-const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1rem,1.6vw,1.3rem)', fontWeight:300, lineHeight:1.75, color:WHITE_DIM, maxWidth:'52ch', margin:0 };
+const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.1rem,2vw,1.4rem)', fontWeight:300, lineHeight:1.8, color:WHITE_DIM, maxWidth:'52ch', margin:0 };
 
 type SubPhase = 'manifesto1'|'manifesto2'|'manifesto3';
 const ORDER: SubPhase[] = ['manifesto1','manifesto2','manifesto3'];
@@ -86,7 +86,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
           {c.s2.cols.map((col:any,i:number)=>(
             <div key={i} style={{flex:'1 1 160px'}}>
               <p style={{...TAG_S,color:GOLD,marginBottom:'0.4rem'}}>{col.t}</p>
-              <p style={{...BODY_S,fontSize:'clamp(0.8rem,1.1vw,0.95rem)',maxWidth:'none'}}>{col.d}</p>
+              <p style={{...BODY_S,fontSize:'clamp(1rem,1.6vw,1.2rem)',maxWidth:'none'}}>{col.d}</p>
             </div>
           ))}
         </div>
