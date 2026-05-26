@@ -36,26 +36,14 @@ export default function HomeExperience({ locale }: Props) {
       {/* Manifesto */}
       <Manifesto ref={manifestoRef} locale={locale} />
 
-      {/* Carrusel */}
-      <div ref={carouselRef} style={{
+      {/* Masonry */}
+      <div ref={masonryRef} style={{
         position:"absolute", inset:0, zIndex:25,
         opacity:0, pointerEvents:"none",
-        display:"flex", alignItems:"center", justifyContent:"center",
-        padding:"clamp(0px,2vw,2rem) clamp(0px,5vw,4rem)",
-        transformOrigin:"center center",
       }}>
-        <PropertyCarousel locale={locale} />
+        <MasonrySection locale={locale} />
       </div>
 
-      {/* Filtros */}
-      <div ref={filtersRef} style={{
-        position:"absolute", inset:0, zIndex:10,
-        opacity:0, pointerEvents:"none",
-        perspective:"500px",
-      }}>
-        <div style={{position:"absolute",inset:0,transformStyle:"preserve-3d"}}>
-          <FilterPanels locale={locale} panelRefs={panelRefs} />
-        </div>
       </div>
 
       {/* Captación */}
