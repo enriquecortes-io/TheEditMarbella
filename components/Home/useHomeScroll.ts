@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Phase = "header" | "manifesto1" | "manifesto2" | "manifesto3" | "carousel" | "filters" | "captacion";
+type Phase = "header" | "manifesto1" | "manifesto2" | "manifesto3" | "masonry" | "captacion";
 
 interface Props {
   headerRef: React.RefObject<HTMLDivElement | null>;
@@ -72,20 +72,7 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
         window.dispatchEvent(new CustomEvent("manifestophase", { detail: phase }));
       }
 
-      const carEl2 = carouselRef?.current;
-      if (carEl2) {
-        const target = phase === "carousel" ? 1 : 0;
-        const cur = parseFloat(carEl2.style.opacity || "0");
-        const next = lerp(cur, target, 0.035);
-        carEl2.style.opacity = String(next);
-        carEl2.style.pointerEvents = next > 0.3 ? "auto" : "none";
-        const sc = 0.88 + next * 0.12;
-        const bl = Math.max(0, (1 - next) * 12);
-        carEl2.style.transform = `scale(${sc})`;
-        carEl2.style.filter = bl > 0.1 ? `blur(${bl.toFixed(1)}px)` : "none";
-      }
-
-      lerpOpacity(filtersRef.current, phase === "filters" ? 1 : 0);
+      lerpOpacity(carouselRef?.current ?? null, phase === "masonry" ? 1 : 0);
       lerpOpacity(captacionRef?.current ?? null, phase === "captacion" ? 1 : 0);
 
       progressRef.current = lerp(progressRef.current, targetProgressRef.current, 0.07);
@@ -122,12 +109,12 @@ export function useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef
       targetProgressRef.current = Math.max(0, Math.min(totalPanels - 1, next));
     };
 
-    const PHASE_ORDER: Phase[] = ["header", "manifesto1", "manifesto2", "manifesto3", "carousel", "filters", "captacion"];
+    const PHASE_ORDER: Phase[] = ["header", "manifesto1", "manifesto2", "manifesto3", "masonry", "captacion"];
 
     const goNext = () => {
       const idx = PHASE_ORDER.indexOf(phaseRef.current);
       const next = PHASE_ORDER[Math.min(PHASE_ORDER.length - 1, idx + 1)];
-      if (next === "filters") targetProgressRef.current = 0;
+      
       if (next !== "header") targetHeader = 1;
       setPhase(next);
     };

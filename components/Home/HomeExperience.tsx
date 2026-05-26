@@ -14,12 +14,12 @@ const TOTAL_PANELS = 3;
 export default function HomeExperience({ locale }: Props) {
   const headerRef    = useRef<HTMLDivElement>(null);
   const manifestoRef = useRef<HTMLDivElement>(null);
-  const filtersRef   = useRef<HTMLDivElement>(null);
-  const carouselRef  = useRef<HTMLDivElement>(null);
+  
+  const masonryRef   = useRef<HTMLDivElement>(null);
   const captacionRef = useRef<HTMLDivElement>(null);
   const panelRefs    = useRef<(HTMLDivElement | null)[]>([]);
 
-  useHomeScroll({ headerRef, manifestoRef, filtersRef, carouselRef, captacionRef, panelRefs, totalPanels: TOTAL_PANELS });
+  useHomeScroll({ headerRef, manifestoRef, filtersRef: masonryRef, carouselRef: masonryRef, captacionRef, panelRefs, totalPanels: TOTAL_PANELS });
 
   return (
     <div style={{position:"fixed",inset:0,width:"100%",height:"100vh",overflow:"hidden",background:"transparent"}}>
