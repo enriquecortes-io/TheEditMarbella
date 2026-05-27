@@ -19,12 +19,15 @@ interface Property {
 }
 
 const FILTERS_DEF = [
-  { id:"zona",   label:"ZONA",   options:["marbella","estepona","mijas","benahavis","sotogrande"] },
-  { id:"tipo",   label:"TIPO",   options:["villa","apartment","townhouse","plot"] },
-  { id:"precio", label:"PRECIO", options:["500k-1m","1m-2m","2m-5m","5m+"] },
+  { id:"zona",        label:"ZONA",        options:["marbella","estepona","mijas","benahavis","sotogrande"] },
+  { id:"ubicacion",   label:"UBICACIÓN",   options:["golden mile","nueva andalucia","puerto banus","sierra blanca","la zagaleta","los monteros","el madroñal"] },
+  { id:"tipo",        label:"TIPO",        options:["villa","apartment","townhouse","plot"] },
+  { id:"habitaciones",label:"HAB.",        options:["2","3","4","5","6+"] },
+  { id:"precio",      label:"PRECIO",      options:["500k-1m","1m-2m","2m-5m","5m+"] },
 ];
 
 const PRICE_LABELS: Record<string,string> = { "500k-1m":"500K–1M", "1m-2m":"1M–2M", "2m-5m":"2M–5M", "5m+":"5M+" };
+const HAB_LABELS: Record<string,string> = { "2":"2+", "3":"3+", "4":"4+", "5":"5+", "6+":"6+" };
 
 const GOLD = "#c9a96e";
 const GOLD_DIM = "rgba(201,169,110,0.5)";
@@ -178,8 +181,17 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
   }, []);
 
   const filtered = properties.filter(p => {
-    if (filters.zona && p.ubicacion?.toLowerCase().indexOf(filters.zona) === -1) return false;
-    if (filters.tipo && p.tipo !== filters.tipo) return false;
+    if (filters.zona && !(
+      p.zona?.toLowerCase() === filters.zona ||
+      p.ubicacion?.toLowerCase().includes(filters.zona)
+    )) return false;
+    if (filters.ubicacion && !p.ubicacion?.toLowerCase().includes(filters.ubicacion)) return false;
+    if (filters.tipo && p.tipo?.toLowerCase() !== filters.tipo) return false;
+    if (filters.habitaciones) {
+      const h = parseInt(filters.habitaciones);
+      if (filters.habitaciones === "6+") { if (p.habitaciones < 6) return false; }
+      else { if (p.habitaciones < h) return false; }
+    }
     if (filters.precio && !matchPrice(p.precio, filters.precio)) return false;
     return true;
   });
@@ -221,7 +233,9 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               }}
             >
               {filters[f.id]
-                ? f.id === "precio" ? PRICE_LABELS[filters[f.id]] : filters[f.id].toUpperCase()
+                ? f.id === "precio" ? PRICE_LABELS[filters[f.id]]
+                : f.id === "habitaciones" ? `${HAB_LABELS[filters[f.id]] || filters[f.id]} HAB`
+                : filters[f.id].toUpperCase()
                 : f.label} ▾
             </button>
             {activeFilter === f.id && (
@@ -240,7 +254,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                     letterSpacing:"0.25em", textTransform:"uppercase",
                     color: filters[f.id] === opt ? GOLD : WHITE_DIM,
                   }}>
-                    {f.id === "precio" ? PRICE_LABELS[opt] : opt}
+                    {f.id === "precio" ? PRICE_LABELS[opt] : f.id === "habitaciones" ? `${opt} hab.` : opt}
                   </button>
                 ))}
               </div>
