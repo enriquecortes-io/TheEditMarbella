@@ -181,18 +181,31 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
   }, []);
 
   const filtered = properties.filter(p => {
-    if (filters.zona && !(
-      p.zona?.toLowerCase() === filters.zona ||
-      p.ubicacion?.toLowerCase().includes(filters.zona)
-    )) return false;
-    if (filters.ubicacion && !p.ubicacion?.toLowerCase().includes(filters.ubicacion)) return false;
-    if (filters.tipo && p.tipo?.toLowerCase() !== filters.tipo) return false;
-    if (filters.habitaciones) {
-      const h = parseInt(filters.habitaciones);
-      if (filters.habitaciones === "6+") { if (p.habitaciones < 6) return false; }
-      else { if (p.habitaciones < h) return false; }
+    // Zona — coincidencia exacta con campo zona
+    if (filters.zona) {
+      const zona = (p.zona || "").toLowerCase().trim();
+      if (zona !== filters.zona.toLowerCase().trim()) return false;
     }
-    if (filters.precio && !matchPrice(p.precio, filters.precio)) return false;
+    // Ubicacion — búsqueda flexible sin tildes
+    if (filters.ubicacion) {
+      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const ub = normalize(p.ubicacion || "");
+      const f = normalize(filters.ubicacion);
+      if (!ub.includes(f)) return false;
+    }
+    // Tipo — coincidencia exacta
+    if (filters.tipo) {
+      const tipo = (p.tipo || "").toLowerCase().trim();
+      if (tipo !== filters.tipo.toLowerCase().trim()) return false;
+    }
+    // Habitaciones — mínimo
+    if (filters.habitaciones) {
+      const hab = Number(p.habitaciones) || 0;
+      if (filters.habitaciones === "6+") { if (hab < 6) return false; }
+      else { if (hab < parseInt(filters.habitaciones)) return false; }
+    }
+    // Precio
+    if (filters.precio && !matchPrice(Number(p.precio), filters.precio)) return false;
     return true;
   });
 
