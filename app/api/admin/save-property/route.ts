@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
       property.referencia = await generateRef(property.tipo);
     }
 
+    // Limpiar campos numéricos vacíos
+    const numFields = ["habitaciones","banos","m2_construidos","m2_parcela","precio","garajes","trasteros","planta","ano_construccion"];
+    for (const f of numFields) {
+      if (property[f] === "" || property[f] === null || (typeof property[f] === "number" && isNaN(property[f]))) {
+        delete property[f];
+      }
+    }
+
     const { data, error } = await supabase
       .from("properties")
       .upsert(property, { onConflict: "slug" })
