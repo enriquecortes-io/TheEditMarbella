@@ -316,6 +316,28 @@ export default function Portfolio({ password, onEdit }: Props) {
 
             {/* Indicador de traducciones */}
             <div style={{ display:"flex", gap:"8px", marginBottom:"24px" }}>
+
+              <div style={{marginBottom:"1rem"}}>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Tipo</label>
+                <select value={editFields.tipo||""} onChange={e=>setEditFields((p:any)=>({...p,tipo:e.target.value}))} style={{...INP}}>
+                  <option value="">— Seleccionar —</option>
+                  <option value="villa">Villa</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="townhouse">Townhouse</option>
+                  <option value="plot">Plot</option>
+                </select>
+              </div>
+              <div style={{marginBottom:"1rem"}}>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Zona</label>
+                <select value={editFields.zona||""} onChange={e=>setEditFields((p:any)=>({...p,zona:e.target.value}))} style={{...INP}}>
+                  <option value="">— Seleccionar —</option>
+                  <option value="marbella">Marbella</option>
+                  <option value="estepona">Estepona</option>
+                  <option value="mijas">Mijas</option>
+                  <option value="benahavis">Benahavís</option>
+                  <option value="sotogrande">Sotogrande</option>
+                </select>
+              </div>
               {["es","en","fr","ru"].map(l => (
                 <span key={l} onClick={()=>setLang(l)} style={{
                   padding:"4px 10px", borderRadius:"20px", fontSize:"11px", cursor:"pointer",
@@ -335,8 +357,6 @@ export default function Portfolio({ password, onEdit }: Props) {
                 {label:"Baños", field:"banos", type:"number"},
                 {label:"M² Construidos", field:"m2_construidos", type:"number"},
                 {label:"M² Parcela", field:"m2_parcela", type:"number"},
-                {label:"Tipo", field:"tipo", type:"text"},
-                {label:"Zona (filtro)", field:"zona", type:"text"},
                 {label:"Ubicación", field:"ubicacion", type:"text"},
               ].map(({label,field,type})=>(
                 <div key={field}>
