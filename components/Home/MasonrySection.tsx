@@ -217,7 +217,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
         <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.4em", textTransform:"uppercase", color:GOLD_DIM, margin:0, whiteSpace:"nowrap" }}>
           SELECCIÓN · {filtered.length} {filtered.length === 1 ? "propiedad" : "propiedades"}
         </p>
-        <div style={{ display:"flex", alignItems:"center", gap:"0.5rem", flexWrap:"wrap" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:"0.8rem", flexWrap:"wrap" }}>
 
         {FILTERS_DEF.map(f => (
           <div key={f.id} style={{ position:"relative" }}>
@@ -226,8 +226,8 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               style={{
                 background:"none", border:"1px solid rgba(201,169,110,0.2)",
                 padding:"0.4rem 1rem", cursor:"pointer",
-                fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem",
-                letterSpacing:"0.3em", textTransform:"uppercase",
+                fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
+                letterSpacing:"0.2em", textTransform:"uppercase",
                 color: filters[f.id] ? GOLD : WHITE_DIM,
                 transition:"all 0.2s",
               }}
@@ -250,8 +250,8 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                     background: filters[f.id] === opt ? "rgba(201,169,110,0.1)" : "none",
                     border:"none", borderBottom:"1px solid rgba(201,169,110,0.08)",
                     padding:"0.6rem 1rem", cursor:"pointer",
-                    fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem",
-                    letterSpacing:"0.25em", textTransform:"uppercase",
+                    fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
+                    letterSpacing:"0.15em", textTransform:"uppercase",
                     color: filters[f.id] === opt ? GOLD : WHITE_DIM,
                   }}>
                     {f.id === "precio" ? PRICE_LABELS[opt] : f.id === "habitaciones" ? `${opt} hab.` : opt}
