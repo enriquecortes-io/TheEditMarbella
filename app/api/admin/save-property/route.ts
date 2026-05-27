@@ -7,12 +7,11 @@ const supabase = createClient(
 );
 
 const TIPO_PREFIX: Record<string, string> = {
-  "villa":        "VIL",
-  "casa-adosada": "ADO",
-  "atico":        "ATI",
-  "media-planta": "MED",
-  "bajo":         "BAJ",
-  "terreno":      "TER",
+  "villa":      "VILLA",
+  "apartment":  "APT",
+  "townhouse":  "TH",
+  "plot":       "PLOT",
+  "penthouse":  "PH",
 };
 
 async function generateRef(tipo: string): Promise<string> {
