@@ -458,6 +458,24 @@ export default function Portfolio({ password, onEdit }: Props) {
              onSave={handleSaveEdit}
            />
 
+            {/* Contacto propiedad */}
+            <div style={{marginBottom:"1.5rem",paddingTop:"1rem",borderTop:"1px solid #e5e7eb"}}>
+              <p style={{fontSize:"11px",fontWeight:700,color:"#374151",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>Contacto Propiedad</p>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
+                <div>
+                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Nombre</label>
+                  <input value={editFields.contacto_nombre||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_nombre:e.target.value}))} style={INP} placeholder="Nombre del contacto"/>
+                </div>
+                <div>
+                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Teléfono</label>
+                  <input value={editFields.contacto_telefono||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_telefono:e.target.value}))} style={INP} placeholder="+34 600 000 000"/>
+                </div>
+              </div>
+              <div>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Email</label>
+                <input value={editFields.contacto_email||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_email:e.target.value}))} style={INP} placeholder="email@ejemplo.com"/>
+              </div>
+            </div>
             <div style={{ display:"flex", gap:"16px", marginBottom:"24px" }}>
               <label style={{ display:"flex", alignItems:"center", gap:"8px", fontSize:"14px", cursor:"pointer" }}>
                 <input type="checkbox" checked={editFields.activa||false} onChange={e=>setEditFields((p:any)=>({...p,activa:e.target.checked}))}/>
