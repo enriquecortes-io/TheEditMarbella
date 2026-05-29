@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import NewProperty from "./NewProperty";
 import Portfolio from "./Portfolio";
 import Leads from "./Leads";
+import LeadsCaptacion from "./LeadsCaptacion";
 import Contactos from "./Contactos";
 import CruceVentas from "./CruceVentas";
 import FeedsPanel from "./FeedsPanel";
 import Users from "./Users";
 import Dashboard from "./Dashboard";
 
-type Section = "dashboard" | "portfolio" | "new" | "leads" | "contactos" | "cruce" | "feeds" | "users";
+type Section = "dashboard" | "portfolio" | "new" | "leads" | "captacion" | "contactos" | "cruce" | "feeds" | "users";
 
 export default function AdminPanel() {
   const [password, setPassword] = useState("");
@@ -148,6 +149,7 @@ export default function AdminPanel() {
         {section === "portfolio" && <Portfolio password={password} onEdit={()=>setSection("new")} />}
         {section === "new" && <NewProperty password={password} />}
         {section === "leads" && <Leads password={password} />}
+        {section === "captacion" && <LeadsCaptacion password={password} />}
         {section === "contactos" && <Contactos password={password} />}
         {section === "cruce" && <CruceVentas password={password} />}
         {section === "dashboard" && <Dashboard password={password} />}
