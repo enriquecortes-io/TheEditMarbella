@@ -200,9 +200,9 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
 
         {/* Header */}
         <div>
-          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(201,169,110,0.7)", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 0.6rem" }}>{t.eyebrow}</p>
+          <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(45,74,62,0.7)", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 0.6rem" }}>{t.eyebrow}</p>
           <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,3vw,3rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:"0 0 0.6rem", fontStyle:"italic" }}>{t.title}</h2>
-          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1rem)", color:"rgba(255,255,255,0.7)", lineHeight:1.6, margin:0, fontStyle:"italic" }}>{t.subtitle}</p>
+          <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1rem)", color:"rgba(17,17,17,0.7)", lineHeight:1.6, margin:0, fontStyle:"italic" }}>{t.subtitle}</p>
         </div>
 
         {/* Tabs */}
@@ -211,7 +211,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
             <button key={tabId} onClick={() => setTab(tabId)} style={{
               fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem",
               letterSpacing:"0.3em", textTransform:"uppercase",
-              color: tab === tabId ? "#c9a96e" : "rgba(255,255,255,0.35)",
+              color: tab === tabId ? "#2D4A3E" : "rgba(255,255,255,0.35)",
               background:"transparent", border:"none",
               borderBottom: tab === tabId ? "1px solid #c9a96e" : "1px solid transparent",
               padding:"0.6rem 1.5rem 0.8rem", cursor:"pointer",
@@ -228,13 +228,13 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
             {SERVICES(locale).map((s, i) => (
               <div key={i} style={{ display:"flex", flexDirection:"column", gap:"0.35rem" }}>
                 <div style={{ display:"flex", alignItems:"center", gap:"0.6rem" }}>
-                  <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"0.7rem", color:"rgba(201,169,110,0.5)", fontWeight:300, flexShrink:0 }}>
+                  <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"0.7rem", color:"rgba(45,74,62,0.5)", fontWeight:300, flexShrink:0 }}>
                     {String(i+1).padStart(2,"0")}
                   </span>
                   <div style={{ flex:1, height:"1px", background:"linear-gradient(90deg,rgba(201,169,110,0.4),transparent)" }}/>
                 </div>
-                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.55rem", color:"#c9a96e", letterSpacing:"0.2em", textTransform:"uppercase", margin:0, lineHeight:1.3 }}>{s.title}</p>
-                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1rem)", color:"rgba(255,255,255,0.8)", lineHeight:1.55, margin:0 }}>{s.desc}</p>
+                <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.55rem", color:"#2D4A3E", letterSpacing:"0.2em", textTransform:"uppercase", margin:0, lineHeight:1.3 }}>{s.title}</p>
+                <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1rem)", color:"rgba(17,17,17,0.8)", lineHeight:1.55, margin:0 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -244,7 +244,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         {tab === "contacto" && (
           <div style={{ display:"flex", flexDirection:"column", gap:"0.8rem" }}>
             {status === "sent" ? (
-              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", color:"#c9a96e", textAlign:"center", fontStyle:"italic", lineHeight:1.6, padding:"2rem 0" }}>{t.sent}</p>
+              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", color:"#2D4A3E", textAlign:"center", fontStyle:"italic", lineHeight:1.6, padding:"2rem 0" }}>{t.sent}</p>
             ) : (
               <>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0.7rem" }}>
@@ -258,8 +258,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                       value={(form as any)[f.key]}
                       onChange={e => setForm(p => ({...p, [f.key]: e.target.value}))}
                       style={INP}
-                      onFocus={e => e.target.style.borderColor = "rgba(201,169,110,0.6)"}
-                      onBlur={e => e.target.style.borderColor = "rgba(201,169,110,0.2)"}
+                      onFocus={e => e.target.style.borderColor = "rgba(45,74,62,0.6)"}
+                      onBlur={e => e.target.style.borderColor = "rgba(45,74,62,0.2)"}
                     />
                   ))}
                 </div>
@@ -270,8 +270,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                         fontFamily:"'Montserrat',sans-serif", fontSize:"0.45rem",
                         letterSpacing:"0.15em", padding:"0.45rem 0.8rem",
                         border:`1px solid rgba(201,169,110,${form.precio_estimado === p ? 0.8 : 0.2})`,
-                        background: form.precio_estimado === p ? "rgba(201,169,110,0.12)" : "transparent",
-                        color: form.precio_estimado === p ? "#c9a96e" : "rgba(255,255,255,0.4)",
+                        background: form.precio_estimado === p ? "rgba(45,74,62,0.12)" : "transparent",
+                        color: form.precio_estimado === p ? "#2D4A3E" : "rgba(255,255,255,0.4)",
                         cursor:"pointer", transition:"all 0.2s",
                       }}>
                       {p}
@@ -281,8 +281,8 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
                 <textarea placeholder={t.mensaje} value={form.mensaje}
                   onChange={e => setForm(p => ({...p, mensaje: e.target.value}))}
                   rows={3} style={{...INP, resize:"none"}}
-                  onFocus={e => e.target.style.borderColor = "rgba(201,169,110,0.6)"}
-                  onBlur={e => e.target.style.borderColor = "rgba(201,169,110,0.2)"}
+                  onFocus={e => e.target.style.borderColor = "rgba(45,74,62,0.6)"}
+                  onBlur={e => e.target.style.borderColor = "rgba(45,74,62,0.2)"}
                 />
                 {status === "error" && <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.4rem", color:"rgba(255,100,100,0.8)" }}>{t.error}</p>}
                 <NeonButton onClick={handleSubmit} disabled={status === "sending"} variant="solid" size="lg" style={{width:"100%",marginTop:"0.5rem"}}>

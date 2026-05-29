@@ -29,11 +29,11 @@ const FILTERS_DEF = [
 const PRICE_LABELS: Record<string,string> = { "500k-1m":"500K–1M", "1m-2m":"1M–2M", "2m-5m":"2M–5M", "5m+":"5M+" };
 const HAB_LABELS: Record<string,string> = { "2":"2+", "3":"3+", "4":"4+", "5":"5+", "6+":"6+" };
 
-const GOLD = "#c9a96e";
-const GOLD_DIM = "rgba(201,169,110,0.5)";
-const WHITE = "#ffffff";
-const WHITE_DIM = "rgba(255,255,255,0.6)";
-const BG = "#070503";
+const GOLD = "#2D4A3E";
+const GOLD_DIM = "rgba(45,74,62,0.6)";
+const WHITE = "#111111";
+const WHITE_DIM = "#4A4A4A";
+const BG = "#FAFAF7";
 
 const T: Record<string, Record<string,string>> = {
   es: { surface:"Superficie", bedrooms:"Hab.", bathrooms:"Baños", price:"Precio", viewProperty:"Ver propiedad", loading:"Cargando..." },
@@ -237,7 +237,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
             <button
               onClick={() => setActiveFilter(activeFilter === f.id ? null : f.id)}
               style={{
-                background:"none", border:"1px solid rgba(201,169,110,0.2)",
+                background:"none", border:"1px solid #E2DDD6",
                 padding:"0.7rem 1.4rem", cursor:"pointer",
                 fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
                 letterSpacing:"0.2em", textTransform:"uppercase",
@@ -254,7 +254,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
             {activeFilter === f.id && (
               <div style={{
                 position:"absolute", top:"calc(100% + 0.5rem)", left:0, zIndex:50,
-                background:"#0d0a08", border:"1px solid rgba(201,169,110,0.2)",
+                background:"#FAFAF7", border:"1px solid #E2DDD6",
                 minWidth:"140px",
               }}>
                 {f.options.map(opt => (
@@ -307,8 +307,8 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               style={{
                 cursor:"pointer", position:"relative", overflow:"hidden",
                 height:h,
-                background:"#0d0a08",
-                border:"1px solid rgba(201,169,110,0.08)",
+                background:"#FAFAF7",
+                border:"1px solid #E2DDD6",
                 transition:"border-color 0.3s",
               }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}

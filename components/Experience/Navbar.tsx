@@ -91,8 +91,8 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
             onClick={() => setOpen(p => !p)}
             style={{
               background:"none",
-              border:`1px solid rgba(255,255,255,${open?0.2:0.1})`,
-              color:"rgba(255,255,255,0.7)",
+              border:`1px solid ${open?"#2D4A3E":"#E2DDD6"}`,
+              color:"#111111",
               fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"0.55rem",
               fontWeight:300,
@@ -120,10 +120,10 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
               className="lang-dropdown"
               style={{
                 position:"absolute", top:"calc(100% + 0.5rem)", right:0,
-                background:"rgba(8,6,4,0.95)",
-                backdropFilter:"blur(20px)",
+                background:"rgba(250,250,247,0.98)",
+                backdropFilter:"blur(16px)",
                 WebkitBackdropFilter:"blur(20px)",
-                border:"1px solid rgba(255,255,255,0.08)",
+                border:"1px solid #E2DDD6",
                 minWidth:"10rem",
                 overflow:"hidden",
               }}
