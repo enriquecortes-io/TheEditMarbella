@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import KanbanLeads, { FASES_VENTA } from "./KanbanLeads";
 
 interface Lead {
   id: string;
@@ -12,225 +13,99 @@ interface Lead {
   locale: string;
   agente: string;
   notas: string;
+  fase: string;
   created_at: string;
 }
 
 interface Props { password: string; }
 
+const S: React.CSSProperties = { padding:"8px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"13px", fontFamily:"system-ui", outline:"none", background:"white" };
+
 export default function Leads({ password }: Props) {
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [agentes, setAgentes] = useState<string[]>(["Enrique"]);
-  const [notaLead, setNotaLead] = useState<Lead|null>(null);
-  const [notaText, setNotaText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState<"kanban"|"tabla">("kanban");
   const [search, setSearch] = useState("");
-  const [filtroPropiedad, setFiltroPropiedad] = useState("");
   const [sort, setSort] = useState<{field:string|null,dir:"asc"|"desc"}>({field:null,dir:"asc"});
   const toggleSort = (field:string) => setSort(p=>({field,dir:p.field===field&&p.dir==="asc"?"desc":"asc"}));
 
-  useEffect(() => {
-    // Cargar leads
+  const fetch_ = () => {
+    setLoading(true);
     fetch("/api/admin/leads", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ password }),
     })
-      .then(r => r.json())
-      .then(d => { setLeads(d.leads || []); setLoading(false); })
-      .catch(() => setLoading(false));
-
-    // Cargar agentes desde tabla usuarios
-    fetch("/api/admin/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password, action: "list" }),
-    })
-      .then(r => r.json())
-      .then(d => {
-        const userAgentes = (d.users || [])
-          .filter((u: any) => u.role === "agente" || u.role === "superadmin")
-          .map((u: any) => u.name);
-        if (userAgentes.length > 0) setAgentes(userAgentes);
-      })
-      .catch(() => {});
-  }, []);
-
-  const handleSaveNota = async () => {
-    if (!notaLead) return;
-    const now = new Date();
-    const timestamp = now.toLocaleDateString("es-ES", { 
-      weekday:"long", day:"2-digit", month:"long", year:"numeric",
-      hour:"2-digit", minute:"2-digit"
-    });
-    // Si ya hay notas, añadir nueva entrada con separador
-    const existingNotas = notaLead.notas || "";
-    const newEntry = `━━━ ${timestamp} ━━━
-${notaText}`;
-    const finalNotas = existingNotas 
-      ? `${existingNotas}
-
-${newEntry}`
-      : newEntry;
-
-    await fetch("/api/admin/leads/update", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ password, id: notaLead.id, notas: finalNotas }),
-    });
-    setLeads(prev => prev.map(l => l.id === notaLead.id ? {...l, notas: finalNotas} : l));
-    setNotaLead(null);
-    setNotaText("");
+      .then(r=>r.json())
+      .then(d=>{ setLeads(d.leads||[]); setLoading(false); })
+      .catch(()=>setLoading(false));
   };
 
-  const handleChangeAgente = async (id: string, agente: string) => {
-    await fetch("/api/admin/leads/update", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ password, id, agente }),
-    });
-    setLeads(prev => prev.map(l => l.id === id ? {...l, agente} : l));
-  };
+  useEffect(()=>{ fetch_(); }, []);
 
-  const propiedades = [...new Set(leads.map(l=>l.property_slug).filter(Boolean))];
   const sorted = [...leads].sort((a,b)=>{
     if(!sort.field) return 0;
     const f=sort.field as keyof typeof a;
-    const av=a[f],bv=b[f];
-    if(typeof av==="number"&&typeof bv==="number") return sort.dir==="asc"?av-bv:bv-av;
-    return sort.dir==="asc"?String(av||"").localeCompare(String(bv||"")):String(bv||"").localeCompare(String(av||""));
+    return sort.dir==="asc"?String(a[f]||"").localeCompare(String(b[f]||"")):String(b[f]||"").localeCompare(String(a[f]||""));
   });
-  const filtered = sorted.filter(l =>
+
+  const filtered = sorted.filter(l=>
     !search ||
     l.name?.toLowerCase().includes(search.toLowerCase()) ||
     l.email?.toLowerCase().includes(search.toLowerCase()) ||
     l.property_title?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const S: React.CSSProperties = { padding:"8px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"13px", fontFamily:"system-ui", outline:"none", background:"white", color:"#111" };
+  const TH: React.CSSProperties = { padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" };
 
   return (
     <div style={{ padding:"32px" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"24px" }}>
         <div>
           <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
-          <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Leads</h1>
+          <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Leads Venta</h1>
         </div>
-        <span style={{ background:"#f3f4f6", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#6b7280" }}>
-          {filtered.length} solicitudes
-        </span>
+        <div style={{ display:"flex", gap:"8px", alignItems:"center" }}>
+          <span style={{ background:"#f3f4f6", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#6b7280" }}>{leads.length} leads</span>
+          <button onClick={()=>setView("kanban")} style={{ padding:"6px 14px", borderRadius:"6px", border:"1px solid #e5e7eb", background:view==="kanban"?"#111827":"white", color:view==="kanban"?"white":"#374151", fontSize:"12px", cursor:"pointer" }}>Kanban</button>
+          <button onClick={()=>setView("tabla")} style={{ padding:"6px 14px", borderRadius:"6px", border:"1px solid #e5e7eb", background:view==="tabla"?"#111827":"white", color:view==="tabla"?"white":"#374151", fontSize:"12px", cursor:"pointer" }}>Tabla</button>
+        </div>
       </div>
-
-      {/* Búsqueda */}
-      <div style={{ background:"white", padding:"16px", borderRadius:"8px", boxShadow:"0 1px 4px rgba(0,0,0,0.06)", marginBottom:"24px" }}>
-        <input
-          value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Buscar por nombre, email o propiedad..."
-          style={{ ...S, width:"100%", boxSizing:"border-box" }}
-        />
-      </div>
-
-     {/* Filtros por propiedad */}
-     {propiedades.length > 0 && (
-       <div style={{ display:"flex", gap:"0.5rem", flexWrap:"wrap", marginBottom:"1rem" }}>
-         <button onClick={()=>setFiltroPropiedad("")} style={{ padding:"5px 12px", borderRadius:"20px", border:"2px solid", borderColor:filtroPropiedad===""?"#111827":"#e5e7eb", background:filtroPropiedad===""?"#111827":"white", color:filtroPropiedad===""?"white":"#374151", fontSize:"12px", fontWeight:600, cursor:"pointer" }}>
-           Todas
-         </button>
-         {propiedades.map(p => (
-           <button key={p} onClick={()=>setFiltroPropiedad(filtroPropiedad===p?"":p)} style={{ padding:"5px 12px", borderRadius:"20px", border:"2px solid", borderColor:filtroPropiedad===p?"#2563eb":"#e5e7eb", background:filtroPropiedad===p?"#2563eb":"white", color:filtroPropiedad===p?"white":"#374151", fontSize:"12px", fontWeight:600, cursor:"pointer" }}>
-             {p}
-           </button>
-         ))}
-       </div>
-     )}
 
       {loading ? (
         <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>Cargando...</div>
-      ) : filtered.length === 0 ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>No hay solicitudes</div>
+      ) : view === "kanban" ? (
+        <KanbanLeads leads={leads} fases={FASES_VENTA} tabla="leads" onUpdate={fetch_} />
       ) : (
-        <div style={{ background:"white", borderRadius:"8px", boxShadow:"0 1px 4px rgba(0,0,0,0.06)", overflow:"hidden" }}>
-          <table style={{ width:"100%", borderCollapse:"collapse" }}>
-            <thead>
-              <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                {["Fecha","Nombre","Email","Teléfono","Propiedad","Horizonte","Agente","Notas","Idioma"].map(h => (
-                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((l, i) => (
-                <tr key={l.id} style={{ borderBottom:"1px solid #f3f4f6", background:i%2===0?"white":"#fafafa" }}>
-                  <td style={{ padding:"14px 16px", fontSize:"12px", color:"#6b7280", whiteSpace:"nowrap" }}>
-                    {new Date(l.created_at).toLocaleDateString("es-ES", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" })}
-                  </td>
-                  <td style={{ padding:"14px 16px", fontSize:"14px", fontWeight:600, color:"#111" }}>{l.name || "—"}</td>
-                  <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>
-                    <a href={`mailto:${l.email}`} style={{ color:"#2563eb", textDecoration:"none" }}>{l.email || "—"}</a>
-                  </td>
-                  <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>
-                    <a href={`tel:${l.phone}`} style={{ color:"#374151", textDecoration:"none" }}>{l.phone || "—"}</a>
-                  </td>
-                  <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>
-                    <div style={{ fontWeight:500 }}>{l.property_title || "—"}</div>
-                    <div style={{ fontSize:"11px", color:"#9ca3af" }}>{l.property_slug}</div>
-                  </td>
-                  <td style={{ padding:"14px 16px" }}>
-                    <span style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, background:"#fef3c7", color:"#92400e" }}>
-                      {l.horizon || "—"}
-                    </span>
-                  </td>
-                  <td style={{ padding:"14px 16px" }}>
-                    <select
-                      value={l.agente || "Enrique"}
-                      onChange={e => handleChangeAgente(l.id, e.target.value)}
-                      style={{ padding:"4px 8px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"12px", background:"white", cursor:"pointer" }}
-                    >
-                      {agentes.map(a => <option key={a} value={a}>{a}</option>)}
-                    </select>
-                  </td>
-                  <td style={{ padding:"14px 16px" }}>
-                    <button onClick={()=>{ setNotaLead(l); setNotaText(l.notas||""); }}
-                      style={{ padding:"4px 10px", background: l.notas ? "#f0fdf4" : "#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color: l.notas ? "#166534" : "#6b7280" }}>
-                      {l.notas ? "📝 Ver" : "➕ Añadir"}
-                    </button>
-                  </td>
-                  <td style={{ padding:"14px 16px", fontSize:"12px", color:"#6b7280", textTransform:"uppercase" }}>{l.locale || "—"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* Modal notas */}
-      {notaLead && (
-        <div onClick={()=>setNotaLead(null)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px" }}>
-          <div onClick={e=>e.stopPropagation()} style={{ background:"white", borderRadius:"12px", padding:"32px", width:"100%", maxWidth:"560px" }}>
-            <h2 style={{ fontSize:"18px", fontWeight:700, color:"#111", margin:"0 0 4px" }}>Notas internas</h2>
-            <p style={{ fontSize:"13px", color:"#6b7280", margin:"0 0 20px" }}>{notaLead.name} · {notaLead.property_title}</p>
-            {/* Notas existentes */}
-            {notaLead.notas && (
-              <div style={{ background:"#f9fafb", border:"1px solid #e5e7eb", borderRadius:"6px", padding:"12px", marginBottom:"16px", maxHeight:"200px", overflowY:"auto" }}>
-                <p style={{ fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 8px" }}>Historial de notas</p>
-                <pre style={{ fontSize:"12px", color:"#374151", fontFamily:"system-ui", whiteSpace:"pre-wrap", margin:0, lineHeight:1.6 }}>{notaLead.notas}</pre>
-              </div>
-            )}
-
-            {/* Nueva nota */}
-            <p style={{ fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 6px" }}>Nueva nota</p>
-            <textarea
-              value={notaText}
-              onChange={e=>setNotaText(e.target.value)}
-              placeholder="Escribe aquí tu nota — se añadirá con fecha y hora automáticamente..."
-              rows={5}
-              style={{ width:"100%", padding:"12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", outline:"none", resize:"vertical", boxSizing:"border-box", marginBottom:"16px" }}
-            />
-            <div style={{ display:"flex", gap:"12px" }}>
-              <button onClick={()=>setNotaLead(null)} style={{ flex:1, padding:"10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>Cancelar</button>
-              <button onClick={handleSaveNota} style={{ flex:2, padding:"10px", background:"#16a34a", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>✦ Guardar Nota</button>
-            </div>
+        <>
+          <div style={{ marginBottom:"16px" }}>
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar..." style={{...S,width:"300px"}}/>
           </div>
-        </div>
+          <div style={{ background:"white", borderRadius:"8px", border:"1px solid #e5e7eb", overflow:"auto" }}>
+            <table style={{ width:"100%", borderCollapse:"collapse", minWidth:"700px" }}>
+              <thead>
+                <tr style={{ background:"#f9fafb" }}>
+                  {[["Cliente","name"],["Email","email"],["Propiedad","property_title"],["Horizonte","horizon"],["Fase","fase"],["Fecha","created_at"]].map(([label,field])=>(
+                    <th key={field} onClick={()=>toggleSort(field)} style={TH}>
+                      {label} {sort.field===field?(sort.dir==="asc"?"↑":"↓"):"↕"}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((l,i)=>(
+                  <tr key={l.id} style={{ borderTop:"1px solid #f3f4f6", background:i%2===0?"white":"#fafafa" }}>
+                    <td style={{ padding:"12px 16px", fontSize:"13px", fontWeight:600 }}>{l.name}</td>
+                    <td style={{ padding:"12px 16px", fontSize:"13px" }}>{l.email||"—"}</td>
+                    <td style={{ padding:"12px 16px", fontSize:"13px" }}>{l.property_title||"—"}</td>
+                    <td style={{ padding:"12px 16px", fontSize:"13px" }}>{l.horizon||"—"}</td>
+                    <td style={{ padding:"12px 16px", fontSize:"13px" }}>{l.fase||"nuevo"}</td>
+                    <td style={{ padding:"12px 16px", fontSize:"12px", color:"#6b7280" }}>{new Date(l.created_at).toLocaleDateString("es-ES")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );
