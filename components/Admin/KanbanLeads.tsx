@@ -62,12 +62,13 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
   const handleDragOver = (e: React.DragEvent, fase: string) => { e.preventDefault(); setOver(fase); };
   const handleDrop = async (e: React.DragEvent, fase: string) => {
     e.preventDefault();
-    if (dragging && dragging !== fase) {
-      await updateFase(dragging, fase);
-    }
+    if (dragging && dragging !== fase) await updateFase(dragging, fase);
     setDragging(null); setOver(null);
   };
   const handleDragEnd = () => { setDragging(null); setOver(null); };
+  const handleColumnClick = async (fase: string) => {
+    if (dragging) { await updateFase(dragging, fase); setDragging(null); setOver(null); }
+  };
 
   const byFase = (fase: string) => leads.filter(l => (l.fase || "nuevo") === fase);
 
@@ -81,6 +82,7 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
             key={fase}
             onDragOver={e=>handleDragOver(e,fase)}
             onDrop={e=>handleDrop(e,fase)}
+            onClick={()=>handleColumnClick(fase)}
             style={{
               minWidth:"220px", width:"220px", flexShrink:0,
               background: over===fase ? "#f0f9ff" : "#f9fafb",
@@ -110,7 +112,7 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
                   style={{
                     background:"white", borderRadius:"6px",
                     border:`1px solid ${dragging===lead.id?"#93c5fd":"#e5e7eb"}`,
-                    padding:"10px", cursor:"grab",
+                    padding:"10px", cursor:"grab", WebkitUserSelect:"none",
                     opacity: dragging===lead.id ? 0.5 : 1,
                     boxShadow:"0 1px 3px rgba(0,0,0,0.06)",
                     transition:"all 0.15s",
