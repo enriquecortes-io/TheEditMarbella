@@ -33,7 +33,7 @@ export default function Portfolio({ password, onEdit }: Props) {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [filters, setFilters] = useState({ tipo:"", zona:"", activa:"", search:"" });
-  const [sort, setSort] = useState<{field:"precio"|"zona"|null, dir:"asc"|"desc"}>({field:null, dir:"asc"});
+  const [sort, setSort] = useState<{field:string|null, dir:"asc"|"desc"}>({field:null, dir:"asc"});
   const [editing, setEditing] = useState<Property|null>(null);
   const [lang, setLang] = useState("en");
   const [titulo, setTitulo] = useState<Record<string,string>>({es:"",en:"",fr:"",ru:""});
@@ -150,7 +150,7 @@ export default function Portfolio({ password, onEdit }: Props) {
     } catch {}
   };
 
-  const toggleSort = (field: "precio"|"zona") => {
+  const toggleSort = (field: string) => {
     setSort(prev => ({ field, dir: prev.field===field && prev.dir==="asc" ? "desc" : "asc" }));
   };
 
@@ -164,8 +164,11 @@ export default function Portfolio({ password, onEdit }: Props) {
     return true;
   }).sort((a,b) => {
     if (!sort.field) return 0;
-    if (sort.field==="precio") return sort.dir==="asc" ? a.precio-b.precio : b.precio-a.precio;
-    if (sort.field==="zona") { const az=a.zona||"", bz=b.zona||""; return sort.dir==="asc" ? az.localeCompare(bz) : bz.localeCompare(az); }
+    const f = sort.field as keyof typeof a;
+    const av = a[f], bv = b[f];
+    if (typeof av === "number" && typeof bv === "number") return sort.dir==="asc" ? av-bv : bv-av;
+    const as_ = String(av||""), bs_ = String(bv||"");
+    return sort.dir==="asc" ? as_.localeCompare(bs_) : bs_.localeCompare(as_);
     return 0;
   });
 
@@ -235,8 +238,8 @@ export default function Portfolio({ password, onEdit }: Props) {
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
                 <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ref</th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Propiedad</th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Tipo</th>
+                <th onClick={()=>toggleSort("titulo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Propiedad {sort.field==="titulo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
+                <th onClick={()=>toggleSort("tipo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Tipo {sort.field==="tipo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
                 <th onClick={()=>toggleSort("zona")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
                   Zona {sort.field==="zona"?(sort.dir==="asc"?"↑":"↓"):"↕"}
                 </th>
@@ -244,7 +247,7 @@ export default function Portfolio({ password, onEdit }: Props) {
                 <th onClick={()=>toggleSort("precio")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
                   Precio {sort.field==="precio"?(sort.dir==="asc"?"↑":"↓"):"↕"}
                 </th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Estado</th>
+                <th onClick={()=>toggleSort("estado")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Estado {sort.field==="estado"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
                 <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Destacada</th>
                 <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Acciones</th>
               </tr>

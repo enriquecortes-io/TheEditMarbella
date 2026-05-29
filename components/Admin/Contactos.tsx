@@ -65,6 +65,8 @@ export default function Contactos({ password }: Props) {
   const [form, setForm] = useState<typeof EMPTY>({ ...EMPTY });
   const [showNew, setShowNew] = useState(false);
   const [status, setStatus] = useState("");
+  const [sort, setSort] = useState<{field:string|null,dir:"asc"|"desc"}>({field:null,dir:"asc"});
+  const toggleSort = (field:string) => setSort(p=>({field,dir:p.field===field&&p.dir==="asc"?"desc":"asc"}));
 
   const fetch_ = async () => {
     setLoading(true);
@@ -76,7 +78,14 @@ export default function Contactos({ password }: Props) {
 
   useEffect(() => { fetch_(); }, []);
 
-  const filtered = contactos.filter(c => {
+  const sorted = [...contactos].sort((a,b)=>{
+    if(!sort.field) return 0;
+    const f=sort.field as keyof typeof a;
+    const av=a[f],bv=b[f];
+    if(typeof av==="number"&&typeof bv==="number") return sort.dir==="asc"?av-bv:bv-av;
+    return sort.dir==="asc"?String(av||"").localeCompare(String(bv||"")):String(bv||"").localeCompare(String(av||""));
+  });
+  const filtered = sorted.filter(c => {
     if (filtro && c.categoria !== filtro) return false;
     if (search) {
       const s = search.toLowerCase();
