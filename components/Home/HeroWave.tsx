@@ -67,7 +67,7 @@ export default function HeroWave() {
           const purpleAccent = 0.0 * fastCos(d * 2 + time * 0.1);
 
           const r = Math.max(0, Math.min(1, 0.96 - baseVal * 0.08)) * intensity;
-          const g = Math.max(0, Math.min(1, 0.97 - baseVal * 0.05 + greenNuclear * 0.15)) * intensity;
+          const g = Math.max(0, Math.min(1, 0.97 - baseVal * 0.05)) * intensity;
           const b = Math.max(0, Math.min(1, 0.94 - baseVal * 0.12 - blueAccent * 0.3)) * intensity;
 
           const idx = (y * width + x) * 4;
