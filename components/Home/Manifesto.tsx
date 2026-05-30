@@ -86,7 +86,7 @@ function animateSlideOut(container: HTMLDivElement, direction: 'prev' | 'next') 
   });
 }
 
-export default function ManifestoFlow({ locale }: { locale: string }) {
+const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ locale }, ref) => {
   const c = CONTENT[locale] || CONTENT.es;
   const [active, setActive] = useState<SubPhase>('manifesto1');
 
@@ -141,7 +141,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
   };
 
   return (
-    <div style={{ position:'relative', width:'100%', height:'100%', overflow:'hidden' }}>
+    <div ref={ref} style={{ position:'relative', width:'100%', height:'100%', overflow:'hidden' }}>
 
       {/* ── S1 ── */}
       <div ref={refs.manifesto1} style={{ ...PAD, opacity: 0 }}>
@@ -211,3 +211,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
     </div>
   );
 }
+});
+
+ManifestoFlow.displayName = "ManifestoFlow";
+export default ManifestoFlow;
