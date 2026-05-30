@@ -36,9 +36,9 @@ export default function FeedsPanel() {
   return (
     <div style={{ padding:"32px" }}>
       <div style={{ marginBottom:"32px" }}>
-        <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+        <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
         <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:"0 0 8px" }}>Portales / Feeds</h1>
-        <p style={{ fontSize:"13px", color:"#6b7280", margin:0 }}>
+        <p style={{ fontSize:"13px", color:"#4A4540", margin:0 }}>
           Feeds XML listos para conectar con portales inmobiliarios. Añade el token en Vercel cuando contrates el servicio.
         </p>
       </div>
@@ -56,13 +56,13 @@ export default function FeedsPanel() {
 
       <div style={{ display:"flex", flexDirection:"column", gap:"16px" }}>
         {PORTALES.map(portal => (
-          <div key={portal.name} style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", padding:"24px" }}>
+          <div key={portal.name} style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(26,23,20,0.06)", padding:"24px" }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:"16px" }}>
               <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
                 <span style={{ fontSize:"24px" }}>{portal.logo}</span>
                 <div>
                   <h2 style={{ fontSize:"18px", fontWeight:700, color:"#111", margin:0 }}>{portal.name}</h2>
-                  <p style={{ fontSize:"13px", color:"#6b7280", margin:"2px 0 0" }}>{portal.desc}</p>
+                  <p style={{ fontSize:"13px", color:"#4A4540", margin:"2px 0 0" }}>{portal.desc}</p>
                 </div>
               </div>
               <span style={{ padding:"4px 12px", borderRadius:"20px", fontSize:"11px", fontWeight:600, background:"#fef3c7", color:"#92400e" }}>
@@ -70,13 +70,13 @@ export default function FeedsPanel() {
               </span>
             </div>
 
-            <div style={{ background:"#f9fafb", borderRadius:"6px", padding:"12px 16px", marginBottom:"16px" }}>
-              <p style={{ fontSize:"11px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", margin:"0 0 6px", fontWeight:600 }}>URL del Feed</p>
+            <div style={{ background:"#FAF8F4", borderRadius:"6px", padding:"12px 16px", marginBottom:"16px" }}>
+              <p style={{ fontSize:"11px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.08em", margin:"0 0 6px", fontWeight:600 }}>URL del Feed</p>
               <div style={{ display:"flex", gap:"8px", alignItems:"center" }}>
-                <code style={{ fontSize:"12px", color:"#374151", flex:1, wordBreak:"break-all" }}>{portal.url}</code>
+                <code style={{ fontSize:"12px", color:"#1A1714", flex:1, wordBreak:"break-all" }}>{portal.url}</code>
                 <button
                   onClick={() => navigator.clipboard.writeText(portal.url)}
-                  style={{ padding:"6px 12px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", whiteSpace:"nowrap" }}>
+                  style={{ padding:"6px 12px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1A1714", whiteSpace:"nowrap" }}>
                   Copiar
                 </button>
               </div>

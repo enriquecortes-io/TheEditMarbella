@@ -50,7 +50,7 @@ export default function ImageSorter({ urls, onChange, onSave }: Props) {
   return (
     <div style={{ marginTop:"1rem" }}>
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"0.75rem" }}>
-        <p style={{ fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:0 }}>
+        <p style={{ fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", margin:0 }}>
           Previsualización · {images.length} imágenes
         </p>
         <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
@@ -60,7 +60,7 @@ export default function ImageSorter({ urls, onChange, onSave }: Props) {
             </span>
           )}
           {saving && <span style={{ fontSize:"11px", color:"#c9a96e", fontStyle:"italic" }}>Guardando...</span>}
-          {selected === null && !saving && <span style={{ fontSize:"11px", color:"#9ca3af" }}>Click para seleccionar y reordenar</span>}
+          {selected === null && !saving && <span style={{ fontSize:"11px", color:"#8A847C" }}>Click para seleccionar y reordenar</span>}
         </div>
       </div>
       <div style={{
@@ -83,7 +83,7 @@ export default function ImageSorter({ urls, onChange, onSave }: Props) {
                 border: isSelected ? "3px solid #2563eb" : isTarget ? "2px dashed #93c5fd" : "2px solid transparent",
                 cursor:"pointer",
                 transition:"all 0.15s",
-                background:"#f3f4f6",
+                background:"#F2EDE4",
                 aspectRatio:"4/3",
                 boxShadow: isSelected ? "0 0 0 3px rgba(37,99,235,0.2)" : "none",
               }}

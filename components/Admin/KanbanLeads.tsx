@@ -20,7 +20,7 @@ const FASE_COLORS: Record<string,{bg:string,text:string,border:string}> = {
   "oferta":           {bg:"#fdf4ff",text:"#7e22ce",border:"#e9d5ff"},
   "cerrado":          {bg:"#dcfce7",text:"#166534",border:"#86efac"},
   "no contesta":      {bg:"#fff7ed",text:"#c2410c",border:"#fed7aa"},
-  "durmiente":        {bg:"#f9fafb",text:"#6b7280",border:"#e5e7eb"},
+  "durmiente":        {bg:"#FAF8F4",text:"#4A4540",border:"#DDD8D0"},
   "falso":            {bg:"#fef2f2",text:"#dc2626",border:"#fecaca"},
 };
 
@@ -96,7 +96,7 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
       <div style={{ display:"flex", gap:"12px", overflowX:"auto", paddingBottom:"1rem", minHeight:"500px" }}>
         {fases.map(fase => {
           const col = byFase(fase);
-          const colors = FASE_COLORS[fase] || {bg:"#f9fafb",text:"#374151",border:"#e5e7eb"};
+          const colors = FASE_COLORS[fase] || {bg:"#FAF8F4",text:"#1A1714",border:"#DDD8D0"};
           const isTarget = selected && selectedLead?.fase !== fase;
           return (
             <div
@@ -104,7 +104,7 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
               onClick={() => handleColumnClick(fase)}
               style={{
                 minWidth:"200px", width:"200px", flexShrink:0,
-                background: isTarget ? "#f0f9ff" : "#f9fafb",
+                background: isTarget ? "#f0f9ff" : "#FAF8F4",
                 borderRadius:"8px",
                 border: isTarget ? "2px dashed #3b82f6" : "2px solid #e5e7eb",
                 padding:"12px",
@@ -143,29 +143,29 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
                         border: isSelected ? "2px solid #3b82f6" : "1px solid #e5e7eb",
                         padding:"10px",
                         cursor:"pointer",
-                        boxShadow: isSelected ? "0 0 0 3px rgba(59,130,246,0.15)" : "0 1px 3px rgba(0,0,0,0.06)",
+                        boxShadow: isSelected ? "0 0 0 3px rgba(59,130,246,0.15)" : "0 1px 3px rgba(26,23,20,0.06)",
                         transition:"all 0.15s",
                       }}
                     >
                       <p style={{ margin:0, fontSize:"13px", fontWeight:600, color:"#111827" }}>{lead.name}</p>
-                      {lead.property_title && <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#6b7280" }}>{lead.property_title}</p>}
-                      {lead.ubicacion && <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#6b7280" }}>{lead.ubicacion}</p>}
+                      {lead.property_title && <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#4A4540" }}>{lead.property_title}</p>}
+                      {lead.ubicacion && <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#4A4540" }}>{lead.ubicacion}</p>}
                       {lead.precio_estimado && <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#059669", fontWeight:600 }}>{lead.precio_estimado}</p>}
-                      <p style={{ margin:"4px 0 0", fontSize:"10px", color:"#9ca3af" }}>{new Date(lead.created_at).toLocaleDateString("es-ES")}</p>
+                      <p style={{ margin:"4px 0 0", fontSize:"10px", color:"#8A847C" }}>{new Date(lead.created_at).toLocaleDateString("es-ES")}</p>
 
                       {/* Expandido */}
                       {expanded === lead.id && (
                         <div style={{ marginTop:"8px", paddingTop:"8px", borderTop:"1px solid #f3f4f6" }}>
-                          {lead.email && <p style={{ margin:"2px 0", fontSize:"11px", color:"#374151" }}>✉ {lead.email}</p>}
-                          {lead.phone && <p style={{ margin:"2px 0", fontSize:"11px", color:"#374151" }}>📞 {lead.phone}</p>}
-                          {lead.horizon && <p style={{ margin:"2px 0", fontSize:"11px", color:"#374151" }}>⏱ {lead.horizon}</p>}
-                          {lead.notas && <p style={{ margin:"4px 0 0", fontSize:"11px", color:"#6b7280", fontStyle:"italic" }}>{lead.notas}</p>}
+                          {lead.email && <p style={{ margin:"2px 0", fontSize:"11px", color:"#1A1714" }}>✉ {lead.email}</p>}
+                          {lead.phone && <p style={{ margin:"2px 0", fontSize:"11px", color:"#1A1714" }}>📞 {lead.phone}</p>}
+                          {lead.horizon && <p style={{ margin:"2px 0", fontSize:"11px", color:"#1A1714" }}>⏱ {lead.horizon}</p>}
+                          {lead.notas && <p style={{ margin:"4px 0 0", fontSize:"11px", color:"#4A4540", fontStyle:"italic" }}>{lead.notas}</p>}
                           {/* Selector rápido de fase */}
                           <select
                             value={lead.fase||"nuevo"}
                             onChange={e=>{e.stopPropagation();updateFase(lead.id,e.target.value);}}
                             onClick={e=>e.stopPropagation()}
-                            style={{ marginTop:"8px", fontSize:"11px", padding:"4px 6px", borderRadius:"4px", border:"1px solid #e5e7eb", width:"100%", background:"white" }}
+                            style={{ marginTop:"8px", fontSize:"11px", padding:"4px 6px", borderRadius:"4px", border:"1px solid #DDD8D0", width:"100%", background:"white" }}
                           >
                             {fases.map(f=><option key={f} value={f}>{f}</option>)}
                           </select>
@@ -176,7 +176,7 @@ export default function KanbanLeads({ leads, fases, tabla, onUpdate }: Props) {
                 })}
 
                 {col.length === 0 && (
-                  <div style={{ padding:"20px", textAlign:"center", color:isTarget?"#3b82f6":"#d1d5db", fontSize:"12px", border:`2px dashed ${isTarget?"#93c5fd":"#e5e7eb"}`, borderRadius:"6px" }}>
+                  <div style={{ padding:"20px", textAlign:"center", color:isTarget?"#3b82f6":"#C8C0B4", fontSize:"12px", border:`2px dashed ${isTarget?"#93c5fd":"#DDD8D0"}`, borderRadius:"6px" }}>
                     {isTarget ? "Soltar aquí" : "Sin leads"}
                   </div>
                 )}

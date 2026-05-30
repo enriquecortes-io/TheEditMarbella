@@ -74,15 +74,15 @@ export default function CruceVentas({ password }: Props) {
   return (
     <div style={{ padding:"32px" }}>
       <div style={{ marginBottom:"24px" }}>
-        <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+        <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
         <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:"0 0 8px" }}>Cruce de Ventas</h1>
-        <p style={{ fontSize:"13px", color:"#6b7280", margin:0 }}>Propiedades compatibles con cada solicitud de lead</p>
+        <p style={{ fontSize:"13px", color:"#4A4540", margin:0 }}>Propiedades compatibles con cada solicitud de lead</p>
       </div>
 
       {loading ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>Analizando...</div>
+        <div style={{ textAlign:"center", padding:"60px", color:"#4A4540" }}>Analizando...</div>
       ) : matches.length === 0 ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280", background:"white", borderRadius:"8px" }}>
+        <div style={{ textAlign:"center", padding:"60px", color:"#4A4540", background:"white", borderRadius:"8px" }}>
           <p style={{ fontSize:"32px", margin:"0 0 16px" }}>🔗</p>
           <p style={{ fontWeight:600, marginBottom:"8px" }}>Sin cruces disponibles</p>
           <p style={{ fontSize:"13px" }}>No hay propiedades activas compatibles con los leads actuales</p>
@@ -90,7 +90,7 @@ export default function CruceVentas({ password }: Props) {
       ) : (
         <div style={{ display:"flex", flexDirection:"column", gap:"24px" }}>
           {matches.map(({ lead, properties }) => (
-            <div key={lead.id} style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", overflow:"hidden" }}>
+            <div key={lead.id} style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(26,23,20,0.06)", overflow:"hidden" }}>
 
               {/* Lead header */}
               <div style={{ padding:"20px 24px", borderBottom:"2px solid #f3f4f6", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
@@ -99,14 +99,14 @@ export default function CruceVentas({ password }: Props) {
                     <span style={{ fontSize:"18px" }}>👤</span>
                     <div>
                       <p style={{ fontWeight:700, fontSize:"15px", color:"#111", margin:0 }}>{lead.name}</p>
-                      <p style={{ fontSize:"12px", color:"#6b7280", margin:"2px 0 0" }}>
+                      <p style={{ fontSize:"12px", color:"#4A4540", margin:"2px 0 0" }}>
                         {lead.email} · {lead.phone}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div style={{ textAlign:"right" }}>
-                  <p style={{ fontSize:"11px", color:"#6b7280", margin:"0 0 4px", textTransform:"uppercase", letterSpacing:"0.06em" }}>Interesado en</p>
+                  <p style={{ fontSize:"11px", color:"#4A4540", margin:"0 0 4px", textTransform:"uppercase", letterSpacing:"0.06em" }}>Interesado en</p>
                   <p style={{ fontSize:"13px", fontWeight:600, color:"#111", margin:"0 0 4px" }}>{lead.property_title}</p>
                   <span style={{ padding:"3px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, background:"#fef3c7", color:"#92400e" }}>
                     {lead.horizon}
@@ -116,25 +116,25 @@ export default function CruceVentas({ password }: Props) {
 
               {/* Propiedades compatibles */}
               <div style={{ padding:"16px 24px" }}>
-                <p style={{ fontSize:"11px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", margin:"0 0 16px", fontWeight:700 }}>
+                <p style={{ fontSize:"11px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.08em", margin:"0 0 16px", fontWeight:700 }}>
                   {properties.length} propiedad{properties.length>1?"es":""} compatible{properties.length>1?"s":""}
                 </p>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))", gap:"12px" }}>
                   {properties.map(p => (
-                    <div key={p.slug} style={{ border:"1px solid #e5e7eb", borderRadius:"8px", padding:"16px" }}>
+                    <div key={p.slug} style={{ border:"1px solid #DDD8D0", borderRadius:"8px", padding:"16px" }}>
                       <p style={{ fontWeight:600, fontSize:"14px", color:"#111", margin:"0 0 6px" }}>{getTitle(p.titulo)}</p>
                       <div style={{ display:"flex", gap:"8px", flexWrap:"wrap", marginBottom:"12px" }}>
-                        {p.tipo && <span style={{ padding:"2px 8px", background:"#f3f4f6", borderRadius:"20px", fontSize:"11px", color:"#374151" }}>{p.tipo}</span>}
+                        {p.tipo && <span style={{ padding:"2px 8px", background:"#F2EDE4", borderRadius:"20px", fontSize:"11px", color:"#1A1714" }}>{p.tipo}</span>}
                         {p.zona && <span style={{ padding:"2px 8px", background:"#eff6ff", borderRadius:"20px", fontSize:"11px", color:"#1d4ed8" }}>{p.zona}</span>}
                       </div>
-                      <div style={{ fontSize:"13px", color:"#6b7280", marginBottom:"12px" }}>
+                      <div style={{ fontSize:"13px", color:"#4A4540", marginBottom:"12px" }}>
                         {p.precio ? <span style={{ color:"#111", fontWeight:700 }}>€{(p.precio/1000000).toFixed(1)}M</span> : ""}
                         {p.habitaciones ? <span style={{ marginLeft:"8px" }}> · {p.habitaciones} hab</span> : ""}
                         {p.m2_construidos ? <span> · {p.m2_construidos}m²</span> : ""}
                       </div>
                       <div style={{ display:"flex", gap:"8px" }}>
                         <a href={`/es/propiedades/${p.slug}`} target="_blank"
-                          style={{ flex:1, padding:"6px 12px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", textDecoration:"none", textAlign:"center" }}>
+                          style={{ flex:1, padding:"6px 12px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1A1714", textDecoration:"none", textAlign:"center" }}>
                           Ver →
                         </a>
                         <a href={`mailto:${lead.email}?subject=Propiedad que puede interesarle&body=Estimado ${lead.name},%0A%0AEn relación a su interés en ${lead.property_title}, creemos que esta propiedad también puede ser de su interés:%0A%0A${getTitle(p.titulo)}%0Ahttps://mdlm-xi.vercel.app/es/propiedades/${p.slug}%0A%0AQuedamos a su disposición.%0A%0AMillión Dollars Listing Marbella`}

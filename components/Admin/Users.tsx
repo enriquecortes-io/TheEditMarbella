@@ -23,7 +23,7 @@ const INP: React.CSSProperties = {
   outline:"none", boxSizing:"border-box", marginBottom:"12px",
 };
 const L: React.CSSProperties = {
-  display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280",
+  display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540",
   textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px",
 };
 
@@ -103,7 +103,7 @@ export default function Users({ password }: Props) {
     <div style={{ padding:"32px" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"24px" }}>
         <div>
-          <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+          <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
           <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Usuarios</h1>
         </div>
         <button onClick={()=>{ setShowForm(true); setEditing(null); setForm({name:"",password:"",role:"viewer"}); }}
@@ -123,14 +123,14 @@ export default function Users({ password }: Props) {
 
       {/* Tabla usuarios */}
       {loading ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>Cargando...</div>
+        <div style={{ textAlign:"center", padding:"60px", color:"#4A4540" }}>Cargando...</div>
       ) : (
-        <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", overflow:"hidden", marginBottom:"32px" }}>
+        <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(26,23,20,0.06)", overflow:"hidden", marginBottom:"32px" }}>
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
                 {["Nombre","Contraseña","Rol","Fecha alta","Acciones"].map(h=>(
-                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
+                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -139,7 +139,7 @@ export default function Users({ password }: Props) {
                 <tr key={u.id} style={{ borderBottom:"1px solid #f3f4f6", background:i%2===0?"white":"#fafafa" }}>
                   <td style={{ padding:"14px 16px", fontWeight:600, fontSize:"14px", color:"#111" }}>{u.name}</td>
                   <td style={{ padding:"14px 16px" }}>
-                    <code style={{ fontSize:"13px", color:"#6b7280", background:"#f3f4f6", padding:"3px 8px", borderRadius:"4px" }}>
+                    <code style={{ fontSize:"13px", color:"#4A4540", background:"#F2EDE4", padding:"3px 8px", borderRadius:"4px" }}>
                       {u.password}
                     </code>
                   </td>
@@ -148,7 +148,7 @@ export default function Users({ password }: Props) {
                       {roleLabel(u.role)}
                     </span>
                   </td>
-                  <td style={{ padding:"14px 16px", fontSize:"12px", color:"#6b7280" }}>
+                  <td style={{ padding:"14px 16px", fontSize:"12px", color:"#4A4540" }}>
                     {new Date(u.created_at).toLocaleDateString("es-ES")}
                   </td>
                   <td style={{ padding:"14px 16px" }}>
@@ -173,12 +173,12 @@ export default function Users({ password }: Props) {
       )}
 
       {/* Permisos por rol */}
-      <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", padding:"24px" }}>
+      <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(26,23,20,0.06)", padding:"24px" }}>
         <h2 style={{ fontSize:"16px", fontWeight:700, color:"#111", margin:"0 0 20px" }}>Permisos por Rol</h2>
         <table style={{ width:"100%", borderCollapse:"collapse", fontSize:"13px" }}>
           <thead>
             <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-              <th style={{ padding:"10px 16px", textAlign:"left", color:"#6b7280", fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.06em" }}>Función</th>
+              <th style={{ padding:"10px 16px", textAlign:"left", color:"#4A4540", fontSize:"11px", textTransform:"uppercase", letterSpacing:"0.06em" }}>Función</th>
               <th style={{ padding:"10px 16px", textAlign:"center", color:"#991b1b", fontSize:"11px" }}>Super Admin 🔴</th>
               <th style={{ padding:"10px 16px", textAlign:"center", color:"#92400e", fontSize:"11px" }}>Agente 🟡</th>
               <th style={{ padding:"10px 16px", textAlign:"center", color:"#166534", fontSize:"11px" }}>Viewer 🟢</th>
@@ -197,7 +197,7 @@ export default function Users({ password }: Props) {
               ["Gestionar usuarios",     true, false, false],
             ].map(([fn, sa, ag, vi])=>(
               <tr key={fn as string} style={{ borderBottom:"1px solid #f3f4f6" }}>
-                <td style={{ padding:"10px 16px", color:"#374151" }}>{fn as string}</td>
+                <td style={{ padding:"10px 16px", color:"#1A1714" }}>{fn as string}</td>
                 {[sa,ag,vi].map((v,i)=>(
                   <td key={i} style={{ padding:"10px 16px", textAlign:"center" }}>
                     {v ? "✅" : "—"}
@@ -241,7 +241,7 @@ export default function Users({ password }: Props) {
             )}
 
             <div style={{ display:"flex", gap:"12px" }}>
-              <button onClick={()=>setShowForm(false)} style={{ flex:1, padding:"10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>
+              <button onClick={()=>setShowForm(false)} style={{ flex:1, padding:"10px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>
                 Cancelar
               </button>
               <button onClick={handleSave} style={{ flex:2, padding:"10px", background:"#16a34a", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>

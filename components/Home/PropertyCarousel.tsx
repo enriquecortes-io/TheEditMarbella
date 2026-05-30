@@ -227,7 +227,7 @@ export default function PropertyCarousel({ locale = "es" }: { locale?: string })
         display:"grid", gridTemplateColumns:"1fr 1fr",
         background:"rgba(6,4,2,0.65)",
         border:"1px solid rgba(201,169,110,0.18)",
-        boxShadow:"0 0 0 1px rgba(255,255,255,0.04),0 20px 60px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08)",
+        boxShadow:"0 0 0 1px rgba(255,255,255,0.04),0 20px 60px rgba(0,0,0,0.5),inset 0 1px 0 rgba(250,248,244,0.08)",
         backdropFilter:"blur(30px)",
         overflow:"hidden", position:"relative",
       }}>

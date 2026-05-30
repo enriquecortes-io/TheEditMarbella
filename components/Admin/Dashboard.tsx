@@ -11,7 +11,7 @@ const FASES_CAP   = ["nuevo","contactado","visita programada","oferta","cerrado"
 const FASE_COLORS: Record<string,string> = {
  "nuevo":"#3b82f6","contactado":"#10b981","visita programada":"#f59e0b",
  "oferta":"#8b5cf6","cerrado":"#059669","no contesta":"#f97316",
- "durmiente":"#6b7280","falso":"#ef4444",
+ "durmiente":"#4A4540","falso":"#ef4444",
 };
 
 interface Props { password: string; }
@@ -37,7 +37,7 @@ export default function Dashboard({ password }: Props) {
    });
  }, []);
 
- if (loading) return <div style={{ padding:"32px", color:"#6b7280" }}>Cargando dashboard...</div>;
+ if (loading) return <div style={{ padding:"32px", color:"#4A4540" }}>Cargando dashboard...</div>;
 
  const { props, leads, captacion, contactos, leadsHoy, captacionHoy } = data;
 
@@ -58,18 +58,18 @@ export default function Dashboard({ password }: Props) {
  return (
    <div style={{ padding:"32px", maxWidth:"1200px" }}>
      <div style={{ marginBottom:"2rem" }}>
-       <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+       <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
        <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Dashboard</h1>
-       <p style={{ fontSize:"13px", color:"#9ca3af", margin:"4px 0 0" }}>{new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p>
+       <p style={{ fontSize:"13px", color:"#8A847C", margin:"4px 0 0" }}>{new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</p>
      </div>
 
      {/* KPIs */}
      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))", gap:"1rem", marginBottom:"2rem" }}>
        {kpis.map(k => (
          <div key={k.label} style={{ background:k.bg, border:`1px solid ${k.color}22`, borderRadius:"12px", padding:"1.25rem" }}>
-           <p style={{ fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 0.5rem" }}>{k.label}</p>
+           <p style={{ fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", margin:"0 0 0.5rem" }}>{k.label}</p>
            <p style={{ fontSize:"2.5rem", fontWeight:800, color:k.color, margin:"0 0 0.25rem", lineHeight:1 }}>{k.value}</p>
-           <p style={{ fontSize:"12px", color:"#9ca3af", margin:0 }}>{k.sub}</p>
+           <p style={{ fontSize:"12px", color:"#8A847C", margin:0 }}>{k.sub}</p>
          </div>
        ))}
      </div>
@@ -77,60 +77,60 @@ export default function Dashboard({ password }: Props) {
      {/* Fases */}
      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1.5rem", marginBottom:"2rem" }}>
        {/* Leads Venta por fase */}
-       <div style={{ background:"white", border:"1px solid #e5e7eb", borderRadius:"12px", padding:"1.25rem" }}>
+       <div style={{ background:"white", border:"1px solid #DDD8D0", borderRadius:"12px", padding:"1.25rem" }}>
          <h2 style={{ fontSize:"14px", fontWeight:700, color:"#111", margin:"0 0 1rem" }}>Leads Venta por fase</h2>
          <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
            {faseCountVenta.filter(f=>f.count>0).map(f => (
              <div key={f.fase} style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-               <div style={{ width:"80px", fontSize:"11px", color:"#374151", textTransform:"capitalize", flexShrink:0 }}>{f.fase}</div>
-               <div style={{ flex:1, background:"#f3f4f6", borderRadius:"4px", overflow:"hidden", height:"16px" }}>
-                 <div style={{ width:`${Math.min(100,(f.count/leads.length)*100)}%`, height:"100%", background:FASE_COLORS[f.fase]||"#6b7280", borderRadius:"4px", transition:"width 0.5s" }}/>
+               <div style={{ width:"80px", fontSize:"11px", color:"#1A1714", textTransform:"capitalize", flexShrink:0 }}>{f.fase}</div>
+               <div style={{ flex:1, background:"#F2EDE4", borderRadius:"4px", overflow:"hidden", height:"16px" }}>
+                 <div style={{ width:`${Math.min(100,(f.count/leads.length)*100)}%`, height:"100%", background:FASE_COLORS[f.fase]||"#4A4540", borderRadius:"4px", transition:"width 0.5s" }}/>
                </div>
-               <span style={{ fontSize:"12px", fontWeight:700, color:FASE_COLORS[f.fase]||"#6b7280", width:"24px", textAlign:"right" }}>{f.count}</span>
+               <span style={{ fontSize:"12px", fontWeight:700, color:FASE_COLORS[f.fase]||"#4A4540", width:"24px", textAlign:"right" }}>{f.count}</span>
              </div>
            ))}
-           {leads.length === 0 && <p style={{ color:"#9ca3af", fontSize:"13px" }}>Sin leads</p>}
+           {leads.length === 0 && <p style={{ color:"#8A847C", fontSize:"13px" }}>Sin leads</p>}
          </div>
        </div>
 
        {/* Leads Captación por fase */}
-       <div style={{ background:"white", border:"1px solid #e5e7eb", borderRadius:"12px", padding:"1.25rem" }}>
+       <div style={{ background:"white", border:"1px solid #DDD8D0", borderRadius:"12px", padding:"1.25rem" }}>
          <h2 style={{ fontSize:"14px", fontWeight:700, color:"#111", margin:"0 0 1rem" }}>Leads Captación por fase</h2>
          <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
            {faseCountCap.filter(f=>f.count>0).map(f => (
              <div key={f.fase} style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-               <div style={{ width:"80px", fontSize:"11px", color:"#374151", textTransform:"capitalize", flexShrink:0 }}>{f.fase}</div>
-               <div style={{ flex:1, background:"#f3f4f6", borderRadius:"4px", overflow:"hidden", height:"16px" }}>
-                 <div style={{ width:`${Math.min(100,(f.count/captacion.length)*100)}%`, height:"100%", background:FASE_COLORS[f.fase]||"#6b7280", borderRadius:"4px", transition:"width 0.5s" }}/>
+               <div style={{ width:"80px", fontSize:"11px", color:"#1A1714", textTransform:"capitalize", flexShrink:0 }}>{f.fase}</div>
+               <div style={{ flex:1, background:"#F2EDE4", borderRadius:"4px", overflow:"hidden", height:"16px" }}>
+                 <div style={{ width:`${Math.min(100,(f.count/captacion.length)*100)}%`, height:"100%", background:FASE_COLORS[f.fase]||"#4A4540", borderRadius:"4px", transition:"width 0.5s" }}/>
                </div>
-               <span style={{ fontSize:"12px", fontWeight:700, color:FASE_COLORS[f.fase]||"#6b7280", width:"24px", textAlign:"right" }}>{f.count}</span>
+               <span style={{ fontSize:"12px", fontWeight:700, color:FASE_COLORS[f.fase]||"#4A4540", width:"24px", textAlign:"right" }}>{f.count}</span>
              </div>
            ))}
-           {captacion.length === 0 && <p style={{ color:"#9ca3af", fontSize:"13px" }}>Sin leads</p>}
+           {captacion.length === 0 && <p style={{ color:"#8A847C", fontSize:"13px" }}>Sin leads</p>}
          </div>
        </div>
      </div>
 
      {/* Últimos leads */}
-     <div style={{ background:"white", border:"1px solid #e5e7eb", borderRadius:"12px", padding:"1.25rem" }}>
+     <div style={{ background:"white", border:"1px solid #DDD8D0", borderRadius:"12px", padding:"1.25rem" }}>
        <h2 style={{ fontSize:"14px", fontWeight:700, color:"#111", margin:"0 0 1rem" }}>Últimos leads recibidos</h2>
        <div style={{ display:"flex", flexDirection:"column", gap:"8px" }}>
          {[...leads, ...captacion.map((l:any)=>({...l,_tipo:"captacion"}))]
            .sort((a:any,b:any)=>b.created_at.localeCompare(a.created_at))
            .slice(0,8)
            .map((l:any) => (
-             <div key={l.id} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 12px", background:"#f9fafb", borderRadius:"6px" }}>
+             <div key={l.id} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 12px", background:"#FAF8F4", borderRadius:"6px" }}>
                <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
                  <span style={{ fontSize:"10px", fontWeight:700, padding:"2px 8px", borderRadius:"12px", background:l._tipo==="captacion"?"#fdf4ff":"#eff6ff", color:l._tipo==="captacion"?"#7c3aed":"#2563eb" }}>
                    {l._tipo==="captacion"?"Captación":"Venta"}
                  </span>
                  <span style={{ fontSize:"13px", fontWeight:600, color:"#111" }}>{l.name}</span>
-                 {l.property_title && <span style={{ fontSize:"12px", color:"#6b7280" }}>{l.property_title}</span>}
-                 {l.ubicacion && <span style={{ fontSize:"12px", color:"#6b7280" }}>{l.ubicacion}</span>}
+                 {l.property_title && <span style={{ fontSize:"12px", color:"#4A4540" }}>{l.property_title}</span>}
+                 {l.ubicacion && <span style={{ fontSize:"12px", color:"#4A4540" }}>{l.ubicacion}</span>}
                </div>
                <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
                  <span style={{ fontSize:"11px", fontWeight:600, color:FASE_COLORS[l.fase||"nuevo"], background:`${FASE_COLORS[l.fase||"nuevo"]}15`, padding:"2px 8px", borderRadius:"12px" }}>{l.fase||"nuevo"}</span>
-                 <span style={{ fontSize:"11px", color:"#9ca3af" }}>{new Date(l.created_at).toLocaleDateString("es-ES")}</span>
+                 <span style={{ fontSize:"11px", color:"#8A847C" }}>{new Date(l.created_at).toLocaleDateString("es-ES")}</span>
                </div>
              </div>
            ))}

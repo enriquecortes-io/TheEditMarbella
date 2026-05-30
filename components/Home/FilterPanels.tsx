@@ -181,7 +181,7 @@ export default function FilterPanels({ locale, panelRefs }: Props) {
             backdropFilter:"blur(50px) saturate(150%)",
             WebkitBackdropFilter:"blur(50px) saturate(150%)",
             border:`1px solid rgba(${filter.accentRgb},0.18)`,
-            boxShadow:`0 0 0 1px rgba(255,255,255,0.04),0 20px 60px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.08)`,
+            boxShadow:`0 0 0 1px rgba(255,255,255,0.04),0 20px 60px rgba(0,0,0,0.3),inset 0 1px 0 rgba(250,248,244,0.08)`,
             overflow:"hidden",
             display:"flex",
             flexDirection:"column",

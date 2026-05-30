@@ -18,7 +18,7 @@ interface Property {
 
 interface Props { password: string; onEdit: (slug: string) => void; }
 
-const L: React.CSSProperties = { display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px" };
+const L: React.CSSProperties = { display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px" };
 const S: React.CSSProperties = { padding:"8px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"13px", fontFamily:"system-ui", outline:"none", background:"white", color:"#111" };
 const INP: React.CSSProperties = { width:"100%", padding:"10px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", outline:"none", boxSizing:"border-box", marginBottom:"16px" };
 
@@ -176,14 +176,14 @@ export default function Portfolio({ password, onEdit }: Props) {
     <div style={{ padding:"32px" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"24px" }}>
         <div>
-          <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+          <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
           <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Portfolio</h1>
         </div>
-        <span style={{ background:"#f3f4f6", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#6b7280" }}>{filtered.length} propiedades</span>
+        <span style={{ background:"#F2EDE4", padding:"4px 12px", borderRadius:"20px", fontSize:"13px", color:"#4A4540" }}>{filtered.length} propiedades</span>
       </div>
 
       {/* Filtros */}
-      <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1fr", gap:"12px", marginBottom:"24px", background:"white", padding:"16px", borderRadius:"8px", boxShadow:"0 1px 4px rgba(0,0,0,0.06)" }}>
+      <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1fr", gap:"12px", marginBottom:"24px", background:"white", padding:"16px", borderRadius:"8px", boxShadow:"0 1px 4px rgba(26,23,20,0.06)" }}>
         <div>
           <label style={L}>Buscar</label>
           <input value={filters.search} onChange={e=>setFilters(p=>({...p,search:e.target.value}))} placeholder="Nombre o slug..." style={{...S,width:"100%",boxSizing:"border-box"}}/>
@@ -229,27 +229,27 @@ export default function Portfolio({ password, onEdit }: Props) {
 
       {/* Tabla */}
       {loading ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>Cargando...</div>
+        <div style={{ textAlign:"center", padding:"60px", color:"#4A4540" }}>Cargando...</div>
       ) : filtered.length === 0 ? (
-        <div style={{ textAlign:"center", padding:"60px", color:"#6b7280" }}>No hay propiedades</div>
+        <div style={{ textAlign:"center", padding:"60px", color:"#4A4540" }}>No hay propiedades</div>
       ) : (
-        <div style={{ background:"white", borderRadius:"8px", boxShadow:"0 1px 4px rgba(0,0,0,0.06)", overflow:"hidden" }}>
+        <div style={{ background:"white", borderRadius:"8px", boxShadow:"0 1px 4px rgba(26,23,20,0.06)", overflow:"hidden" }}>
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
               <tr style={{ borderBottom:"2px solid #f3f4f6" }}>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ref</th>
-                <th onClick={()=>toggleSort("titulo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Propiedad {sort.field==="titulo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
-                <th onClick={()=>toggleSort("tipo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Tipo {sort.field==="tipo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
-                <th onClick={()=>toggleSort("zona")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ref</th>
+                <th onClick={()=>toggleSort("titulo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Propiedad {sort.field==="titulo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
+                <th onClick={()=>toggleSort("tipo")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Tipo {sort.field==="tipo"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
+                <th onClick={()=>toggleSort("zona")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
                   Zona {sort.field==="zona"?(sort.dir==="asc"?"↑":"↓"):"↕"}
                 </th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ubicación</th>
-                <th onClick={()=>toggleSort("precio")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>Ubicación</th>
+                <th onClick={()=>toggleSort("precio")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>
                   Precio {sort.field==="precio"?(sort.dir==="asc"?"↑":"↓"):"↕"}
                 </th>
-                <th onClick={()=>toggleSort("estado")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Estado {sort.field==="estado"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Destacada</th>
-                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>Acciones</th>
+                <th onClick={()=>toggleSort("estado")} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", cursor:"pointer" }}>Estado {sort.field==="estado"?(sort.dir==="asc"?"↑":"↓"):"↕"}</th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>Destacada</th>
+                <th style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -262,28 +262,28 @@ export default function Portfolio({ password, onEdit }: Props) {
                     </td>
                     <td style={{ padding:"14px 16px" }}>
                       <div style={{ fontWeight:600, fontSize:"14px", color:"#111" }}>{title}</div>
-                      <div style={{ fontSize:"12px", color:"#9ca3af", marginTop:"2px" }}>{p.slug}</div>
+                      <div style={{ fontSize:"12px", color:"#8A847C", marginTop:"2px" }}>{p.slug}</div>
                     </td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.tipo||"—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151", textTransform:"capitalize" }}>{p.zona||"—"}</td>
-                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#374151" }}>{p.ubicacion||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#1A1714" }}>{p.tipo||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#1A1714", textTransform:"capitalize" }}>{p.zona||"—"}</td>
+                    <td style={{ padding:"14px 16px", fontSize:"13px", color:"#1A1714" }}>{p.ubicacion||"—"}</td>
                     <td style={{ padding:"14px 16px", fontSize:"13px", fontWeight:600, color:"#111" }}>{p.precio?`€${(p.precio/1000000).toFixed(1)}M`:"—"}</td>
                     <td style={{ padding:"14px 16px" }}>
                       <button onClick={()=>handleToggle(p.slug,"activa",p.activa)}
-                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.activa?"#dcfce7":"#f3f4f6", color:p.activa?"#166534":"#6b7280" }}>
+                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.activa?"#dcfce7":"#F2EDE4", color:p.activa?"#166534":"#4A4540" }}>
                         {p.activa?"Publicada":"Borrador"}
                       </button>
                     </td>
                     <td style={{ padding:"14px 16px" }}>
                       <button onClick={()=>handleToggle(p.slug,"destacada",p.destacada)}
-                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.destacada?"#fef3c7":"#f3f4f6", color:p.destacada?"#92400e":"#6b7280" }}>
+                        style={{ padding:"4px 10px", borderRadius:"20px", fontSize:"11px", fontWeight:600, border:"none", cursor:"pointer", background:p.destacada?"#fef3c7":"#F2EDE4", color:p.destacada?"#92400e":"#4A4540" }}>
                         {p.destacada?"⭐ Sí":"No"}
                       </button>
                     </td>
                     <td style={{ padding:"14px 16px" }}>
                       <div style={{ display:"flex", gap:"6px" }}>
                         <a href={`/es/propiedades/${p.slug}`} target="_blank"
-                          style={{ padding:"6px 10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#374151", textDecoration:"none" }}>Ver →</a>
+                          style={{ padding:"6px 10px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1A1714", textDecoration:"none" }}>Ver →</a>
                         <button onClick={()=>handleEdit(p)}
                           style={{ padding:"6px 10px", background:"#eff6ff", border:"none", borderRadius:"6px", fontSize:"12px", cursor:"pointer", color:"#1d4ed8" }}>Editar</button>
                         <button onClick={()=>handleDelete(p.slug)}
@@ -342,7 +342,7 @@ export default function Portfolio({ password, onEdit }: Props) {
             <div style={{ display:"flex", gap:"8px", marginBottom:"24px" }}>
 
               <div style={{marginBottom:"1rem"}}>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Tipo</label>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A4540",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Tipo</label>
                 <select value={editFields.tipo||""} onChange={e=>setEditFields((p:any)=>({...p,tipo:e.target.value}))} style={{...INP}}>
                   <option value="">— Seleccionar —</option>
                   <option value="villa">Villa</option>
@@ -353,7 +353,7 @@ export default function Portfolio({ password, onEdit }: Props) {
                 </select>
               </div>
               <div style={{marginBottom:"1rem"}}>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Zona</label>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A4540",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Zona</label>
                 <select value={editFields.zona||""} onChange={e=>setEditFields((p:any)=>({...p,zona:e.target.value}))} style={{...INP}}>
                   <option value="">— Seleccionar —</option>
                   <option value="marbella">Marbella</option>
@@ -367,8 +367,8 @@ export default function Portfolio({ password, onEdit }: Props) {
                 <span key={l} onClick={()=>setLang(l)} style={{
                   padding:"4px 10px", borderRadius:"20px", fontSize:"11px", cursor:"pointer",
                   fontWeight: l===lang ? 700 : 400,
-                  background: titulo[l] ? "#dcfce7" : "#f3f4f6",
-                  color: titulo[l] ? "#166534" : "#9ca3af",
+                  background: titulo[l] ? "#dcfce7" : "#F2EDE4",
+                  color: titulo[l] ? "#166534" : "#8A847C",
                   border: l===lang ? "2px solid #7c3aed" : "2px solid transparent",
                 }}>{l.toUpperCase()} {titulo[l]?"✓":""}</span>
               ))}
@@ -442,7 +442,7 @@ export default function Portfolio({ password, onEdit }: Props) {
                 const isChecked = amenidades.includes(a);
                 return (
                   <label key={a} onClick={()=>setEditFields((p:any)=>({...p,amenidades:isChecked?amenidades.filter((x:string)=>x!==a):[...amenidades,a]}))}
-                    style={{ fontSize:"12px", cursor:"pointer", padding:"5px 10px", border:`1px solid ${isChecked?"#2563eb":"#d1d5db"}`, borderRadius:"20px", background:isChecked?"#eff6ff":"white", color:isChecked?"#1d4ed8":"#374151" }}>
+                    style={{ fontSize:"12px", cursor:"pointer", padding:"5px 10px", border:`1px solid ${isChecked?"#2563eb":"#C8C0B4"}`, borderRadius:"20px", background:isChecked?"#eff6ff":"white", color:isChecked?"#1d4ed8":"#1A1714" }}>
                     {a}
                   </label>
                 );
@@ -463,19 +463,19 @@ export default function Portfolio({ password, onEdit }: Props) {
 
             {/* Contacto propiedad */}
             <div style={{marginBottom:"1.5rem",paddingTop:"1rem",borderTop:"1px solid #e5e7eb"}}>
-              <p style={{fontSize:"11px",fontWeight:700,color:"#374151",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>Contacto Propiedad</p>
+              <p style={{fontSize:"11px",fontWeight:700,color:"#1A1714",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"1rem"}}>Contacto Propiedad</p>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
                 <div>
-                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Nombre</label>
+                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A4540",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Nombre</label>
                   <input value={editFields.contacto_nombre||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_nombre:e.target.value}))} style={INP} placeholder="Nombre del contacto"/>
                 </div>
                 <div>
-                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Teléfono</label>
+                  <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A4540",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Teléfono</label>
                   <input value={editFields.contacto_telefono||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_telefono:e.target.value}))} style={INP} placeholder="+34 600 000 000"/>
                 </div>
               </div>
               <div>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#6b7280",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Email</label>
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A4540",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:"4px"}}>Email</label>
                 <input value={editFields.contacto_email||""} onChange={e=>setEditFields((p:any)=>({...p,contacto_email:e.target.value}))} style={INP} placeholder="email@ejemplo.com"/>
               </div>
             </div>
@@ -498,7 +498,7 @@ export default function Portfolio({ password, onEdit }: Props) {
             )}
 
             <div style={{ display:"flex", gap:"12px" }}>
-              <button onClick={()=>setEditing(null)} style={{ flex:1, padding:"12px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer", color:"#374151" }}>Cancelar</button>
+              <button onClick={()=>setEditing(null)} style={{ flex:1, padding:"12px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer", color:"#1A1714" }}>Cancelar</button>
               <button onClick={handleSaveEdit} style={{ flex:2, padding:"12px", background:"#16a34a", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>✦ Guardar Cambios</button>
             </div>
           </div>

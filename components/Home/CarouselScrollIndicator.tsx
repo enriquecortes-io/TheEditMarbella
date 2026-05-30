@@ -32,7 +32,7 @@ export default function CarouselScrollIndicator({ total, active }: Props) {
         {/* Track + thumb elástico */}
         <div style={{
           position:"relative", width:"100%", height:"2px",
-          background:"rgba(255,255,255,0.08)", borderRadius:"1px",
+          background:"rgba(250,248,244,0.08)", borderRadius:"1px",
         }}>
           {/* Thumb dorado — posición basada en active/total */}
           <div style={{

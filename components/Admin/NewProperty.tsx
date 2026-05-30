@@ -5,7 +5,7 @@ import { convertGDriveUrl } from "@/lib/gdrive";
 interface Props { password: string; }
 
 const F: React.CSSProperties = { width:"100%", padding:"10px 12px", border:"1px solid #d1d5db", borderRadius:"6px", fontSize:"14px", fontFamily:"system-ui", background:"white", color:"#111", outline:"none", boxSizing:"border-box", marginBottom:"16px" };
-const L: React.CSSProperties = { display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px", fontFamily:"system-ui" };
+const L: React.CSSProperties = { display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px", fontFamily:"system-ui" };
 const BTN = (color = "#2563eb"): React.CSSProperties => ({ padding:"10px 20px", background:color, color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer", fontFamily:"system-ui" });
 
 export default function NewProperty({ password }: Props) {
@@ -112,11 +112,11 @@ export default function NewProperty({ password }: Props) {
   return (
     <div style={{ padding:"32px" }}>
       <div style={{ marginBottom:"24px" }}>
-        <p style={{ fontSize:"12px", color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
+        <p style={{ fontSize:"12px", color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.1em", margin:"0 0 4px" }}>Panel de Administración</p>
         <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111", margin:0 }}>Nueva Propiedad</h1>
       </div>
 
-      <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(0,0,0,0.06)", padding:"32px" }}>
+      <div style={{ background:"white", borderRadius:"12px", boxShadow:"0 1px 8px rgba(26,23,20,0.06)", padding:"32px" }}>
 
         {/* Idioma */}
         <label style={L}>Idioma del texto</label>
@@ -285,7 +285,7 @@ export default function NewProperty({ password }: Props) {
           <p style={{ fontSize:"13px", fontWeight:700, color:"#111", margin:"0 0 16px" }}>✨ Amenidades</p>
           <div style={{ display:"flex", flexWrap:"wrap", gap:"8px" }}>
             {["Piscina","Jardín","Terraza","Ascensor","Aire acondicionado","Calefacción","Seguridad 24h","Spa","Gimnasio","Garaje","Trastero","Bodega","Cine","Sala de juegos","Pista de tenis","Paddle","Domótica","Vistas al mar","Primera línea de playa","Acceso directo playa","Urbanización cerrada"].map(a=>(
-              <label key={a} style={{ display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", cursor:"pointer", padding:"6px 12px", border:`1px solid ${form.amenidades.includes(a)?"#2563eb":"#d1d5db"}`, borderRadius:"20px", background:form.amenidades.includes(a)?"#eff6ff":"white", color:form.amenidades.includes(a)?"#1d4ed8":"#374151", transition:"all 0.15s" }}>
+              <label key={a} style={{ display:"flex", alignItems:"center", gap:"6px", fontSize:"13px", cursor:"pointer", padding:"6px 12px", border:`1px solid ${form.amenidades.includes(a)?"#2563eb":"#C8C0B4"}`, borderRadius:"20px", background:form.amenidades.includes(a)?"#eff6ff":"white", color:form.amenidades.includes(a)?"#1d4ed8":"#1A1714", transition:"all 0.15s" }}>
                 <input type="checkbox" checked={form.amenidades.includes(a)}
                   onChange={e=>setForm(p=>({...p,amenidades:e.target.checked?[...p.amenidades,a]:p.amenidades.filter(x=>x!==a)}))}
                   style={{ display:"none" }}/>
@@ -301,7 +301,7 @@ export default function NewProperty({ password }: Props) {
 
         {/* Galería */}
         <label style={L}>URLs de Galería (una por línea) — acepta Google Drive</label>
-        <p style={{fontSize:"11px",color:"#9ca3af",margin:"-8px 0 8px"}}>Pega el enlace de compartir de Google Drive directamente</p>
+        <p style={{fontSize:"11px",color:"#8A847C",margin:"-8px 0 8px"}}>Pega el enlace de compartir de Google Drive directamente</p>
         <textarea value={form.galeriaUrls} onChange={e=>setForm(p=>({...p,galeriaUrls:e.target.value}))}
           placeholder="/gallery/foto1.jpg" rows={4} style={{...F,resize:"vertical"}}/>
 
@@ -319,7 +319,7 @@ export default function NewProperty({ password }: Props) {
 
         {/* Botones */}
         <div style={{ display:"flex", gap:"12px" }}>
-          <button onClick={()=>handleSave(false)} style={{...BTN("#6b7280"),flex:1}}>Guardar Borrador</button>
+          <button onClick={()=>handleSave(false)} style={{...BTN("#4A4540"),flex:1}}>Guardar Borrador</button>
           <button onClick={()=>handleSave(true)} style={{...BTN("#16a34a"),flex:2}}>✦ Publicar Propiedad</button>
         </div>
 

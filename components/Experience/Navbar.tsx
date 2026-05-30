@@ -123,7 +123,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
                 background:"rgba(250,250,247,0.98)",
                 backdropFilter:"blur(16px)",
                 WebkitBackdropFilter:"blur(20px)",
-                border:"1px solid #E2DDD6",
+                border:"1px solid #DDD8D0",
                 minWidth:"10rem",
                 overflow:"hidden",
               }}

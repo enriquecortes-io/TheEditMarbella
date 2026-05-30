@@ -9,7 +9,7 @@ const CAT_COLORS: Record<Categoria, string> = {
   captacion:    "#2563eb",
   agencia:      "#7c3aed",
   colaborador:  "#d97706",
-  proveedor:    "#6b7280",
+  proveedor:    "#4A4540",
 };
 
 const CAT_LABELS: Record<Categoria, string> = {
@@ -44,7 +44,7 @@ const headers = {
 };
 
 const INP: React.CSSProperties = {
-  width:"100%", padding:"8px 10px", border:"1px solid #e5e7eb",
+  width:"100%", padding:"8px 10px", border:"1px solid #DDD8D0",
   borderRadius:"6px", fontSize:"13px", boxSizing:"border-box" as const,
   fontFamily:"inherit", outline:"none",
 };
@@ -141,7 +141,7 @@ export default function Contactos({ password }: Props) {
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"1.5rem" }}>
         <div>
           <h1 style={{ fontSize:"24px", fontWeight:700, color:"#111827", margin:0 }}>Contactos</h1>
-          <p style={{ color:"#6b7280", fontSize:"13px", margin:"4px 0 0" }}>{contactos.length} contactos en total</p>
+          <p style={{ color:"#4A4540", fontSize:"13px", margin:"4px 0 0" }}>{contactos.length} contactos en total</p>
         </div>
         <button onClick={() => { setEditing(null); setForm({...EMPTY}); setShowNew(true); }} style={{ background:"#111827", color:"white", border:"none", borderRadius:"6px", padding:"10px 18px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>
           + Nuevo Contacto
@@ -153,9 +153,9 @@ export default function Contactos({ password }: Props) {
         {CATEGORIAS.map(cat => (
           <button key={cat} onClick={() => setFiltro(filtro === cat ? "" : cat)} style={{
             padding:"6px 14px", borderRadius:"20px", border:"2px solid",
-            borderColor: filtro === cat ? CAT_COLORS[cat] : "#e5e7eb",
+            borderColor: filtro === cat ? CAT_COLORS[cat] : "#DDD8D0",
             background: filtro === cat ? CAT_COLORS[cat] : "white",
-            color: filtro === cat ? "white" : "#374151",
+            color: filtro === cat ? "white" : "#1A1714",
             fontSize:"12px", fontWeight:600, cursor:"pointer",
           }}>
             {CAT_LABELS[cat]} · {counts[cat]}
@@ -167,13 +167,13 @@ export default function Contactos({ password }: Props) {
       <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar por nombre, email o teléfono..." style={{...INP, marginBottom:"1rem", maxWidth:"400px"}}/>
 
       {/* Tabla */}
-      {loading ? <p style={{color:"#6b7280"}}>Cargando...</p> : (
-        <div style={{ background:"white", borderRadius:"8px", border:"1px solid #e5e7eb", overflow:"hidden" }}>
+      {loading ? <p style={{color:"#4A4540"}}>Cargando...</p> : (
+        <div style={{ background:"white", borderRadius:"8px", border:"1px solid #DDD8D0", overflow:"hidden" }}>
           <table style={{ width:"100%", borderCollapse:"collapse" }}>
             <thead>
-              <tr style={{ background:"#f9fafb" }}>
+              <tr style={{ background:"#FAF8F4" }}>
                 {["Categoría","Nombre","Email","Teléfono","Propiedad","Origen","Activo","Acciones"].map(h => (
-                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
+                  <th key={h} style={{ padding:"12px 16px", textAlign:"left", fontSize:"11px", fontWeight:700, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em" }}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -186,12 +186,12 @@ export default function Contactos({ password }: Props) {
                     </span>
                   </td>
                   <td style={{ padding:"12px 16px", fontSize:"13px", fontWeight:600, color:"#111827" }}>{c.nombre}</td>
-                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#374151" }}>{c.email||"—"}</td>
-                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#374151" }}>{c.telefono||"—"}</td>
-                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#374151" }}>{c.propiedad_interes||"—"}</td>
-                  <td style={{ padding:"12px 16px", fontSize:"11px", color:"#6b7280" }}>{c.origen}</td>
+                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#1A1714" }}>{c.email||"—"}</td>
+                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#1A1714" }}>{c.telefono||"—"}</td>
+                  <td style={{ padding:"12px 16px", fontSize:"13px", color:"#1A1714" }}>{c.propiedad_interes||"—"}</td>
+                  <td style={{ padding:"12px 16px", fontSize:"11px", color:"#4A4540" }}>{c.origen}</td>
                   <td style={{ padding:"12px 16px" }}>
-                    <button onClick={()=>toggleActivo(c)} style={{ background:c.activo?"#dcfce7":"#f3f4f6", color:c.activo?"#16a34a":"#6b7280", border:"none", borderRadius:"4px", padding:"2px 8px", fontSize:"11px", fontWeight:600, cursor:"pointer" }}>
+                    <button onClick={()=>toggleActivo(c)} style={{ background:c.activo?"#dcfce7":"#F2EDE4", color:c.activo?"#16a34a":"#4A4540", border:"none", borderRadius:"4px", padding:"2px 8px", fontSize:"11px", fontWeight:600, cursor:"pointer" }}>
                       {c.activo ? "Activo" : "Inactivo"}
                     </button>
                   </td>
@@ -202,7 +202,7 @@ export default function Contactos({ password }: Props) {
                 </tr>
               ))}
               {filtered.length === 0 && (
-                <tr><td colSpan={8} style={{ padding:"2rem", textAlign:"center", color:"#6b7280", fontSize:"13px" }}>Sin contactos</td></tr>
+                <tr><td colSpan={8} style={{ padding:"2rem", textAlign:"center", color:"#4A4540", fontSize:"13px" }}>Sin contactos</td></tr>
               )}
             </tbody>
           </table>
@@ -218,35 +218,35 @@ export default function Contactos({ password }: Props) {
 
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1rem", marginBottom:"1rem" }}>
               <div>
-                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Categoría</label>
+                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Categoría</label>
                 <select value={form.categoria} onChange={e=>setForm(p=>({...p,categoria:e.target.value as Categoria}))} style={INP}>
                   {CATEGORIAS.map(c => <option key={c} value={c}>{CAT_LABELS[c]}</option>)}
                 </select>
               </div>
               <div>
-                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Nombre *</label>
+                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Nombre *</label>
                 <input value={form.nombre} onChange={e=>setForm(p=>({...p,nombre:e.target.value}))} style={INP} placeholder="Nombre completo"/>
               </div>
             </div>
 
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1rem", marginBottom:"1rem" }}>
               <div>
-                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Email</label>
+                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Email</label>
                 <input value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))} style={INP} placeholder="email@ejemplo.com"/>
               </div>
               <div>
-                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Teléfono</label>
+                <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Teléfono</label>
                 <input value={form.telefono} onChange={e=>setForm(p=>({...p,telefono:e.target.value}))} style={INP} placeholder="+34 600 000 000"/>
               </div>
             </div>
 
             <div style={{ marginBottom:"1rem" }}>
-              <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Propiedad de Interés</label>
+              <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Propiedad de Interés</label>
               <input value={form.propiedad_interes} onChange={e=>setForm(p=>({...p,propiedad_interes:e.target.value}))} style={INP} placeholder="Nombre o slug de la propiedad"/>
             </div>
 
             <div style={{ marginBottom:"1rem" }}>
-              <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Notas</label>
+              <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.06em", marginBottom:"4px" }}>Notas</label>
               <textarea value={form.notas} onChange={e=>setForm(p=>({...p,notas:e.target.value}))} style={{...INP,height:"80px",resize:"vertical"}} placeholder="Notas adicionales..."/>
             </div>
 
@@ -260,7 +260,7 @@ export default function Contactos({ password }: Props) {
             {status && <p style={{ color:"#16a34a", fontSize:"13px", marginBottom:"1rem" }}>{status}</p>}
 
             <div style={{ display:"flex", gap:"12px" }}>
-              <button onClick={()=>{setShowNew(false);setEditing(null);}} style={{ flex:1, padding:"10px", background:"#f3f4f6", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>Cancelar</button>
+              <button onClick={()=>{setShowNew(false);setEditing(null);}} style={{ flex:1, padding:"10px", background:"#F2EDE4", border:"none", borderRadius:"6px", fontSize:"13px", cursor:"pointer" }}>Cancelar</button>
               <button onClick={handleSave} style={{ flex:2, padding:"10px", background:"#111827", color:"white", border:"none", borderRadius:"6px", fontSize:"13px", fontWeight:600, cursor:"pointer" }}>
                 {editing ? "Guardar Cambios" : "Crear Contacto"}
               </button>

@@ -237,7 +237,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
             <button
               onClick={() => setActiveFilter(activeFilter === f.id ? null : f.id)}
               style={{
-                background:"none", border:"1px solid #E2DDD6",
+                background:"none", border:"1px solid #DDD8D0",
                 padding:"0.7rem 1.4rem", cursor:"pointer",
                 fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem",
                 letterSpacing:"0.2em", textTransform:"uppercase",
@@ -254,7 +254,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
             {activeFilter === f.id && (
               <div style={{
                 position:"absolute", top:"calc(100% + 0.5rem)", left:0, zIndex:50,
-                background:"#FAFAF7", border:"1px solid #E2DDD6",
+                background:"#FAFAF7", border:"1px solid #DDD8D0",
                 minWidth:"140px",
               }}>
                 {f.options.map(opt => (
@@ -308,7 +308,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                 cursor:"pointer", position:"relative", overflow:"hidden",
                 height:h,
                 background:"#FAFAF7",
-                border:"1px solid #E2DDD6",
+                border:"1px solid #DDD8D0",
                 transition:"border-color 0.3s",
               }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}

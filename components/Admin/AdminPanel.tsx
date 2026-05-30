@@ -52,13 +52,13 @@ export default function AdminPanel() {
   };
 
   if (!auth) return (
-    <div style={{ minHeight:"100vh", background:"#f9fafb", display:"flex", alignItems:"center", justifyContent:"center" }}>
-      <div style={{ background:"white", padding:"40px", borderRadius:"12px", boxShadow:"0 4px 24px rgba(0,0,0,0.08)", width:"360px" }}>
+    <div style={{ minHeight:"100vh", background:"#FAF8F4", display:"flex", alignItems:"center", justifyContent:"center" }}>
+      <div style={{ background:"white", padding:"40px", borderRadius:"12px", boxShadow:"0 4px 24px rgba(26,23,20,0.08)", width:"360px" }}>
         <h2 style={{ fontFamily:"system-ui", fontSize:"20px", fontWeight:700, marginBottom:"8px", color:"#111" }}>
           Edit Marbella
         </h2>
-        <p style={{ fontSize:"13px", color:"#6b7280", marginBottom:"24px", fontFamily:"system-ui" }}>Panel de Administración</p>
-        <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#6b7280", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px", fontFamily:"system-ui" }}>
+        <p style={{ fontSize:"13px", color:"#4A4540", marginBottom:"24px", fontFamily:"system-ui" }}>Panel de Administración</p>
+        <label style={{ display:"block", fontSize:"11px", fontWeight:600, color:"#4A4540", textTransform:"uppercase", letterSpacing:"0.08em", marginBottom:"4px", fontFamily:"system-ui" }}>
           Contraseña
         </label>
         <form onSubmit={e=>{e.preventDefault();handleAuth();}} method="post" action="">
@@ -100,7 +100,7 @@ export default function AdminPanel() {
   ];
 
   return (
-    <div style={{ display:"flex", minHeight:"100vh", background:"#f9fafb", fontFamily:"system-ui" }}>
+    <div style={{ display:"flex", minHeight:"100vh", background:"#FAF8F4", fontFamily:"system-ui" }}>
 
       {/* Sidebar */}
       <div style={{ width:"220px", background:"#111", minHeight:"100vh", display:"flex", flexDirection:"column", flexShrink:0 }}>
@@ -110,7 +110,7 @@ export default function AdminPanel() {
           {user && <p style={{ fontSize:"11px", color:"rgba(255,255,255,0.4)", margin:"4px 0 0" }}>{user.name} · {user.role}</p>}
         </div>
 
-        <div style={{ height:"1px", background:"rgba(255,255,255,0.08)", margin:"0 20px 16px" }}/>
+        <div style={{ height:"1px", background:"rgba(250,248,244,0.08)", margin:"0 20px 16px" }}/>
 
         <nav style={{ flex:1, padding:"0 12px" }}>
           {NAV.map(item => (
@@ -137,7 +137,7 @@ export default function AdminPanel() {
           ))}
         </nav>
 
-        <div style={{ padding:"16px 20px", borderTop:"1px solid rgba(255,255,255,0.08)" }}>
+        <div style={{ padding:"16px 20px", borderTop:"1px solid rgba(250,248,244,0.08)" }}>
           <button onClick={()=>{ localStorage.removeItem("mdlm_admin_user"); setAuth(false); setUser(null); }}
             style={{ background:"none", border:"none", color:"rgba(255,255,255,0.4)", fontSize:"12px", cursor:"pointer", padding:0 }}>
             Cerrar sesión →
