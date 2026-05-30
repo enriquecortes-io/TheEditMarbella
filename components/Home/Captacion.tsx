@@ -145,7 +145,7 @@ const SERVICES_MAP: Record<string, typeof SERVICES_ES> = { es:SERVICES_ES, en:SE
 const SERVICES = (locale: string) => SERVICES_MAP[locale] || SERVICES_EN;
 
 const INP: React.CSSProperties = {
-  width:"100%", background:"rgba(255,255,255,0.04)",
+  width:"100%", background:"rgba(45,74,62,0.04)",
   border:"1px solid rgba(201,169,110,0.2)",
   color:"#111111", padding:"0.9rem 1rem",
   fontFamily:"'Montserrat',sans-serif", fontSize:"0.7rem",
@@ -188,9 +188,9 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         width:"100%", maxWidth:"1000px",
         display:"flex", flexDirection:"column",
         gap:"clamp(1.5rem,2.5vw,2.5rem)",
-        background:"rgba(6,4,2,0.6)",
+        background:"rgba(250,250,247,0.85)",
         border:"1px solid rgba(201,169,110,0.25)",
-        backdropFilter:"blur(30px)",
+        backdropFilter:"blur(12px)",
         padding:"clamp(1.5rem,3vw,3rem)",
         boxSizing:"border-box",
         position:"relative",
