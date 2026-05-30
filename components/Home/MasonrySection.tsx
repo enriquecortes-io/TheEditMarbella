@@ -215,9 +215,9 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
   };
 
   return (
-    <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", overflow:"hidden", background:"rgba(4,3,2,0.55)",
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+    <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", overflow:"hidden", background:"transparent",
+      backdropFilter:"none",
+      WebkitBackdropFilter:"none",
     }}>
 
       {/* Barra filtros */}
@@ -325,7 +325,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               )}
               <div style={{
                 position:"absolute", inset:0,
-                background:"linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%)",
+                background:"linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)",
                 display:"flex", flexDirection:"column", justifyContent:"flex-end",
                 padding:"1rem",
               }}>

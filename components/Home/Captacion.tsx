@@ -147,7 +147,7 @@ const SERVICES = (locale: string) => SERVICES_MAP[locale] || SERVICES_EN;
 const INP: React.CSSProperties = {
   width:"100%", background:"rgba(255,255,255,0.04)",
   border:"1px solid rgba(201,169,110,0.2)",
-  color:"white", padding:"0.9rem 1rem",
+  color:"#111111", padding:"0.9rem 1rem",
   fontFamily:"'Montserrat',sans-serif", fontSize:"0.7rem",
   letterSpacing:"0.05em", outline:"none", boxSizing:"border-box",
   transition:"border-color 0.3s",
@@ -201,7 +201,7 @@ const Captacion = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
         {/* Header */}
         <div>
           <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", color:"rgba(45,74,62,0.7)", letterSpacing:"0.5em", textTransform:"uppercase", margin:"0 0 0.6rem" }}>{t.eyebrow}</p>
-          <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,3vw,3rem)", fontWeight:600, color:"white", lineHeight:1.1, margin:"0 0 0.6rem", fontStyle:"italic" }}>{t.title}</h2>
+          <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,3vw,3rem)", fontWeight:600, color:"#111111", lineHeight:1.1, margin:"0 0 0.6rem", fontStyle:"italic" }}>{t.title}</h2>
           <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.9rem,1.1vw,1rem)", color:"rgba(17,17,17,0.7)", lineHeight:1.6, margin:0, fontStyle:"italic" }}>{t.subtitle}</p>
         </div>
 

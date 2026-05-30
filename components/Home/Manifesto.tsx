@@ -10,9 +10,9 @@ const Manifesto = forwardRef<HTMLDivElement, Props>(({ locale }, ref) => {
       position:"absolute", inset:0, zIndex:12,
       opacity:0, pointerEvents:"none",
       willChange:"opacity",
-      background:"rgba(4,3,2,0.55)",
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+      background:"transparent",
+      backdropFilter:"none",
+      WebkitBackdropFilter:"none",
     }}>
       <ManifestoFlow locale={locale} />
     </div>

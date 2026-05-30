@@ -31,7 +31,7 @@ const CONTENT: Record<string, any> = {
 };
 
 const TAG_S: React.CSSProperties = { fontFamily:"'Montserrat',sans-serif", fontSize:'0.65rem', fontWeight:600, letterSpacing:'0.3em', textTransform:'uppercase', color:GOLD_DIM, margin:0 };
-const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid #E2DDD6', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
+const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid rgba(45,74,62,0.2)', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
 const H_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2rem,7vw,8rem)', fontWeight:600, lineHeight:0.88, textTransform:'uppercase', color:WHITE, margin:0 };
 const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.1rem,2vw,1.4rem)', fontWeight:300, lineHeight:1.8, color:WHITE_DIM, maxWidth:'52ch', margin:0 };
 
@@ -63,7 +63,7 @@ export default function ManifestoFlow({ locale }: { locale: string }) {
   }, [active]);
 
   return (
-    <div style={{ position:'relative', width:'100%', height:'100%', overflow:'hidden', background:'rgba(4,3,2,0.0)' }}>
+    <div style={{ position:'relative', width:'100%', height:'100%', overflow:'hidden', background:'transparent' }}>
 
       {/* S1 */}
       <div ref={refs.manifesto1} style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', justifyContent:'flex-start', gap:'clamp(0.6rem,1.5vw,1rem)', padding:'clamp(4rem,8vw,5rem) clamp(2rem,5vw,4rem) clamp(1.5rem,3vw,2rem)', boxSizing:'border-box', transformOrigin:'bottom left' }}>
