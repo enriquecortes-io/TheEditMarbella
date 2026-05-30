@@ -1,240 +1,208 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { gsap } from "gsap";
 import { getT } from "@/lib/i18n";
 
-interface Props { locale: string; }
-
-// Scenes con posición — word y phrase vienen de las traducciones
 const SCENE_CONFIG = [
-  { start:0,  end:5,  align:"left",   pos:"65% top" },
-  { start:5,  end:10, align:"right",  pos:"center top" },
-  { start:10, end:15, align:"center", pos:"center top" },
-  { start:15, end:20, align:"left",   pos:"center top" },
-  { start:20, end:25, align:"right",  pos:"center top" },
-  { start:25, end:30, align:"center", pos:"center center" },
+  { align:"left",   locations:true },
+  { align:"right",  locations:false },
+  { align:"center", locations:false },
+  { align:"left",   locations:false },
 ];
 
-export default function SkyHeader({ locale }: Props) {
-  const pathname = usePathname();
-  const urlLocale = pathname.split("/")[1] || locale;
-  const t = getT(urlLocale);
+export default function SkyHeader({ locale = "es" }: { locale?: string }) {
+  const t = getT(locale);
   const scenes = (t.header as any).scenes as Array<{word:string;phrase:string}> || [];
   const SCENES = SCENE_CONFIG.map((s,i) => ({...s, word:scenes[i]?.word||"", phrase:scenes[i]?.phrase||""}));
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [sceneIdx, setSceneIdx] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
-  const [videoReady, setVideoReady] = useState(false);
 
+  const videoRef    = useRef<HTMLVideoElement>(null);
+  const [sceneIdx, setSceneIdx]   = useState(0);
+  const [prevIdx,  setPrevIdx]    = useState(-1);
+  const wordRef     = useRef<HTMLDivElement>(null);
+  const phraseRef   = useRef<HTMLDivElement>(null);
+  const locationsRef= useRef<HTMLDivElement>(null);
+  const scrollRef   = useRef<HTMLSpanElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  // Video scene sync
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.muted = true;
-    video.play().catch(() => {});
-    video.addEventListener("canplay", () => setVideoReady(true));
-
     const handleTime = () => {
-      const ct = video.currentTime;
-      const idx = SCENES.findIndex(s => ct >= s.start && ct < s.end);
-      if (idx !== -1 && idx !== sceneIdx) {
-        setSceneIdx(idx);
-        setAnimKey(p => p + 1);
-      }
+      const d = video.duration || 1;
+      const pct = video.currentTime / d;
+      const idx = Math.min(SCENES.length - 1, Math.floor(pct * SCENES.length));
+      setSceneIdx(prev => { if (prev !== idx) setPrevIdx(prev); return idx; });
     };
-
     video.addEventListener("timeupdate", handleTime);
     return () => video.removeEventListener("timeupdate", handleTime);
+  }, []);
+
+  // Entrada inicial
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease:"power3.out" } });
+
+      if (locationsRef.current)
+        tl.from(locationsRef.current, { autoAlpha:0, y:-8, duration:0.6 }, 0.2);
+
+      if (wordRef.current)
+        tl.fromTo(wordRef.current,
+          { autoAlpha:0, y:40, scaleY:1.5, filter:"blur(10px)", transformOrigin:"bottom center" },
+          { autoAlpha:1, y:0,  scaleY:1,   filter:"blur(0px)",  duration:0.8 },
+          0.1
+        );
+
+      if (phraseRef.current)
+        tl.from(phraseRef.current, { autoAlpha:0, x:-20, duration:0.7 }, 0.55);
+
+      if (scrollRef.current)
+        tl.from(scrollRef.current, { autoAlpha:0, y:10, duration:0.5 }, 0.8);
+
+      if (progressRef.current)
+        tl.from(progressRef.current, { autoAlpha:0, duration:0.4 }, 1.0);
+    });
+    return () => ctx.revert();
+  }, []);
+
+  // Transición entre escenas
+  useEffect(() => {
+    if (sceneIdx === 0 && prevIdx === -1) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults:{ ease:"power3.out" } });
+
+      // Salida
+      const els = [wordRef.current, phraseRef.current].filter(Boolean);
+      tl.to(els, { autoAlpha:0, y:-20, duration:0.25, ease:"power2.in", stagger:0.04 });
+
+      // Entrada word
+      if (wordRef.current)
+        tl.fromTo(wordRef.current,
+          { autoAlpha:0, y:40, scaleY:1.5, filter:"blur(10px)", transformOrigin:"bottom center" },
+          { autoAlpha:1, y:0,  scaleY:1,   filter:"blur(0px)",  duration:0.75 }
+        );
+
+      // Entrada phrase
+      if (phraseRef.current)
+        tl.fromTo(phraseRef.current,
+          { autoAlpha:0, x:-14 },
+          { autoAlpha:1, x:0,  duration:0.55 },
+          "-=0.45"
+        );
+    });
+    return () => ctx.revert();
   }, [sceneIdx]);
 
-  const scene = SCENES[sceneIdx];
-  const alignMap = { left:"flex-start", right:"flex-end", center:"center" };
+  const scene = SCENES[sceneIdx] || SCENES[0];
+
+  const breaks: Record<string,string[]> = {
+    "POSEE":["PO","SEE"], "PERTENECE":["PERTE","NECE"], "DESCUBRE":["DES","CUBRE"],
+    "BELONGS":["BE","LONGS"], "OWNS":["OW","NS"],
+  };
 
   return (
-    <>
-      <style>{`
+    <div style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
 
-        @keyframes wordIn {
-          0%   { opacity:0; transform:translateY(40px) scaleY(0.8); filter:blur(10px); }
-          100% { opacity:1; transform:translateY(0) scaleY(1.5); filter:blur(0); }
-        }
-        @keyframes phraseIn {
-          0%   { opacity:0; transform:translateX(-20px); }
-          100% { opacity:1; transform:translateX(0); }
-        }
-        @keyframes uiFadeIn {
-          0%   { opacity:0; transform:translateY(10px); }
-          100% { opacity:1; transform:translateY(0); }
-        }
-        @keyframes neonBreath {
-          0%,100% { height:2rem; opacity:0.3; box-shadow:0 0 4px rgba(201,169,110,0.4); }
-          50%     { height:4rem; opacity:1;   box-shadow:0 0 12px rgba(201,169,110,0.9); }
-        }
-        @keyframes progressBar {
-          0%   { width:0%; }
-          100% { width:100%; }
-        }
-        .word-anim   { animation: wordIn   0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-        .phrase-anim { animation: phraseIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s both; }
-        .ui-anim     { animation: uiFadeIn 1s  cubic-bezier(0.16,1,0.3,1) 0.6s both; }
-        .neon-line   { animation: neonBreath 2.4s ease-in-out infinite; }
-        .progress-bar { animation: progressBar 5s linear both; }
-      `}</style>
+      {/* Vídeo */}
+      <video ref={videoRef} autoPlay muted loop playsInline preload="metadata"
+        style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover" }}>
+        <source src="/api/drive?id=1ja-BvtRM9FMAQtt66-prJbzSWDChoM9g" type="video/mp4"/>
+      </video>
 
-      {/* Fondo fallback — visible hasta que carga el video */}
+      {/* Overlay verde botella sutil */}
       <div style={{
-        position:"absolute", inset:0, zIndex:0,
-        background:"linear-gradient(135deg, #0a0a0f 0%, #0f0a08 50%, #080a0f 100%)",
-        opacity: videoReady ? 0 : 1,
-        transition:"opacity 0.4s ease",
-        pointerEvents:"none",
+        position:"absolute", inset:0,
+        background:"linear-gradient(to bottom, rgba(28,43,36,0.35) 0%, rgba(28,43,36,0.55) 100%)",
       }}/>
 
-      {/* Video único */}
-      <video
-        ref={videoRef}
-        src="/videos/HeroHeader.mp4"
-        poster="/videos/hero-poster.jpg"
-        muted playsInline loop autoPlay
-        preload="metadata"
-        onCanPlay={()=>setVideoReady(true)}
-        style={{
-          position:"absolute", inset:0,
-          width:"100%", height:"100%",
-          objectFit:"cover",
-          objectPosition:scene.pos,
-          zIndex:0,
-        }}
-      />
-
-      {/* Overlay */}
-      <div style={{
-        position:"absolute", inset:0, zIndex:1,
-        background:"linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.88) 100%)",
-      }}/>
-
-      {/* Tipografía */}
-      <div style={{
-        position:"relative", zIndex:10,
-        width:"100%", height:"100%",
-        display:"flex", flexDirection:"column",
-        justifyContent:"center",
-        paddingLeft: scene.word.length > 7 ? "5vw" : scene.align === "left" ? "clamp(1.5rem,8vw,12vw)" : scene.align === "center" ? "clamp(1.5rem,8vw,12vw)" : "0",
-        paddingRight: scene.word.length > 7 ? "5vw" : scene.align === "right" ? "clamp(1.5rem,8vw,12vw)" : scene.align === "center" ? "clamp(1.5rem,8vw,12vw)" : "0",
-        alignItems: alignMap[scene.align as keyof typeof alignMap] as any,
+      {/* Locations */}
+      <div ref={locationsRef} style={{
+        position:"absolute", top:"clamp(4rem,8vw,6rem)", left:0, right:0,
+        display:"flex", justifyContent:"center", gap:"clamp(1rem,3vw,2.5rem)",
+        flexWrap:"wrap", padding:"0 2rem",
       }}>
-        <div key={animKey} style={{
-          display:"flex", flexDirection:"column",
-          alignItems: scene.word.length > 7 ? "center" : scene.align === "right" ? "flex-end" : scene.align === "center" ? "center" : "flex-start",
-          maxWidth:"90vw",
-        }}>
-          {/* Partir en 2 líneas si la palabra es larga en mobile */}
-          <div className="word-anim" style={{
-            fontFamily:"'Cormorant Garamond','Cormorant',serif",
-            fontSize:"clamp(6rem,16vw,16rem)",
-            fontWeight:900,
-            color:"#ffffff",
-            letterSpacing:"-0.02em",
-            lineHeight:0.75,
-            userSelect:"none",
-            display:"inline-block",
-            textShadow:"0 4px 60px rgba(0,0,0,0.7)",
-
+        {(t.header as any).locations?.map((loc: string, i: number, arr: string[]) => (
+          <span key={loc} style={{
+            fontFamily:"'Montserrat',sans-serif",
+            fontSize:"clamp(0.4rem,0.7vw,0.55rem)",
+            fontWeight:300, letterSpacing:"0.4em",
+            textTransform:"uppercase", color:"rgba(250,248,244,0.6)",
+            display:"flex", alignItems:"center", gap:"clamp(1rem,3vw,2.5rem)",
           }}>
-            {(()=>{
-              const breaks: Record<string,string[]> = {
-                "CONDUCE":  ["CON","DUCE"],
-                "MARBELLA": ["MAR","BELLA"],
-                "POSSÉDER": ["POS","SÉDER"],
-                "CONDUIRE": ["CON","DUIRE"],
-                "УЖИНАЙ":   ["УЖИ","НАЙ"],
-                "ВЛАДЕЙ":   ["ВЛА","ДЕЙ"],
-              };
-              const parts = breaks[scene.word];
-              if (parts) return <>{parts.map((p,i)=><span key={i} style={{display:"block"}}>{p}</span>)}</>;
-              return <>{scene.word}</>;
-            })()}
-          </div>
-
-          <div className="phrase-anim" style={{
-            fontFamily:"'Montserrat', sans-serif",
-            fontStyle:"normal",
-            fontSize:"clamp(0.65rem,1.8vw,2rem)",
-            fontWeight:200,
-            color:"rgba(255,255,255,0.75)",
-            letterSpacing:"0.25em",
-            lineHeight:1.2,
-            textTransform:"uppercase",
-            userSelect:"none",
-            textShadow:"0 2px 20px rgba(0,0,0,0.6)",
-            marginTop:"3.5rem",
-            textAlign: scene.align === "center" ? "center" : scene.align === "right" ? "right" : "left",
-          }}>
-            {scene.phrase}
-          </div>
-        </div>
-      </div>
-
-      {/* Localidades — arriba pegadas al navbar */}
-      <div style={{
-        position:"absolute", top:"4.5rem", left:0, right:0,
-        zIndex:20,
-        display:"flex", alignItems:"center", justifyContent:"center",
-        gap:"2rem",
-        flexWrap:"wrap",
-        color:"rgba(255,255,255,0.35)",
-        fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
-        fontSize:"clamp(0.4rem,0.6vw,0.55rem)",
-        fontWeight:300, letterSpacing:"0.35em",
-        textTransform:"uppercase",
-        padding:"0.4rem 0",
-        background:"transparent",
-      }}>
-        {t.header.locations.map((loc: string, i: number, arr: string[]) => (
-          <span key={loc} style={{display:"flex",alignItems:"center",gap:"2rem"}}>
-            {loc}{i<arr.length-1&&<span style={{color:"rgba(201,169,110,0.4)"}}>·</span>}
+            {loc}
+            {i < arr.length - 1 && (
+              <span style={{ width:"1px", height:"0.6rem", background:"rgba(250,248,244,0.25)", display:"inline-block" }}/>
+            )}
           </span>
         ))}
       </div>
 
-      {/* Scroll indicator */}
+      {/* Word + Phrase */}
       <div style={{
-        position:"absolute", bottom:"1.5rem", left:"50%",
-        transform:"translateX(-50%)", zIndex:20,
-        display:"flex", flexDirection:"column", alignItems:"center", gap:"0.5rem",
+        position:"absolute", inset:0,
+        display:"flex", flexDirection:"column",
+        justifyContent:"center",
+        paddingLeft:  scene.align==="right"  ? 0 : scene.align==="center" ? "clamp(1.5rem,8vw,12vw)" : "clamp(1.5rem,8vw,12vw)",
+        paddingRight: scene.align==="left"   ? 0 : scene.align==="center" ? "clamp(1.5rem,8vw,12vw)" : "clamp(1.5rem,8vw,12vw)",
+        alignItems:   scene.align==="right"  ? "flex-end" : scene.align==="center" ? "center" : "flex-start",
       }}>
-        <span style={{
-          color:"rgba(255,255,255,0.3)", fontSize:"0.4rem",
-          letterSpacing:"0.6em", fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
-          textTransform:"uppercase",
-        }}>{t.header.scroll}</span>
-        <div className="neon-line" style={{ width:"1px", background:"rgba(201,169,110,0.8)" }}/>
+        <div ref={wordRef} style={{ willChange:"transform,opacity,filter" }}>
+          <h1 style={{
+            fontFamily:"'Cormorant Garamond','Didot',Georgia,serif",
+            fontSize:"clamp(5rem,16vw,14rem)",
+            fontWeight:700, lineHeight:0.88,
+            color:"#FAF8F4", margin:0,
+            letterSpacing:"-0.02em",
+            textAlign: scene.align === "center" ? "center" : "left",
+          }}>
+            {(() => {
+              const parts = breaks[scene.word];
+              if (parts) return <>{parts.map((p,i)=><span key={i} style={{display:"block"}}>{p}</span>)}</>;
+              return scene.word;
+            })()}
+          </h1>
+        </div>
+
+        <div ref={phraseRef} style={{ marginTop:"clamp(0.5rem,2vw,1.2rem)", willChange:"transform,opacity" }}>
+          <p style={{
+            fontFamily:"'Montserrat',sans-serif",
+            fontSize:"clamp(0.5rem,1.1vw,0.75rem)",
+            fontWeight:300, letterSpacing:"0.4em",
+            textTransform:"uppercase",
+            color:"rgba(250,248,244,0.75)", margin:0,
+            textAlign: scene.align === "center" ? "center" : "left",
+          }}>
+            {scene.phrase}
+          </p>
+        </div>
       </div>
 
-      {/* Barras de progreso */}
-      <div style={{
-        position:"absolute", bottom:0, left:0, right:0,
-        zIndex:20, display:"flex", gap:"2px", height:"2px",
+      {/* Progress bar */}
+      <div ref={progressRef} style={{
+        position:"absolute", bottom:"clamp(3rem,6vw,4rem)", left:"clamp(1.5rem,8vw,12vw)", right:"clamp(1.5rem,8vw,12vw)",
+        display:"flex", alignItems:"center", justifyContent:"space-between",
       }}>
-        {SCENES.map((_, i) => (
-          <div key={i} style={{
-            flex:1, background:"rgba(255,255,255,0.1)",
-            position:"relative", overflow:"hidden",
-          }}>
-            {i === sceneIdx && (
-              <div key={animKey} className="progress-bar" style={{
-                position:"absolute", top:0, left:0, height:"100%",
-                background:"rgba(201,169,110,0.8)",
-              }}/>
-            )}
-            {i < sceneIdx && (
-              <div style={{
-                position:"absolute", inset:0,
-                background:"rgba(201,169,110,0.5)",
-              }}/>
-            )}
-          </div>
-        ))}
+        <div style={{ display:"flex", gap:"0.5rem", alignItems:"center" }}>
+          {SCENES.map((_,i) => (
+            <div key={i} style={{
+              width: i===sceneIdx ? "2rem" : "0.4rem",
+              height:"1px",
+              background: i===sceneIdx ? "rgba(250,248,244,0.8)" : "rgba(250,248,244,0.25)",
+              transition:"all 0.4s ease",
+            }}/>
+          ))}
+        </div>
+        <span ref={scrollRef} style={{
+          fontFamily:"'Montserrat',sans-serif",
+          fontSize:"clamp(0.35rem,0.6vw,0.5rem)",
+          fontWeight:300, letterSpacing:"0.5em",
+          textTransform:"uppercase",
+          color:"rgba(250,248,244,0.45)",
+        }}>
+          {(t.header as any).scroll || "SCROLL"}
+        </span>
       </div>
-    </>
+    </div>
   );
 }
