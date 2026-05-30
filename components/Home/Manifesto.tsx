@@ -210,7 +210,6 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
 
     </div>
   );
-}
 });
 
 ManifestoFlow.displayName = "ManifestoFlow";
