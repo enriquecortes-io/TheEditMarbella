@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
-const GOLD = '#c9a96e';
-const GOLD_DIM = 'rgba(201,169,110,0.8)';
-const WHITE = '#ffffff';
-const WHITE_DIM = 'rgba(255,255,255,0.85)';
+const GOLD = '#2D4A3E';
+const GOLD_DIM = 'rgba(45,74,62,0.6)';
+const WHITE = '#1A1714';
+const WHITE_DIM = '#4A4540';
 
 const CONTENT: Record<string, any> = {
   es: {
@@ -32,7 +32,7 @@ const CONTENT: Record<string, any> = {
 
 // Estilos
 const TAG_S: React.CSSProperties = { fontFamily:"'Montserrat',sans-serif", fontSize:'0.65rem', fontWeight:600, letterSpacing:'0.3em', textTransform:'uppercase', color:GOLD_DIM, margin:0 };
-const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid rgba(201,169,110,0.15)', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
+const HR_S: React.CSSProperties = { border:'none', borderTop:'1px solid #DDD8D0', margin:'clamp(0.5rem,1.2vw,0.8rem) 0' };
 const H_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(2rem,7vw,8rem)', fontWeight:600, lineHeight:0.88, textTransform:'uppercase', color:WHITE, margin:0 };
 const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.1rem,2vw,1.4rem)', fontWeight:300, lineHeight:1.8, color:WHITE_DIM, maxWidth:'52ch', margin:0 };
 
