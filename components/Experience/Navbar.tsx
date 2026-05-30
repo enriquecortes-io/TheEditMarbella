@@ -45,7 +45,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         }
         .lang-dropdown { animation: dropIn 0.25s cubic-bezier(0.16,1,0.3,1) both; }
         .lang-opt { transition: all 0.2s ease; }
-        .lang-opt:hover { background: rgba(201,169,110,0.1) !important; color: #c9a96e !important; }
+        .lang-opt:hover { background: rgba(45,74,62,0.08) !important; color: #2D4A3E !important; }
         @keyframes neonPulse {
           0%,100% { text-shadow: 0 0 6px rgba(201,169,110,0.8), 0 0 12px rgba(201,169,110,0.5), 0 0 24px rgba(201,169,110,0.3); }
           50%     { text-shadow: 0 0 12px rgba(201,169,110,1), 0 0 24px rgba(201,169,110,0.8), 0 0 48px rgba(201,169,110,0.5), 0 0 80px rgba(201,169,110,0.2); }
@@ -59,10 +59,10 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         display:"flex", alignItems:"center", justifyContent:"space-between",
         padding:"0 2rem",
         zIndex:1000,
-        background:"rgba(0,0,0,0.3)",
+        background:"rgba(250,248,244,0.92)",
         backdropFilter:"blur(12px)",
         WebkitBackdropFilter:"blur(12px)",
-        borderBottom:"1px solid rgba(255,255,255,0.05)",
+        borderBottom:"1px solid #DDD8D0",
       }}>
 
                         {/* Logo THE EDIT MARBELLA */}
@@ -73,7 +73,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
         {/* Private Access — solo si hay callback */}
         {onPrivateAccess && (
           <>
-            <span onClick={onPrivateAccess} className="private-mobile" style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.3em", textTransform:"uppercase", cursor:"pointer", color:"#c9a96e", textShadow:"0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(201,169,110,0.4)" }}>
+            <span onClick={onPrivateAccess} className="private-mobile" style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.3em", textTransform:"uppercase", cursor:"pointer", color:"#2D4A3E", textShadow:"0 0 8px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(201,169,110,0.4)" }}>
               {PRIVATE_VIEWING[locale as keyof typeof PRIVATE_VIEWING] || "Private Viewing"}
             </span>
             <span className="private-desktop">
@@ -91,7 +91,7 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
             onClick={() => setOpen(p => !p)}
             style={{
               background:"none",
-              border:`1px solid ${open?"#2D4A3E":"#E2DDD6"}`,
+              border:`1px solid ${open?"#2D4A3E":"#DDD8D0"}`,
               color:"#111111",
               fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
               fontSize:"0.55rem",
@@ -135,9 +135,9 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
                   onClick={() => switchLocale(lang.code)}
                   style={{
                     width:"100%", textAlign:"left",
-                    background: lang.code === locale ? "rgba(201,169,110,0.08)" : "transparent",
+                    background: lang.code === locale ? "rgba(45,74,62,0.06)" : "transparent",
                     border:"none",
-                    borderBottom: i < LANGS.length-1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                    borderBottom: i < LANGS.length-1 ? "1px solid #DDD8D0" : "none",
                     padding:"0.9rem 1.4rem",
                     cursor:"pointer",
                     display:"flex", alignItems:"center", justifyContent:"space-between",
@@ -147,17 +147,17 @@ export default function Navbar({ locale = "es", onPrivateAccess }: Props) {
                   <span style={{
                     fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                     fontSize:"0.55rem", fontWeight:300,
-                    color: lang.code === locale ? "#c9a96e" : "rgba(255,255,255,0.5)",
+                    color: lang.code === locale ? "#c9a96e" : "#4A4540",
                     letterSpacing:"0.3em", textTransform:"uppercase",
                   }}>{lang.label}</span>
                   <span style={{
                     fontFamily:"'Montserrat','Helvetica Neue',sans-serif",
                     fontSize:"0.45rem", fontWeight:200,
-                    color: lang.code === locale ? "rgba(201,169,110,0.6)" : "rgba(255,255,255,0.2)",
+                    color: lang.code === locale ? "rgba(201,169,110,0.6)" : "#8A847C",
                     letterSpacing:"0.1em",
                   }}>{lang.name}</span>
                   {lang.code === locale && (
-                    <span style={{ color:"#c9a96e",
+                    <span style={{ color:"#2D4A3E",
           textShadow:"0 0 10px rgba(201,169,110,0.9), 0 0 20px rgba(201,169,110,0.5), 0 0 40px rgba(201,169,110,0.3)", fontSize:"0.5rem" }}>✦</span>
                   )}
                 </button>
