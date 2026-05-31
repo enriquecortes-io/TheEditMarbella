@@ -346,15 +346,15 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               onMouseLeave={() => setHoveredCard(null)}
               style={{
                 cursor:"pointer",
-                background:"white",
+                background:"#FFFFFF",
                 border:`1px solid ${isHovered ? ACCENT : BORDER}`,
                 transition:"border-color 0.3s, box-shadow 0.3s",
-                boxShadow: isHovered ? `0 8px 32px rgba(45,74,62,0.12)` : `0 2px 8px rgba(26,23,20,0.04)`,
+                boxShadow: isHovered ? `0 8px 32px rgba(45,74,62,0.1)` : `0 1px 4px rgba(26,23,20,0.06)`,
                 overflow:"hidden",
               }}
             >
               {/* Imagen */}
-              <div style={{ position:"relative", overflow:"hidden", height:"clamp(180px,25vw,240px)" }}>
+              <div style={{ position:"relative", overflow:"hidden", height:"220px" }}>
                 {img ? (
                   <img src={img} alt={title} style={{
                     width:"100%", height:"100%", objectFit:"cover", display:"block",
@@ -362,85 +362,59 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                     transition:"transform 0.6s ease",
                   }}/>
                 ) : (
-                  <div style={{ width:"100%", height:"100%", background:BG_SOFT }}/>
+                  <div style={{ width:"100%", height:"220px", background:BG_SOFT }}/>
                 )}
-                {/* Badge tipo */}
                 {p.tipo && (
                   <div style={{
-                    position:"absolute", top:"0.75rem", left:"0.75rem",
-                    background:"rgba(250,248,244,0.92)",
-                    backdropFilter:"blur(8px)",
-                    padding:"0.25rem 0.6rem",
+                    position:"absolute", top:"0.6rem", left:"0.6rem",
+                    background:"rgba(250,248,244,0.95)",
+                    padding:"0.2rem 0.5rem",
                     fontFamily:"'Montserrat',sans-serif",
-                    fontSize:"0.4rem", letterSpacing:"0.25em",
+                    fontSize:"0.38rem", letterSpacing:"0.2em",
                     textTransform:"uppercase", color:ACCENT,
+                    fontWeight:600,
                   }}>
                     {p.tipo}
                   </div>
                 )}
               </div>
 
-              {/* Info — siempre visible */}
-              <div style={{ padding:"0.8rem 1rem 1rem" }}>
-                {/* Ubicación */}
-                <p style={{
-                  fontFamily:"'Montserrat',sans-serif",
-                  fontSize:"0.5rem", letterSpacing:"0.25em",
-                  textTransform:"uppercase", color:MUTED,
-                  margin:"0 0 0.4rem",
-                }}>
-                  {p.ubicacion}
-                </p>
-
+              {/* Info — fuera de la imagen, fondo blanco */}
+              <div style={{ padding:"0.9rem 1rem 1rem", background:"#FFFFFF" }}>
                 {/* Título */}
                 <h3 style={{
-                  fontFamily:"'Cormorant Garamond',serif",
-                  fontSize:"clamp(1.1rem,1.8vw,1.4rem)",
-                  fontWeight:600, color:TEXT,
-                  margin:"0 0 0.4rem", lineHeight:1.2,
+                  fontFamily:"'Montserrat',sans-serif",
+                  fontSize:"0.65rem", fontWeight:600,
+                  letterSpacing:"0.08em", textTransform:"uppercase",
+                  color:TEXT, margin:"0 0 0.3rem", lineHeight:1.3,
                 }}>
                   {title}
                 </h3>
-
-                {/* Separador */}
-                <div style={{ height:"0.5px", background:BORDER, margin:"0 0 0.7rem" }}/>
-
-                {/* Stats + Precio */}
-                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-                  <div style={{ display:"flex", gap:"1rem" }}>
-                    {p.m2_construidos > 0 && (
-                      <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.15em", color:TEXT2 }}>
-                        {p.m2_construidos} m²
-                      </span>
-                    )}
-                    {p.habitaciones > 0 && (
-                      <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.5rem", letterSpacing:"0.15em", color:TEXT2 }}>
-                        {p.habitaciones} {t.bedrooms}
-                      </span>
-                    )}
+                {/* Ubicación */}
+                <p style={{
+                  fontFamily:"'Montserrat',sans-serif",
+                  fontSize:"0.55rem", letterSpacing:"0.05em",
+                  color:TEXT2, margin:"0 0 0.6rem", fontWeight:300,
+                }}>
+                  {p.ubicacion}
+                </p>
+                {/* Precio */}
+                <p style={{
+                  fontFamily:"'Cormorant Garamond',serif",
+                  fontSize:"1.3rem", fontWeight:700,
+                  color:TEXT, margin:"0 0 0.4rem", lineHeight:1,
+                }}>
+                  €{p.precio?.toLocaleString()}
+                </p>
+                {/* Stats */}
+                {(p.m2_construidos > 0 || p.habitaciones > 0) && (
+                  <div style={{ display:"flex", gap:"0.8rem", borderTop:`1px solid ${BORDER}`, paddingTop:"0.4rem", marginTop:"0.4rem" }}>
+                    {p.m2_construidos > 0 && <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.42rem", letterSpacing:"0.1em", color:MUTED }}>{p.m2_construidos} m²</span>}
+                    {p.habitaciones > 0 && <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.42rem", letterSpacing:"0.1em", color:MUTED }}>{p.habitaciones} {t.bedrooms}</span>}
+                    {p.banos > 0 && <span style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"0.42rem", letterSpacing:"0.1em", color:MUTED }}>{p.banos} {t.bathrooms}</span>}
                   </div>
-                  <p style={{
-                    fontFamily:"'Cormorant Garamond',serif",
-                    fontSize:"1.1rem", fontWeight:600,
-                    color:ACCENT, margin:0,
-                  }}>
-                    €{p.precio?.toLocaleString()}
-                  </p>
-                </div>
+                )}
               </div>
             </div>
-          );
-        })}
-
-        {filtered.length === 0 && (
-          <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"4rem", color:MUTED, fontFamily:"'Montserrat',sans-serif", fontSize:"0.6rem", letterSpacing:"0.3em", textTransform:"uppercase" }}>
-            Sin propiedades con estos filtros
-          </div>
-        )}
-      </div>
-
-      {/* Preview Modal */}
-      {preview && <PropertyPreview property={preview} locale={locale} onClose={() => setPreview(null)} />}
-    </div>
   );
 }
