@@ -220,23 +220,38 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
             }}>
               {c.s3.carta}
             </p>
-            <>
-              <style>{`@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');`}</style>
-              <p style={{ fontFamily:"'Great Vibes', cursive", fontSize:"clamp(2rem,4vw,3.5rem)", color:WHITE, margin:"0 0 0.25rem", lineHeight:1, opacity:0.9, letterSpacing:"0.02em" }}>Enrique Cortés</p>
-            </>
+            <img
+              src="/firma-enrique.jpg"
+              alt="Firma Enrique Cortés"
+              style={{
+                width:"clamp(140px,16vw,200px)",
+                display:"block",
+                marginBottom:"0.4rem",
+                filter:"brightness(0) invert(0)",
+                opacity:0.85,
+                mixBlendMode:"multiply" as any,
+              }}
+            />
             <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.38rem,0.5vw,0.48rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.5 }}>
               Enrique Cortés · Fundador, The Edit Marbella
             </p>
           </div>
 
           {/* Columna derecha — foto */}
-          <div style={{ position:"relative", overflow:"hidden" }}>
+          <div style={{ position:"relative", overflow:"hidden", padding:"0 clamp(0.5rem,2vw,1.5rem) 0 0" }}>
             <img
               src="/enrique-cortes.jpg"
               alt="Enrique Cortés"
-              style={{ width:"100%", height:"100%", maxHeight:"clamp(280px,55vh,480px)", objectFit:"cover", objectPosition:"center top", filter:"grayscale(100%)", display:"block" }}
+              style={{
+                width:"clamp(160px,80%,280px)",
+                maxHeight:"clamp(240px,45vh,380px)",
+                objectFit:"cover",
+                objectPosition:"center top",
+                filter:"grayscale(100%)",
+                display:"block",
+                marginLeft:"auto",
+              }}
             />
-            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(26,23,20,0.5) 0%, transparent 60%)" }}/>
           </div>
         </div>
       </div>
