@@ -53,7 +53,8 @@ export default function SkyHeader({ locale = "es" }: { locale?: string }) {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    let lastIdx = -1;
+    const VIDEO_OFFSET = 1.5;
+    let lastIdx = 0;
     const handleTime = () => {
       const t = video.currentTime + 0.5;
       const idx = Math.min(SCENES.length - 1, Math.floor(t / SCENE_DURATION_S));
