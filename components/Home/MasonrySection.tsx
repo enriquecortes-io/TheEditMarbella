@@ -328,10 +328,10 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
       {/* Grid Masonry */}
       <div style={{
         flex:1, overflowY:"scroll", WebkitOverflowScrolling:"touch",
-        padding:"clamp(0.75rem,2vw,1.5rem) clamp(0.75rem,2vw,1.5rem) 4rem",
+        padding:"0.5rem 0.5rem 4rem",
         display:"grid",
-        gridTemplateColumns:"repeat(auto-fill, minmax(min(300px,100%), 1fr))",
-        gap:"clamp(0.4rem,1vw,0.8rem)",
+        gridTemplateColumns:"repeat(3, 1fr)",
+        gap:"clamp(0.3rem,0.8vw,0.6rem)",
         alignContent:"start",
         position:"relative",
       }}>
@@ -377,7 +377,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               }}
             >
               {/* Imagen */}
-              <div style={{ position:"relative", overflow:"hidden", height:"220px" }}>
+              <div style={{ position:"relative", overflow:"hidden", height:"clamp(90px,20vw,180px)" }}>
                 {img ? (
                   <img src={img} alt={title} style={{
                     width:"100%", height:"100%", objectFit:"cover", display:"block",
@@ -385,7 +385,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                     
                   }}/>
                 ) : (
-                  <div style={{ width:"100%", height:"220px", background:BG_SOFT }}/>
+                  <div style={{ width:"100%", height:"clamp(90px,20vw,180px)", background:BG_SOFT }}/>
                 )}
                 {p.tipo && (
                   <div style={{
