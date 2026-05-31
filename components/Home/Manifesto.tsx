@@ -197,7 +197,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
 
         <style>{`
           @media (max-width:640px) {
-            .s3-wrap { display:flex !important; flex-direction:column !important; }
+            .s3-wrap { display:flex !important; flex-direction:column !important; padding-top:2rem !important; }
             .s3-foto { order: 1 !important; overflow:hidden; display:flex !important; justify-content:center !important; align-items:center !important; }
             .s3-foto img { width:160px !important; height:200px !important; object-fit:cover !important; object-position:center top !important; display:block !important; }
             .s3-left { order:2 !important; }
