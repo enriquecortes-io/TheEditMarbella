@@ -39,7 +39,7 @@ const BODY_S: React.CSSProperties = { fontFamily:"'Cormorant Garamond',serif", f
 
 // Wrapper con overflow hidden para el reveal de cada línea
 const LineReveal = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
-  <div style={{ overflow: 'hidden', ...style }}>
+  <div style={{ overflow: 'hidden', paddingBottom: '0.15em', marginBottom: '-0.15em', ...style }}>
     {children}
   </div>
 );
