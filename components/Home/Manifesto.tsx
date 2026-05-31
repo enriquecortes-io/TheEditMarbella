@@ -159,7 +159,14 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
       </div>
 
       {/* ── S2 ── */}
-      <div ref={refs.manifesto2} style={{
+      <style>{`
+        @media (max-width:640px) {
+          .s2-grid { display:flex !important; flex-direction:column !important; gap:1.5rem !important; }
+          .s2-right { padding-top:0 !important; }
+          .s2-right p { font-size:1rem !important; line-height:1.7 !important; }
+        }
+      `}</style>
+      <div ref={refs.manifesto2} className="s2-grid" style={{
         ...PAD,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
@@ -180,7 +187,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
         </div>
 
         {/* Columna derecha: body + hr + cols */}
-        <div style={{ display:'flex', flexDirection:'column', gap:'clamp(0.6rem,1.2vw,1rem)', justifyContent:'center' }}>
+        <div className="s2-right" style={{ display:'flex', flexDirection:'column', gap:'clamp(0.6rem,1.2vw,1rem)', justifyContent:'center' }}>
           <p data-anim="body" style={BODY_S}>{c.s2.body}</p>
           <hr data-anim="hr2" style={HR_S} />
           {c.s2.cols.map((col: any, i: number) => (
