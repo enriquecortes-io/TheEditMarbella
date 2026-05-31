@@ -11,22 +11,22 @@ const CONTENT: Record<string, any> = {
   es: {
     s1: { tag:'01 — El Criterio', h:['Rechazamos','lo que casi','lo logra.'], body:'Cada residencia que cruza este umbral ha sido contemplada, medida y comprendida en su totalidad. Lo bueno es enemigo de lo extraordinario.' },
     s2: { tag:'02 — El Acceso', h:['La Costa','del Sol','oculta.'], body:'Tesoros que nunca aparecen en escaparates. Esto es The Edit: el acceso silencioso a lo que la mayoría jamás verá.', cols:[{t:'Discreción Total',d:'Operaciones off-market sin comprometer la privacidad que una transacción de este nivel exige.'},{t:'Red Privada',d:'Compradores HNWI en 40+ países.'},{t:'Acompañamiento',d:'Desde la valoración hasta la escritura.'}] },
-    s3: { tag:'03 — La Selección', h:['Solo lo','extraordinario','entra.'], body:'The Edit no es un catálogo. Es una curaduría. Menos propiedades, más criterio.' },
+    s3: { tag:'03 — La Selección', h:['Solo lo','extraordinario','entra.'], body:'The Edit no es un catálogo. Es una curaduría. Menos propiedades, más criterio.', carta:'Cada propiedad que aparece en The Edit ha pasado por un proceso de revisión personal. No trabajamos con volumen, trabajamos con criterio. Antes de presentarte una residencia, la he visitado, analizado y comprendido en su totalidad. Su arquitectura, su entorno, su potencial. Mi compromiso es darte acceso exclusivo a lo que realmente merece tu atención, con un servicio completamente personalizado desde el primer contacto hasta el día de la firma.' },
   },
   en: {
     s1: { tag:'01 — The Standard', h:['We reject','what nearly','succeeds.'], body:'Every residence that crosses this threshold has been studied, measured and fully understood. Good is the enemy of extraordinary.' },
     s2: { tag:'02 — The Access', h:['The Costa','del Sol','conceals.'], body:'Treasures that never reach the window. This is The Edit: silent access to what most will never see.', cols:[{t:'Total Discretion',d:'Off-market operations without compromising privacy.'},{t:'Private Network',d:'HNWI buyers across 40+ countries.'},{t:'Full Accompaniment',d:'From valuation to completion.'}] },
-    s3: { tag:'03 — The Selection', h:['Only the','extraordinary','enters.'], body:'The Edit is not a catalogue. It is a curation. Fewer properties, more discernment.' },
+    s3: { tag:'03 — The Selection', h:['Only the','extraordinary','enters.'], body:'The Edit is not a catalogue. It is a curation. Fewer properties, more discernment.', carta:'Every property that appears in The Edit has gone through a personal review process. We do not work with volume, we work with discernment. Before presenting a residence to you, I have visited, analysed and fully understood it. Its architecture, its surroundings, its potential. My commitment is to give you exclusive access to what truly deserves your attention, with a fully personalised service from the first contact to the day of signing.' },
   },
   fr: {
     s1: { tag:"01 — Le Critère", h:['Nous rejetons','ce qui frôle',"l'excellence."], body:"Chaque résidence qui franchit ce seuil a été contemplée, mesurée et pleinement comprise." },
     s2: { tag:"02 — L'Accès", h:['La Costa','del Sol','dissimule.'], body:"Des trésors qui n'apparaissent jamais en vitrine. Voici The Edit.", cols:[{t:'Discrétion Totale',d:'Opérations off-market.'},{t:'Réseau Privé',d:'Acheteurs HNWI dans 40+ pays.'},{t:'Accompagnement',d:"De l'évaluation à la signature."}] },
-    s3: { tag:'03 — La Sélection', h:["Seul l'extra-",'ordinaire','entre.'], body:"The Edit n'est pas un catalogue. C'est une curation." },
+    s3: { tag:'03 — La Sélection', h:["Seul l'extra-",'ordinaire','entre.'], body:"The Edit n'est pas un catalogue. C'est une curation.", carta:'Chaque propriété qui figure dans The Edit a fait l'objet d'un processus de révision personnel. Nous ne travaillons pas en volume, nous travaillons avec discernement. Avant de vous présenter une résidence, je l'ai visitée, analysée et comprise dans sa totalité. Son architecture, son environnement, son potentiel. Mon engagement est de vous donner un accès exclusif à ce qui mérite vraiment votre attention, avec un service entièrement personnalisé du premier contact jusqu'au jour de la signature.' },
   },
   ru: {
     s1: { tag:'01 — Критерий', h:['Мы отвергаем','то, что лишь','приближается.'], body:'Каждая резиденция была изучена, измерена и полностью понята.' },
     s2: { tag:'02 — Доступ', h:['Коста-дель-Соль','хранит','тайны.'], body:'Это The Edit: безмолвный доступ к тому, что большинство никогда не увидит.', cols:[{t:'Конфиденциальность',d:'Закрытые сделки.'},{t:'Частная сеть',d:'Покупатели HNWI в 40+ странах.'},{t:'Сопровождение',d:'От оценки до подписания.'}] },
-    s3: { tag:'03 — Отбор', h:['Только','исключительное','входит.'], body:'The Edit — не каталог. Это кураторство.' },
+    s3: { tag:'03 — Отбор', h:['Только','исключительное','входит.'], body:'The Edit — не каталог. Это кураторство.', carta:'Каждый объект представленный в The Edit прошёл через личный процесс проверки. Мы работаем не с объёмом, мы работаем с критерием. Прежде чем представить вам резиденцию я лично посетил её, проанализировал и полностью понял. Её архитектуру, окружение, потенциал. Моё обязательство предоставить вам эксклюзивный доступ к тому, что действительно заслуживает вашего внимания, с полностью персонализированным сервисом от первого контакта до дня подписания.' },
   },
 };
 
@@ -206,6 +206,21 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
         </div>
         <hr data-anim="hr2" style={HR_S} />
         <p data-anim="body" style={BODY_S}>{c.s3.body}</p>
+
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"clamp(2rem,5vw,4rem)", marginTop:"clamp(2rem,4vw,3rem)", alignItems:"start" }}>
+          <div>
+            <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(0.95rem,1.3vw,1.15rem)", color:WHITE_DIM, lineHeight:1.9, margin:"0 0 2rem", fontStyle:"italic" }}>
+              {c.s3.carta}
+            </p>
+            <img src="/firma-enrique.jpg" alt="Firma Enrique Cortés" style={{ width:"clamp(120px,15vw,180px)", filter:"invert(1) brightness(0.65)", opacity:0.8, display:"block", marginBottom:"0.5rem" }} />
+            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.42rem,0.6vw,0.55rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.6 }}>
+              Enrique Cortés · Fundador, The Edit Marbella
+            </p>
+          </div>
+          <div>
+            <img src="/enrique-cortes.jpg" alt="Enrique Cortés" style={{ width:"100%", maxWidth:"360px", aspectRatio:"3/4", objectFit:"cover", objectPosition:"top", filter:"grayscale(100%)", display:"block" }} />
+          </div>
+        </div>
       </div>
 
     </div>
