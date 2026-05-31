@@ -193,7 +193,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
       </div>
 
       {/* ── S3 ── */}
-      <div ref={refs.manifesto3} style={{ ...PAD, opacity:0, padding:"clamp(1rem,2vw,1.5rem) clamp(2rem,5vw,4rem) clamp(0.5rem,1vw,1rem)" }}>
+      <div ref={refs.manifesto3} style={{ ...PAD, opacity:0, padding:"clamp(3rem,6vw,5rem) clamp(2rem,5vw,4rem) clamp(0.5rem,1vw,1rem)" }}>
 
         <style>{`
           @media (max-width:640px) {
