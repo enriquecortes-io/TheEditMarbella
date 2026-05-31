@@ -1,4 +1,5 @@
 'use client';
+import FirmaEnrique from '@/components/ui/FirmaEnrique';
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
