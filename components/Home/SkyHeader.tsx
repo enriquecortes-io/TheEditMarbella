@@ -53,13 +53,15 @@ export default function SkyHeader({ locale = "es" }: { locale?: string }) {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let lastIdx = -1;
     const handleTime = () => {
       const t = video.currentTime + 0.5;
       const idx = Math.min(SCENES.length - 1, Math.floor(t / SCENE_DURATION_S));
-      setSceneIdx(prev => {
-        if (prev !== idx) setAnimKey(k => k + 1);
-        return idx;
-      });
+      if (idx !== lastIdx) {
+        lastIdx = idx;
+        setSceneIdx(idx);
+        if (idx > 0) setAnimKey(k => k + 1);
+      }
     };
     video.addEventListener("timeupdate", handleTime);
     return () => video.removeEventListener("timeupdate", handleTime);
