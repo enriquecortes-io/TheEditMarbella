@@ -73,32 +73,19 @@ export default function SkyHeader({ locale }: Props) {
 
   // ── GSAP transición entre escenas ────────────────────────────────
   useEffect(() => {
-    if (animKey === 0) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      // Salida
-      if (wordRef.current)
-        tl.to(wordRef.current, {
-          autoAlpha:0, y:-60, scaleY:0.2, filter:"blur(20px)",
-          transformOrigin:"top center", duration:0.35, ease:"power3.in"
-        }, 0);
-      if (phraseRef.current)
-        tl.to(phraseRef.current, { autoAlpha:0, x:40, duration:0.25, ease:"power2.in" }, 0);
-      // Entrada
-      if (wordRef.current)
-        tl.fromTo(wordRef.current,
-          { autoAlpha:0, y:80, scaleY:2.5, scaleX:0.8, transformOrigin:"bottom center" },
-          { autoAlpha:1, y:0,  scaleY:1,   scaleX:1,   duration:1.0, ease:"expo.out" },
-          0.3
-        );
-      if (phraseRef.current)
-        tl.fromTo(phraseRef.current,
-          { autoAlpha:0, x:-40 },
-          { autoAlpha:1, x:0, duration:0.8, ease:"power4.out" },
-          0.85
-        );
+    // key={animKey} remonta el elemento con opacity:0 — solo animamos entrada
+    let raf = requestAnimationFrame(() => {
+      if (!wordRef.current || !phraseRef.current) return;
+      gsap.fromTo(wordRef.current,
+        { autoAlpha:0, y:80, scaleY:2.5, scaleX:0.8, transformOrigin:"bottom center" },
+        { autoAlpha:1, y:0,  scaleY:1,   scaleX:1,   duration:0.9, ease:"expo.out" }
+      );
+      gsap.fromTo(phraseRef.current,
+        { autoAlpha:0, x:-30 },
+        { autoAlpha:1, x:0, duration:0.7, ease:"power4.out", delay:0.5 }
+      );
     });
-    return () => ctx.revert();
+    return () => cancelAnimationFrame(raf);
   }, [animKey]);
 
   const scene = SCENES[sceneIdx];
