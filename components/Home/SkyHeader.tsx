@@ -170,7 +170,7 @@ export default function SkyHeader({ locale }: Props) {
           alignItems: scene?.word?.length > 7 ? "center" : scene?.align === "right" ? "flex-end" : scene?.align === "center" ? "center" : "flex-start",
           maxWidth:"90vw",
         }}>
-          <div ref={wordRef} style={{ willChange:"transform,opacity,filter" }}>
+          <div key={`word-${animKey}`} ref={wordRef} style={{ willChange:"transform,opacity,filter", opacity:0 }}>
             <h1 style={{
               fontFamily:"'Cormorant Garamond','Cormorant',serif",
               fontSize:"clamp(6rem,16vw,16rem)",
@@ -196,7 +196,7 @@ export default function SkyHeader({ locale }: Props) {
             </h1>
           </div>
 
-          <div ref={phraseRef} style={{ marginTop:"3.5rem", willChange:"transform,opacity,filter" }}>
+          <div key={`phrase-${animKey}`} ref={phraseRef} style={{ marginTop:"3.5rem", willChange:"transform,opacity,filter", opacity:0 }}>
             <p style={{
               fontFamily:"'Montserrat',sans-serif",
               fontSize:"clamp(0.65rem,1.8vw,2rem)",
