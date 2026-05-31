@@ -199,7 +199,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
           @media (max-width:640px) {
             .s3-wrap { display:flex !important; flex-direction:column !important; }
             .s3-foto { order:1 !important; width:100% !important; max-height:260px !important; padding:0 !important; }
-            .s3-foto img { width:100% !important; max-height:220px !important; margin:0 !important; object-fit:contain !important; background:#F2EDE4; }
+            .s3-foto img { width:clamp(180px,60%,280px) !important; aspect-ratio:3/4 !important; object-fit:cover !important; object-position:center top !important; margin:0 auto !important; display:block !important; }
             .s3-left { order:2 !important; }
           }
         `}</style>
@@ -237,8 +237,8 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
               src="/enrique-cortes.jpg"
               alt="Enrique Cortés"
               style={{
-                width:"100%",
-                maxHeight:"clamp(180px,35vw,300px)",
+                width:"clamp(200px,70%,320px)",
+                aspectRatio:"3/4",
                 objectFit:"cover",
                 objectPosition:"center top",
                 filter:"grayscale(100%)",
