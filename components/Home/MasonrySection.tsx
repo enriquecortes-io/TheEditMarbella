@@ -243,6 +243,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
           textTransform:"uppercase",
           color:ACCENT,
           margin:"0 0 1rem",
+          paddingTop:"clamp(1rem,3vw,1.5rem)",
           textShadow:`0 0 20px rgba(45,74,62,0.2)`,
         }}>
           THE EDITS · {filtered.length}
