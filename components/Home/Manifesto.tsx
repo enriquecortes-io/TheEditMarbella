@@ -1,4 +1,5 @@
 'use client';
+import FirmaEnrique from '@/components/ui/FirmaEnrique';
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
@@ -220,11 +221,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
             }}>
               {c.s3.carta}
             </p>
-            <img
-              src="/firma-enrique.jpg"
-              alt="Firma Enrique Cortés"
-              style={{ width:"clamp(100px,12vw,160px)", filter:"invert(1) brightness(0.6)", opacity:0.8, display:"block", marginBottom:"0.4rem" }}
-            />
+            <FirmaEnrique width="clamp(120px,14vw,180px)" />
             <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.38rem,0.5vw,0.48rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.5 }}>
               Enrique Cortés · Fundador, The Edit Marbella
             </p>
