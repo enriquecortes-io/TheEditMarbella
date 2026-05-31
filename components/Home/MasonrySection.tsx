@@ -328,10 +328,10 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
       {/* Grid Masonry */}
       <div style={{
         flex:1, overflowY:"scroll", WebkitOverflowScrolling:"touch",
-        padding:"clamp(1.5rem,3vw,2rem) clamp(1.5rem,4vw,3rem) 4rem",
+        padding:"clamp(0.75rem,2vw,1.5rem) clamp(0.75rem,2vw,1.5rem) 4rem",
         display:"grid",
         gridTemplateColumns:"repeat(auto-fill, minmax(min(300px,100%), 1fr))",
-        gap:"clamp(1rem,2vw,1.5rem)",
+        gap:"clamp(0.4rem,1vw,0.8rem)",
         alignContent:"start",
         position:"relative",
       }}>
@@ -403,7 +403,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               </div>
 
               {/* Info — fuera de la imagen, fondo blanco */}
-              <div style={{ padding:"0.9rem 1rem 1rem", background:"#FFFFFF" }}>
+              <div style={{ padding:"0.5rem 0.6rem 0.7rem", background:"#FFFFFF" }}>
                 {/* Título */}
                 <h3 style={{
                   fontFamily:"'Montserrat',sans-serif",
