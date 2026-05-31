@@ -333,6 +333,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
         gridTemplateColumns:"repeat(auto-fill, minmax(min(300px,100%), 1fr))",
         gap:"clamp(1rem,2vw,1.5rem)",
         alignContent:"start",
+        position:"relative",
       }}>
         {filtered.map((p) => {
           const img = p.galeria_urls?.[0] ? convertGDriveUrl(p.galeria_urls[0]) : "";
@@ -345,27 +346,24 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               onClick={() => setPreview(p)}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLElement;
-                // Reset cualquier transform previo antes de medir
-                gsap.set(el, { x:0, y:0, scale:1 });
+                // Elevar sobre todos los demás
+                el.style.position = "relative";
+                el.style.zIndex   = "9999";
+                // Medir posición real sin transforms
                 const rect = el.getBoundingClientRect();
-                const scale = 1.5;
-                // Centro del viewport
                 const vCX = window.innerWidth  / 2;
                 const vCY = window.innerHeight / 2;
-                // Centro actual del elemento
                 const elCX = rect.left + rect.width  / 2;
                 const elCY = rect.top  + rect.height / 2;
-                // Delta para centrar (el scale ocurre desde el centro del elemento)
                 const dx = vCX - elCX;
                 const dy = vCY - elCY;
-                el.style.zIndex = "200";
-                el.style.transformOrigin = "center center";
                 gsap.to(el, {
-                  x: dx, y: dy, scale,
-                  boxShadow: "0 40px 100px rgba(26,23,20,0.28)",
-                  borderColor: ACCENT,
-                  duration: 0.5,
-                  ease: "power3.out",
+                  x: dx, y: dy,
+                  scale: 1.45,
+                  boxShadow: "0 40px 100px rgba(26,23,20,0.3)",
+                  duration: 0.45,
+                  ease: "power2.out",
+                  overwrite: true,
                 });
               }}
               onMouseLeave={e => {
@@ -374,10 +372,13 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                   x: 0, y: 0,
                   scale: 1,
                   boxShadow: "0 1px 4px rgba(26,23,20,0.06)",
-                  borderColor: BORDER,
-                  duration: 0.45,
-                  ease: "power3.inOut",
-                  onComplete: () => { el.style.zIndex = ""; }
+                  duration: 0.4,
+                  ease: "power2.inOut",
+                  overwrite: true,
+                  onComplete: () => {
+                    el.style.position = "";
+                    el.style.zIndex   = "";
+                  }
                 });
               }}
               style={{
