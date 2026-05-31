@@ -164,7 +164,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: '0 clamp(2rem,4vw,4rem)',
-        alignContent: 'start',
+        alignItems: 'center',
         opacity: 0,
       }}>
         {/* Columna izquierda: tag + hr + headline */}
@@ -180,7 +180,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
         </div>
 
         {/* Columna derecha: body + hr + cols */}
-        <div style={{ display:'flex', flexDirection:'column', gap:'clamp(0.6rem,1.2vw,1rem)', justifyContent:'flex-start', paddingTop:'clamp(2rem,5vw,6rem)' }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:'clamp(0.6rem,1.2vw,1rem)', justifyContent:'center' }}>
           <p data-anim="body" style={BODY_S}>{c.s2.body}</p>
           <hr data-anim="hr2" style={HR_S} />
           {c.s2.cols.map((col: any, i: number) => (
