@@ -350,7 +350,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                 el.dataset.expanded = "1";
                 el.style.zIndex = "9999";
                 gsap.to(el, {
-                  scale: 1.06,
+                  scale: 1.18,
                   boxShadow: "0 24px 64px rgba(26,23,20,0.22)",
                   duration: 0.4,
                   ease: "power2.out",
