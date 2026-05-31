@@ -336,7 +336,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
 
       {/* Grid Masonry */}
       <div style={{
-        flex:1, overflowY:"scroll", WebkitOverflowScrolling:"touch",
+        flex:1, overflowY:"auto", WebkitOverflowScrolling:"touch",
         padding:"0.5rem 0.5rem 4rem",
         display:"grid",
         gridTemplateColumns:"repeat(3, 1fr)",
@@ -382,6 +382,7 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                 border:`1px solid ${BORDER}`,
                 transition:"border-color 0.3s, box-shadow 0.3s",
                 boxShadow:`0 1px 4px rgba(26,23,20,0.06)`,
+                overflow:"visible",
                 
               }}
             >
