@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { getT } from "@/lib/i18n";
 
-const SCENE_DURATION = 5000; // 5 segundos por escena
+const SCENE_DURATION = 5000; // ms para el timer
+const SCENE_DURATION_S = 5; // segundos para sync con video
 
 const SCENE_CONFIG = [
   { align:"left" },
