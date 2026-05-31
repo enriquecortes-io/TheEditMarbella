@@ -1,3 +1,4 @@
+import SkyBackground from "@/components/SkyBackground";
 import HomeExperience from "@/components/Home/HomeExperience";
 import Navbar from "@/components/Experience/Navbar";
 

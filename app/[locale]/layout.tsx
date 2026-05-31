@@ -76,7 +76,7 @@ export default async function LocaleLayout({
           "priceRange": "€€€€€",
           "address": { "@type": "PostalAddress", "addressRegion": "Andalucía", "addressCountry": "ES" }
         })}} />
-        <SkyBackground />{children}<CookieBanner /><LegalFooter /><WhatsAppButton /></body>
+        {children}<CookieBanner /><LegalFooter /><WhatsAppButton /></body>
     </html>
   );
 }
