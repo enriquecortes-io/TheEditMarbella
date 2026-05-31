@@ -9,7 +9,8 @@
       "Golden Mile",
       "Puerto Banús",
       "Nueva Andalucía",
-      "Sierra Blanca"
+      "Sierra Blanca",
+      "La Zagaleta"
     ],
     "phrases": [
       {
@@ -48,19 +49,15 @@
       },
       {
         "word": "DINE",
-        "phrase": "like every night is worth remembering"
+        "phrase": "as if every night deserved to be remembered"
       },
       {
         "word": "PLAY",
         "phrase": "on courses that define privilege"
       },
       {
-        "word": "OWN",
-        "phrase": "a place that defines you"
-      },
-      {
         "word": "MARBELLA",
-        "phrase": "where life exceeds expectations"
+        "phrase": "where living is the real luxury"
       }
     ]
   },

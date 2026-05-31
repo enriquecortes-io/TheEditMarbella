@@ -9,7 +9,8 @@
       "Golden Mile",
       "Puerto Banús",
       "Nueva Andalucía",
-      "Sierra Blanca"
+      "Sierra Blanca",
+      "La Zagaleta"
     ],
     "phrases": [
       {
@@ -39,28 +40,24 @@
     ],
     "scenes": [
       {
-        "word": "VIVRE",
+        "word": "VIVEZ",
         "phrase": "là où la mer est votre jardin"
       },
       {
-        "word": "CONDUIRE",
-        "phrase": "de votre garage à la côte"
+        "word": "CONDUISEZ",
+        "phrase": "de votre garage jusqu'à la côte"
       },
       {
-        "word": "DÎNER",
-        "phrase": "comme si chaque nuit méritait d'être mémorisée"
+        "word": "DÎNEZ",
+        "phrase": "comme si chaque soir méritait d'être mémorable"
       },
       {
-        "word": "JOUER",
+        "word": "JOUEZ",
         "phrase": "sur des parcours qui définissent le privilège"
       },
       {
-        "word": "POSSÉDER",
-        "phrase": "un endroit qui vous définit"
-      },
-      {
         "word": "MARBELLA",
-        "phrase": "où la vie dépasse les attentes"
+        "phrase": "où vivre est le vrai luxe"
       }
     ]
   },
