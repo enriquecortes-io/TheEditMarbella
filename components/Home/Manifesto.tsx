@@ -222,16 +222,6 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
               {c.s3.carta}
             </p>
               <FirmaEnrique width="clamp(160px,20vw,280px)" />
-              alt="Firma Enrique Cortés"
-              style={{
-                width:"clamp(140px,16vw,200px)",
-                display:"block",
-                marginBottom:"0.4rem",
-                filter:"brightness(0) invert(0)",
-                opacity:0.85,
-                mixBlendMode:"multiply" as any,
-              }}
-            />
             <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.38rem,0.5vw,0.48rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.5 }}>
               Enrique Cortés · Fundador, The Edit Marbella
             </p>
