@@ -38,57 +38,81 @@ export default function SkyHeader({ locale = "es" }: { locale?: string }) {
     return () => video.removeEventListener("timeupdate", handleTime);
   }, []);
 
-  // Entrada inicial
+  // Entrada inicial — cinematográfica
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease:"power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease:"expo.out" } });
 
-      if (locationsRef.current)
-        tl.from(locationsRef.current, { autoAlpha:0, y:-8, duration:0.6 }, 0.2);
+      // Overlay oscuro que se levanta
+      tl.fromTo("body", { backgroundColor:"#000" }, { backgroundColor:"transparent", duration:1.2 }, 0);
 
-      if (wordRef.current)
+      // Locations — caen desde arriba con stagger
+      if (locationsRef.current) {
+        const spans = locationsRef.current.querySelectorAll("span");
+        tl.from(spans, { autoAlpha:0, y:-16, duration:0.7, stagger:0.08, ease:"power3.out" }, 0.4);
+      }
+
+      // Word — entrada épica: scale masivo + blur + scaleY
+      if (wordRef.current) {
         tl.fromTo(wordRef.current,
-          { autoAlpha:0, y:40, scaleY:1.5, filter:"blur(10px)", transformOrigin:"bottom center" },
-          { autoAlpha:1, y:0,  scaleY:1,   filter:"blur(0px)",  duration:0.8 },
-          0.1
+          { autoAlpha:0, y:80, scaleY:2.5, scaleX:0.8, filter:"blur(24px)", transformOrigin:"bottom center" },
+          { autoAlpha:1, y:0,  scaleY:1,   scaleX:1,   filter:"blur(0px)",  duration:1.1, ease:"expo.out" },
+          0.3
         );
+      }
 
-      if (phraseRef.current)
-        tl.from(phraseRef.current, { autoAlpha:0, x:-20, duration:0.7 }, 0.55);
+      // Phrase — slide desde izquierda con clip
+      if (phraseRef.current) {
+        tl.fromTo(phraseRef.current,
+          { autoAlpha:0, x:-40, letterSpacing:"0.8em" },
+          { autoAlpha:1, x:0,   letterSpacing:"0.4em", duration:0.9, ease:"power4.out" },
+          0.8
+        );
+      }
 
-      if (scrollRef.current)
-        tl.from(scrollRef.current, { autoAlpha:0, y:10, duration:0.5 }, 0.8);
-
+      // Progress + scroll — fade sutil
       if (progressRef.current)
-        tl.from(progressRef.current, { autoAlpha:0, duration:0.4 }, 1.0);
+        tl.from(progressRef.current, { autoAlpha:0, y:12, duration:0.6 }, 1.1);
+      if (scrollRef.current)
+        tl.from(scrollRef.current, { autoAlpha:0, duration:0.5 }, 1.3);
     });
     return () => ctx.revert();
   }, []);
 
-  // Transición entre escenas
+  // Transición entre escenas — dramática
   useEffect(() => {
     if (sceneIdx === 0 && prevIdx === -1) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults:{ ease:"power3.out" } });
+      const tl = gsap.timeline({ defaults:{ ease:"expo.out" } });
 
-      // Salida
-      const els = [wordRef.current, phraseRef.current].filter(Boolean);
-      tl.to(els, { autoAlpha:0, y:-20, duration:0.25, ease:"power2.in", stagger:0.04 });
+      // Salida explosiva — se expande y desvanece
+      if (wordRef.current)
+        tl.to(wordRef.current, {
+          autoAlpha:0, scaleY:0.3, scaleX:1.1, y:-30,
+          filter:"blur(16px)", transformOrigin:"top center",
+          duration:0.35, ease:"power3.in"
+        }, 0);
 
-      // Entrada word
+      if (phraseRef.current)
+        tl.to(phraseRef.current, {
+          autoAlpha:0, x:30, duration:0.25, ease:"power2.in"
+        }, 0);
+
+      // Entrada word — scaleY épico desde abajo
       if (wordRef.current)
         tl.fromTo(wordRef.current,
-          { autoAlpha:0, y:40, scaleY:1.5, filter:"blur(10px)", transformOrigin:"bottom center" },
-          { autoAlpha:1, y:0,  scaleY:1,   filter:"blur(0px)",  duration:0.75 }
+          { autoAlpha:0, y:60, scaleY:2, scaleX:0.85, filter:"blur(20px)", transformOrigin:"bottom center" },
+          { autoAlpha:1, y:0,  scaleY:1, scaleX:1,    filter:"blur(0px)",  duration:0.9 },
+          0.3
         );
 
       // Entrada phrase
       if (phraseRef.current)
         tl.fromTo(phraseRef.current,
-          { autoAlpha:0, x:-14 },
-          { autoAlpha:1, x:0,  duration:0.55 },
-          "-=0.45"
+          { autoAlpha:0, x:-30, letterSpacing:"0.7em" },
+          { autoAlpha:1, x:0,   letterSpacing:"0.4em", duration:0.7 },
+          0.7
         );
     });
     return () => ctx.revert();
