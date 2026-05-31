@@ -216,7 +216,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
               ))}
             </div>
             <hr data-anim="hr2" style={HR_S} />
-            <p style={{
+            <p data-anim="body" style={{
               fontFamily:"'Cormorant Garamond',serif",
               fontSize:"clamp(0.85rem,1.1vw,1.05rem)",
               color:WHITE_DIM, lineHeight:1.8,
@@ -225,14 +225,14 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
             }}>
               {c.s3.carta}
             </p>
-            <FirmaEnrique width="clamp(160px,20vw,280px)" />
-            <p style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.38rem,0.5vw,0.48rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.5 }}>
+            <div data-anim="col"><FirmaEnrique width="clamp(160px,20vw,280px)" /></div>
+            <p data-anim="col" style={{ fontFamily:"'Montserrat',sans-serif", fontSize:"clamp(0.38rem,0.5vw,0.48rem)", letterSpacing:"0.3em", textTransform:"uppercase", color:WHITE_DIM, margin:0, opacity:0.5 }}>
               Enrique Cortés · Fundador, The Edit Marbella
             </p>
           </div>
 
           {/* Columna derecha — foto */}
-          <div className="s3-foto" style={{ position:"relative", overflow:"hidden", padding:"clamp(1rem,3vw,2rem) clamp(0.5rem,2vw,1.5rem) 0 0" }}>
+          <div data-anim="col" className="s3-foto" style={{ position:"relative", overflow:"hidden", padding:"clamp(1rem,3vw,2rem) clamp(0.5rem,2vw,1.5rem) 0 0" }}>
             <img
               src="/enrique-cortes.jpg"
               alt="Enrique Cortés"
