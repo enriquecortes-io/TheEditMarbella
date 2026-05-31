@@ -239,7 +239,7 @@ const ManifestoFlow = React.forwardRef<HTMLDivElement, { locale: string }>(({ lo
           </div>
 
           {/* Columna derecha — foto */}
-          <div style={{ position:"relative", overflow:"hidden", padding:"0 clamp(0.5rem,2vw,1.5rem) 0 0" }}>
+          <div style={{ position:"relative", overflow:"hidden", padding:"clamp(1rem,3vw,2rem) clamp(0.5rem,2vw,1.5rem) 0 0" }}>
             <img
               src="/enrique-cortes.jpg"
               alt="Enrique Cortés"
