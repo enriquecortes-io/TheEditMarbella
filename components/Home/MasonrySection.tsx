@@ -345,13 +345,22 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
               onClick={() => setPreview(p)}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLElement;
+                // Obtener posición actual sin transforms aplicados
                 const rect = el.getBoundingClientRect();
-                const centerX = window.innerWidth  / 2 - rect.left - rect.width  / 2;
-                const centerY = window.innerHeight / 2 - rect.top  - rect.height / 2;
+                // Centro del viewport
+                const vCX = window.innerWidth  / 2;
+                const vCY = window.innerHeight / 2;
+                // Centro actual del elemento
+                const elCX = rect.left + rect.width  / 2;
+                const elCY = rect.top  + rect.height / 2;
+                // Delta necesario para centrar
+                const dx = vCX - elCX;
+                const dy = vCY - elCY;
                 el.style.zIndex = "200";
                 gsap.to(el, {
-                  x: centerX, y: centerY,
-                  scale: 1.45,
+                  x: dx,
+                  y: dy,
+                  scale: 1.5,
                   boxShadow: "0 40px 100px rgba(26,23,20,0.28)",
                   borderColor: ACCENT,
                   duration: 0.5,
@@ -365,8 +374,8 @@ export default function MasonrySection({ locale = "es" }: { locale?: string }) {
                   scale: 1,
                   boxShadow: "0 1px 4px rgba(26,23,20,0.06)",
                   borderColor: BORDER,
-                  duration: 0.5,
-                  ease: "power3.out",
+                  duration: 0.45,
+                  ease: "power3.inOut",
                   onComplete: () => { el.style.zIndex = ""; }
                 });
               }}
